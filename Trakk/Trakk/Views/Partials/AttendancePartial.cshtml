@@ -1,0 +1,19 @@
+﻿@using API.Helpers
+@model Trakk.Models.Event
+@{
+    switch (Model.AttendanceState)
+    {
+        case TrakkEnums.UserAvailability.Accepted:
+            <div class="playing-status col-lg-6 playing">Available</div>
+            break;
+        case TrakkEnums.UserAvailability.Maybe:
+            <div class="playing-status col-lg-6 maybe">Maybe</div>
+            break;
+        case TrakkEnums.UserAvailability.Rejected:
+            <div class="playing-status col-lg-6 rejected">Unavailable</div>
+            break;
+        default:
+            <div class="playing-status col-lg-6 undecided">Join</div>
+            break;
+    }
+}

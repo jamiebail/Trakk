@@ -1,0 +1,30 @@
+﻿@model List<API.Models.Fixture>
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    foreach (var fixture in Model)
+    {
+        <div class="fixture">
+            <div id="map"></div>
+            <div id="score"></div>
+            <h5>@fixture.HomeTeam.Name</h5>
+            <h5>@fixture.Result.HomeScore</h5>
+            <h5>@fixture.AwayTeam.Name</h5>
+            <h5>@fixture.Result.AwayScore</h5>
+
+            <h5>@fixture.Date</h5>
+            
+            @foreach (var card in fixture.Result.Cards)
+            {
+                <div class="card">
+                    <h4>@card.Player.Name</h4>
+                    <h4>@card.CardColour</h4>
+                </div>
+            }
+
+        </div>
+    }
+}
+<h2>Index</h2>

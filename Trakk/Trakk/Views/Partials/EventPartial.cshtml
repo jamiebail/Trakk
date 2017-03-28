@@ -1,0 +1,30 @@
+﻿@using API.Helpers
+@using Trakk.Models
+@model List<Trakk.Models.Event>
+
+@{
+    if (Model != null)
+    {
+        foreach (var Event in Model)
+        {
+            var type = Event.GetType().ToString();
+            if (type == "Trakk.Models.Fixture")
+            {
+                @Html.Partial("/Views/Partials/FixtureEventPartial.cshtml", (Fixture) Event);
+            }
+            else
+            {
+                switch (Event.Type)
+                {
+                    case TrakkEnums.EventType.Training:
+                        @Html.Partial("/Views/Partials/TrainingEventPartial.cshtml", Event)
+                        break;
+                    case TrakkEnums.EventType.Social:
+                        @Html.Partial("/Views/Partials/SocialEventPartial.cshtml", Event)
+                        break;
+                }
+            }
+        }
+    }
+      
+}

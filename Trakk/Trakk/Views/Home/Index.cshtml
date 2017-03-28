@@ -1,0 +1,35 @@
+﻿@using System.Net.Configuration
+@using API.Helpers
+@model Trakk.Viewmodels.HomeViewModel
+@{
+    ViewBag.Title = "Home";
+}
+@{
+    if (Model.Events != null)
+    {
+        <div id="event-carousel">
+            @Html.Partial("/Views/Partials/EventPartial.cshtml", Model.Events)
+        </div>
+    }
+    else
+    {
+        <div class="emptycarousel">
+            <h1 class="emptyHeader">No Events</h1>
+        </div>
+    }
+}
+<div class="collapseEvents"><span class="glyphicon glyphicon-eject"></span></div>
+<div class="navbar navbar-default buttonBar">
+    <ul class="nav navbar-nav">
+        <li class="col-md-2 fixtureButton"><a href="#">Fixtures</a></li>
+        <li class="col-md-2 eventsButton"><a href="#">Events</a></li>
+        <li class="col-md-2 teamsButton"><a href="#">Teams</a></li>
+        <li class="col-md-2 sportsButton"><a href="#">Sports</a></li>
+        <li class="col-md-2 calendarButton"><a href="#">Calendar</a></li>
+        <li class="col-md-2 selfButton"><a href="#">You</a></li>
+    </ul>
+</div>
+<div class="lower">
+
+    <div id="mainBody"></div>
+</div>
