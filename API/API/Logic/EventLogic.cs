@@ -5,6 +5,7 @@ using System.Web;
 using API.Helpers;
 using API.Models;
 using API.Repositories;
+using API.ViewModels;
 
 namespace API.Logic
 {
@@ -13,7 +14,8 @@ namespace API.Logic
         private readonly IRepository<Event> _eventRepository = new Repository<Event>();
         private readonly IRepository<TeamEvent> _teamEventRepository = new Repository<TeamEvent>();
         private readonly IRepository<TeamMember> _teamMemberRepository = new Repository<TeamMember>(); 
-        private readonly IRepository<PlayerEventAvailability> _availabilitiesRepository = new Repository<PlayerEventAvailability>(); 
+        private readonly IRepository<PlayerEventAvailability> _availabilitiesRepository = new Repository<PlayerEventAvailability>();
+        private readonly IRepository<PrivateEvent> _privateEventRepository = new Repository<PrivateEvent>(); 
         private readonly ITeamLogic _teamLogic = new TeamLogic();
          
         public List<Event> GetUserEvents(int userId)
@@ -25,6 +27,12 @@ namespace API.Logic
             {
                 userEvents.AddRange(GetTeamEvents(team.Id));
             }
+            List<PrivateEvent> privateEvent = _privateEventRepository.FindBy(x => x.UserId == user.Id);
+            foreach (var pevent in privateEvent)
+            {
+                userEvents.Add(GetEvent(pevent.EventId));
+            }
+           
             foreach (var e in userEvents)
             {
                 PlayerEventAvailability pev = _availabilitiesRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
@@ -48,12 +56,44 @@ namespace API.Logic
             return _eventRepository.FindBy(x => x.Id == eventId).FirstOrDefault();
         }
 
-        public EntityResponse CreateEvent(Event newEvent)
+        public EntityResponse CreateEvent(EventReturnCreateViewModel newEvent)
         {
            try
-            {
-                _eventRepository.Add(newEvent);
-                return new EntityResponse(true, "Event : " + newEvent.Title + " created successfully.");
+           {
+               Team team = _teamLogic.GetTeamById(newEvent.TeamId);
+               team.Members = _teamLogic.GetTeamMembersByTeamId(newEvent.TeamId);
+
+               Helpers.TrakkEnums.EventType type;
+               Enum.TryParse(newEvent.Type, out type);
+                Event eventEntity = new Event()
+                {
+                    Title = newEvent.Title,
+                    Type = type,
+                    Invited = newEvent.UserIds.Count,
+                    Attending = 0,
+                    Start = DateTime.Parse(newEvent.Start),
+                    End = DateTime.Parse(newEvent.End),
+                    Location = newEvent.Location,
+                    Comments = newEvent.Comments
+                };
+
+                _eventRepository.Add(eventEntity);
+                _eventRepository.Save();
+
+               if (newEvent.UserIds.Count != team.Members.Count)
+               {
+                   foreach (int id in newEvent.UserIds)
+                   {
+                       _privateEventRepository.Add(new PrivateEvent() {EventId = eventEntity.Id, UserId = id});
+                   }
+                   _privateEventRepository.Save();
+               }
+               else
+               {
+                   _teamEventRepository.Add(new TeamEvent() {TeamId = newEvent.TeamId, EventId = eventEntity.Id});
+                   _teamEventRepository.Save();
+               }
+               return new EntityResponse(true, "Event : " + newEvent.Title + " created successfully.");
             }
             catch (Exception e)
             {

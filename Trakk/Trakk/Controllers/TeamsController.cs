@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Trakk.Logic;
 using Trakk.Models;
+using Trakk.Viewmodels;
 
 namespace Trakk.Controllers
 {
@@ -30,12 +31,7 @@ namespace Trakk.Controllers
             _setter = new APISetter();
         }
 
-        // GET: Teams
-        public async Task<PartialViewResult> Index()
-        {
-            TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            return PartialView();
-        }
+
 
         // GET: Teams/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -53,25 +49,40 @@ namespace Trakk.Controllers
         }
 
         // GET: Teams/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            List<Sport> sports = await _getter.GetAllSports();
+            IEnumerable<SelectListItem> selectSportsList =
+            from sport in sports
+            select new SelectListItem
+            {
+                Text = sport.Name,
+                Value = sport.Id.ToString()
+            };
+            List<TeamMember> members = await _getter.GetAllUsers();
+            IEnumerable<SelectListItem> selectUserList =
+            from member in members
+            select new SelectListItem
+            {
+                Text = member.Name,
+                Value = member.Id.ToString()
+            };
+            return View(new TeamCreateViewModel() { Sports = selectSportsList, Team = null, Users = members });
         }
 
         // POST: Teams/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Team team)
+        public ActionResult Create(TeamReturnCreateViewModel team)
         {
             if (ModelState.IsValid)
             {
                 _setter.CreateTeam(team);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
-            return View(team);
+            return View();
         }
 
         // GET: Teams/Edit/5

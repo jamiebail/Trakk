@@ -1,0 +1,57 @@
+﻿@using Trakk.Models
+@model List<Event>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Fixtures")
+</p>
+<table>
+@foreach (var item in Model)
+{
+    Fixture fixture = (Fixture) item;
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.HomeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.AwayId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Easting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Northing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.End)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Attending)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Invited)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => fixture.AttendanceState)
+        </td>
+    </tr>
+}
+
+</table>

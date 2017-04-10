@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using API.Helpers;
 using API.Models;
 using API.Repositories;
 
@@ -20,5 +21,7 @@ namespace API.Logic
         {
             return _reportRepository.FindBy(x => x.Id == reportId).FirstOrDefault();
         }
+
+
     }
 }

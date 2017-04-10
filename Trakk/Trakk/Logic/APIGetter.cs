@@ -40,12 +40,24 @@ namespace Trakk.Logic
             }
         }
 
+        public async Task<Event> GetEvent(int? id)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("events/GET/" + id).Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                Event @event = JsonConvert.DeserializeObject<Event>(textResult);
+                return @event;
+            }
+        }
+
         public async Task<Team> GetTeam(int id)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = Uri;
-                var response = client.GetAsync("/teams/GET" + id).Result;
+                var response = client.GetAsync("/teams/GET/" + id).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 Team team = JsonConvert.DeserializeObject<Team>(textResult);
                 return team;
@@ -110,15 +122,58 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<List<TeamMember>> GetAllUsers(int id)
+        public async Task<List<TeamMember>> GetAllUsers()
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = Uri;
-                var response = client.GetAsync("/users/").Result;
+                var response = client.GetAsync("/users/GET/").Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 List<TeamMember> team = JsonConvert.DeserializeObject<List<TeamMember>>(textResult);
                 return team;
+            }
+        }
+
+        public async Task<Sport> GetSport(int? id)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("/sports/GET/" + id).Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                Sport sport = JsonConvert.DeserializeObject<Sport>(textResult);
+                return sport;
+            }
+        }
+
+
+        public async Task<List<Sport>> GetAllSports()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("/sports/GET/").Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                List<Sport> sport = JsonConvert.DeserializeObject<List<Sport>>(textResult);
+                return sport;
+            }
+        }
+
+        public async Task<List<Sport>> GetSportList(List<Sport> sportsList)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                List<int> ids = sportsList.Select(i => i.Id).ToList();
+                List<Sport> sports = new List<Sport>();
+                foreach (int id in ids)
+                {
+                    var response = client.GetAsync("/sports/GET/" + id).Result;
+                    string textResult = await response.Content.ReadAsStringAsync();
+                    sports.Add(JsonConvert.DeserializeObject<Sport>(textResult));
+                }
+
+                return sports;
             }
         }
     }

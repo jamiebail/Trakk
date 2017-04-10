@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Helpers;
 using API.Models;
+using API.ViewModels;
 
 namespace API.Logic
 {
@@ -14,7 +15,7 @@ namespace API.Logic
         List<Event> GetUserEvents(int userId);
         List<Event> GetTeamEvents(int teamId);
         Event GetEvent(int eventId);
-        EntityResponse CreateEvent(Event newEvent);
+        EntityResponse CreateEvent(EventReturnCreateViewModel newEvent);
         EntityResponse UpdateEvent(Event eventUpdate);
         EntityResponse DeleteEvent(int id);
     }

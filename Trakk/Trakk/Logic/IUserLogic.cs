@@ -13,5 +13,7 @@ namespace Trakk.Logic
     public interface IUserLogic
     {
         int GetPlayerId(IIdentity identityIn);
+
+        Task<List<TeamMember>> GetAllUsers();
     }
 }

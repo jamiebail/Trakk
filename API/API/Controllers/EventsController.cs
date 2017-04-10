@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using API.Helpers;
 using API.Logic;
 using API.Models;
+using API.ViewModels;
 
 namespace API.Controllers
 {
@@ -37,7 +38,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Event newEvent)
+        public ActionResult Post(EventReturnCreateViewModel newEvent)
         {
             if (newEvent == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

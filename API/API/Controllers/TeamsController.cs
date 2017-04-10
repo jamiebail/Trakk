@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using API.Helpers;
 using API.Logic;
 using API.Models;
+using API.ViewModels;
 using Newtonsoft.Json;
 
 namespace API.Controllers
@@ -33,22 +34,34 @@ namespace API.Controllers
         
 
         [HttpPost]
-        public ActionResult Post(Team team)
+        public ActionResult Post(TeamReturnCreateViewModel team)
         {
             if (team == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             if (ModelState.IsValid)
             {
-                EntityResponse response = _teamLogic.CreateTeam(team);
+                Team newTeam = new Team
+                {
+                    Sport = _sportLogic.GetSportById(team.SportId),
+                    Name = team.TeamName,
+                    Statistics = new TeamStatistics()
+                };
+
+                EntityResponse response = _teamLogic.CreateTeam(newTeam);
+                int teamId = newTeam.Id;
+                foreach (int member in team.PlayerIDs)
+                {
+                    _userLogic.SetUserTeam(member, teamId);
+                }
 
                 if (response.Success)
                 {
-                    return Json(new {success = true, responseText = team.Name + " updated successfully."},
+                    return Json(new {success = true, responseText = newTeam.Name + " updated successfully."},
                         JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new {success = false, responseText = team.Name + " updated successfully."},
+                    return Json(new {success = false, responseText = newTeam.Name + " updated successfully."},
                         JsonRequestBehavior.AllowGet);
                 }
             }

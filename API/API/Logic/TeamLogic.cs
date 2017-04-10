@@ -56,6 +56,7 @@ namespace API.Logic
             try
             {
                 _teamRepository.Update(team);
+                _teamRepository.Save();
                 return new EntityResponse(true, team.Name + " updated successfully");
             }
             catch(Exception e)
@@ -69,6 +70,7 @@ namespace API.Logic
             try
             {
                 _teamRepository.Add(team);
+                _teamRepository.Save();
                 return new EntityResponse(true, team.Name + " created successfully.");
             }
             catch(Exception e)
@@ -107,6 +109,7 @@ namespace API.Logic
                 {
                     // Save statistics back to database
                     _statisticsRepository.Update(teamStatistics);
+                    _statisticsRepository.Save();
                     return new EntityResponse(true, "Update of team statistics successful.");
                 }
                 catch(Exception e)
@@ -116,6 +119,8 @@ namespace API.Logic
             }
             return new EntityResponse(false, "No statistics found for provided team id." );
         }
+
+
         public EntityResponse ArchiveTeam(Team Team)
         {
             try

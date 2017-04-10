@@ -26,7 +26,7 @@ namespace API.Logic
 
         public EntityResponse SetUserTeam(int userId, int teamId)
         {
-            TeamMembership membership = new TeamMembership(){ MemberId = userId,TeamId = teamId };
+            TeamMembership membership = new TeamMembership(){ MemberId = userId,TeamId = teamId, Accepted = false};
             try
             {
                 _membershipRepository.Add(membership);

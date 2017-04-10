@@ -10,6 +10,7 @@ using System.Web.Helpers;
 using Trakk.Models;
 using Newtonsoft.Json;
 using Trakk.Helpers;
+using Trakk.Viewmodels;
 
 namespace Trakk.Logic
 {
@@ -28,11 +29,22 @@ namespace Trakk.Logic
                 var response = await client.PostAsync("users/POST/", content);
                 string textResult = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
-
             }
         }
 
-        public async Task<EntityResponse> CreateTeam(Team team)
+        public async Task<EntityResponse> UpdateUser(TeamMember user)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("users/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> CreateTeam(TeamReturnCreateViewModel team)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -51,6 +63,77 @@ namespace Trakk.Logic
                 client.BaseAddress = Uri;
                 var content = new StringContent(JsonConvert.SerializeObject(team), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("teams/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+        public async Task<EntityResponse> CreateSport(Sport sport)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(sport), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("sports/POST/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> UpdateSport(Sport sport)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(sport), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("sports/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> CreateFixture(Fixture fixture)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(fixture), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("fixtures/POST/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> UpdateFixture(Fixture fixture)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(fixture), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("sports/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> CreateEvent(EventReturnCreateViewModel newEvent)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(newEvent), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("events/POST/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+        public async Task<EntityResponse> UpdateEvent(Event eventUpdate)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(eventUpdate), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("events/PUT/", content);
                 string textResult = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
             }

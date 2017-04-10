@@ -21,12 +21,18 @@ namespace API.Controllers
         public ActionResult Get(int? id)
         {
             if (id == null)
-                return Json(_userLogic.GetUsers(), JsonRequestBehavior.AllowGet);
+            {
+                List<TeamMember> allMembers = _userLogic.GetUsers();
+                foreach (var member in allMembers)
+                {
+                    member.Teams = _teamLogic.GetTeamsByUserId(member.Id);
+                }
+                return Json(allMembers, JsonRequestBehavior.AllowGet);
+            }
+            TeamMember singleMember = _userLogic.GetUser(id.Value);
+            singleMember.Teams = _teamLogic.GetTeamsByUserId(id.Value);
 
-            TeamMember member = _userLogic.GetUser(id.Value);
-            member.Teams = _teamLogic.GetTeamsByUserId(id.Value);
-
-            return Json(member, JsonRequestBehavior.AllowGet);
+            return Json(singleMember, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -1,0 +1,62 @@
+﻿@using API.Helpers
+@model Trakk.Viewmodels.EventsListViewModel
+
+<p class="createevent">
+    <a>Create</a>
+</p>
+
+@foreach (var item in Model.Events)
+{
+    if (item.Type == TrakkEnums.EventType.Social)
+    {
+        <div class="event-widget social">
+            <div class="event-date col-lg-3"">
+                <h4>@Html.DisplayFor(modelItem => item.Start)</h4>
+
+                <h4>@Html.DisplayFor(modelItem => item.End)</h4>
+            </div>
+            <div class="event-text col-lg-6">
+                <h4> @Html.DisplayFor(modelItem => item.Title)</h4>
+                <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
+             </div>
+            <div class="event-type col-lg-3"">
+                @Html.DisplayFor(modelItem => item.Type)
+            </div>
+            <div class="clear"></div>
+            </div>
+        <div class="event-widget-dropdown">
+            @Html.DisplayFor(modelItem => item.Comments)
+            @Html.DisplayFor(modelItem => item.Attending)
+            @Html.DisplayFor(modelItem => item.Invited)
+            @Html.DisplayFor(modelItem => item.AttendanceState)
+        </div>
+    }
+    else if (item.Type == TrakkEnums.EventType.Training)
+    {
+        <div class="event-widget training">
+            <div class="event-date col-lg-3">
+                <h4>@Html.DisplayFor(modelItem => item.Start)</h4>
+
+                <h4>@Html.DisplayFor(modelItem => item.End)</h4>
+            </div>
+            <div class="event-text col-lg-6">
+                <h4> @Html.DisplayFor(modelItem => item.Title)</h4>
+                <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
+            </div>
+            <div class="event-type col-lg-3">
+                @Html.DisplayFor(modelItem => item.Type)
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="event-widget-dropdown">
+            @Html.DisplayFor(modelItem => item.Comments)
+            @Html.DisplayFor(modelItem => item.Attending)
+            @Html.DisplayFor(modelItem => item.Invited)
+            @Html.DisplayFor(modelItem => item.AttendanceState)
+        </div>
+
+
+    }
+}
+<div class="clear"></div>

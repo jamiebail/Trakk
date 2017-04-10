@@ -20,7 +20,7 @@ namespace Trakk.Models
         [NotMapped]
         public List<TeamMember> Members { get; set; }
         [Required]
-        public virtual Sport Sport { get; set; }
-        public virtual TeamStatistics Statistics { get; set; }
+        public Sport Sport { get; set; }
+        public TeamStatistics Statistics { get; set; }
     }
 }

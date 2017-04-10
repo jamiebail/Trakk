@@ -1,0 +1,52 @@
+﻿@model Trakk.Models.TeamMember
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Teams")
+</p>
+
+
+    @foreach (var item in Model.Teams)
+    {
+        <div class="team-widget" id="@item.Id">
+            <div class="team-name col-lg-4">
+                <h3>@item.Name</h3>
+                <h5>@item.Sport.Name</h5>
+            </div>
+
+
+            <div class="teamstats col-lg-8">
+                <div class="col-lg-1  col-lg-offset-1">
+                    <h5>Won</h5>
+                    <p>@item.Statistics.Won</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Lost</h5>
+                    <p>@item.Statistics.Lost</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Drawn</h5>
+                    <p>@item.Statistics.Drawn</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Goals</h5>
+                    <p>@item.Statistics.Goals</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Conceded</h5>
+                    <p>@item.Statistics.Conceded</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Played</h5>
+                    <p>@item.Statistics.Played</p>
+                </div>
+                <div class="col-lg-1">
+                    <h5>Points</h5>
+                    <p>@item.Statistics.Points</p>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    }
+

@@ -13,5 +13,6 @@ namespace Trakk.Models
         public int Id { get; set; }
         public int MemberId { get; set; }
         public int TeamId { get; set; }
+        public bool Accepted { get; set; }
     }
 }

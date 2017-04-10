@@ -218,6 +218,7 @@
     <Compile Include="Controllers\FixturesController.cs" />
     <Compile Include="Controllers\GameReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SportsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -279,6 +280,14 @@
     <Compile Include="Migrations\201702062059556_StartEnd.Designer.cs">
       <DependentUpon>201702062059556_StartEnd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704082222258_teamrequest.cs" />
+    <Compile Include="Migrations\201704082222258_teamrequest.Designer.cs">
+      <DependentUpon>201704082222258_teamrequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704101833578_private-events.cs" />
+    <Compile Include="Migrations\201704101833578_private-events.Designer.cs">
+      <DependentUpon>201704101833578_private-events.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Goal.cs" />
@@ -301,6 +310,7 @@
     <Compile Include="Models\Fixture.cs" />
     <Compile Include="Models\GameReport.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\PrivateEvent.cs" />
     <Compile Include="Models\Sport.cs" />
     <Compile Include="Models\TeamEvent.cs" />
     <Compile Include="Models\TeamMembership.cs" />
@@ -313,7 +323,9 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EventCreateModel.cs" />
     <Compile Include="ViewModels\StatUpdateViewModel.cs" />
+    <Compile Include="ViewModels\TeamCreateModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -380,6 +392,7 @@
     <Folder Include="Migrations\201702062059246_Start\" />
     <Folder Include="Views\Events\" />
     <Folder Include="Views\Fixtures\" />
+    <Folder Include="Views\Sports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -428,6 +441,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702062059556_StartEnd.resx">
       <DependentUpon>201702062059556_StartEnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704082222258_teamrequest.resx">
+      <DependentUpon>201704082222258_teamrequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704101833578_private-events.resx">
+      <DependentUpon>201704101833578_private-events.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

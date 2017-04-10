@@ -43,6 +43,147 @@
         });
     }
 
+
+    $(".teamsButton").click(function() {
+        $("#mainBody").load("Partials/UserTeamList");
+    });
+    $(".eventsButton").click(function() {
+        $("#mainBody").load("Partials/UserEventList");
+    });
+    $(".fixtureButton").click(function() {
+        $("#mainBody").load("Partials/UserFixtureList");
+    });
+        
+    $(document).on('click', ".team-widget", function () {
+        var id = $(this).attr("id");
+        $("#mainBody").load("Partials/TeamDetailsPartial", { id });
+    });
+
+    $(document).on('click', ".createevent a", function() {
+        $("#mainBody").load("Events/Create");
+    });
+
+    $(".sportsButton").click(function() {
+        $("#mainBody").load("Partials/UserSportList");
+    });
+
+    $("#addMember").click(function() {
+            $(".selected-users").append($(".selected-user-list .selected").removeClass("selected"));
+    });
+
+    $(document).on('click', ".selected-user-list li", function () {
+        $(this).toggleClass("selected");
+    });
+
+
+    $("#createTeam").click(function () {
+
+        var team = { TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : $(".selected-users .id").map(function(){return $(this).text();}).get()}
+
+        $.ajax({
+            url: "/Teams/Create",
+            dataType: "json",
+            type: "POST",
+            data: team,
+            success: function (data) {
+
+            }
+        });
+    });
+
+    $(document).on('click', '#submitEvent', function () {
+        var id = $("#selectedTeam").val();
+        var users = $(".selected .id").map(function () { return $(this).text(); }).get();
+        var type = $("#Event_Type").val();
+        var start = $("#Event_Start").val();
+        var end = $("#Event_End").val();
+        var title = $("#Event_Title").val();
+        var comments = $("#Event_Comments").val();
+        var location = $("#Event_Location").val();
+
+
+        //validation here
+        var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments:comments }
+
+        $.ajax({
+            url: "/Events/Create",
+            dataType: "json",
+            type: "POST",
+            data: newEvent,
+            success: function (data) {
+
+            }
+        });
+    });
+
+
+    var matchedMembers;
+
+    $(function() {
+        function log(message) {
+            $("<div>").text(message).prependTo("#log");
+            $("#log").scrollTop(0);
+        }
+
+        $("#nameBox").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "/User/UserList",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        matchedMembers = data;
+                        $(".selected-user-list").empty();
+                        if (matchedMembers.length > 0) {
+                            for (var i = 0; i < matchedMembers.length; i++) {
+                                $(".selected-user-list").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"sport\">" + matchedMembers[i].Sport + "</span></li>");
+                            }
+                        } 
+                    }
+
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                log("Selected: " + ui.item.value + " aka " + ui.item.id);
+            }
+        });
+    });
+
+    $(document).on('change', '#selectedTeam', function () {
+        $(".selected-users").empty();
+        $.ajax({
+            url: "/Partials/GetTeamMembers",
+            dataType: "json",
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                matchedMembers = data;
+                $(".selected-user-list").empty();
+                if (matchedMembers.length > 0) {
+                    for (var i = 0; i < matchedMembers.length; i++) {
+                        //$(".selected-users").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
+                        $(".selected-users").append("<li class=\" col-lg-6 user-widget\"><div class=\"image\"></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
+
+                    }
+                }
+            }
+        });
+    });
+
+
+    $(document).on('click', ".selected-users li", function() {
+        $(this).toggleClass("selected");
+    });
+
+    $(document).on('click', "#inviteall", function() {
+        $(".selected-users li").toggleClass("selected");
+    });
+
+
     $(".teamsButton").click(function() {
         $("#mainBody").load("Teams/Index");
     });

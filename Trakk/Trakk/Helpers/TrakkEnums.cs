@@ -29,7 +29,6 @@ namespace API.Helpers
 
         public enum EventType
         {
-            Fixture = 0,
             Social = 2,
             Training = 3
         }

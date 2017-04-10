@@ -27,6 +27,8 @@ namespace Trakk.Logic
             if (index + 2 >= events.Count)
                 return primaries;
             primaries.Add(events[index + 2]);
+            if (index + 3 <= events.Count)
+                primaries.Add(events[index + 3]);
             return primaries;
         }
     }
