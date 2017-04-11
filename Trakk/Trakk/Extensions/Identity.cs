@@ -20,5 +20,6 @@ namespace Trakk.Extensions
                 var claim = ((ClaimsIdentity)identity).FindFirst("TeamId");
                 return (claim != null) ? claim.Value : string.Empty;
             }
-        }  
+
+    }  
 }

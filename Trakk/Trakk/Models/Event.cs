@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using API.Helpers;
@@ -18,6 +19,8 @@ namespace Trakk.Models
         public int Invited { get; set; }
         public TrakkEnums.EventType Type { get; set; }
         public TrakkEnums.UserAvailability AttendanceState { get; set; }
-
+        public List<TeamMember> Members { get; set; }
+        [NotMapped]
+        public int TeamId { get; set; }
     }
 }

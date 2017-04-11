@@ -75,10 +75,10 @@ namespace Trakk.Controllers
             {
                 return View(model);
             }
-
+            ApplicationUser user = await UserManager.FindByEmailAsync(model.Email);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = user == null ? SignInStatus.Failure : await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -154,7 +154,7 @@ namespace Trakk.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.FirstName + " " + model.LastName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email };
                 EntityResponse response = await _setter.CreateUser(new TeamMember()
                 {
                     Name = model.FirstName + " " + model.LastName,

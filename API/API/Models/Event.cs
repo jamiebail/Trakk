@@ -20,5 +20,9 @@ namespace API.Models
         public TrakkEnums.EventType Type { get; set; }
         [NotMapped]
         public TrakkEnums.UserAvailability AttendanceState { get; set; }
+        [NotMapped]
+        public List<TeamMember> Members { get; set; }
+        [NotMapped]
+        public int TeamId { get; set; }
     }
 }

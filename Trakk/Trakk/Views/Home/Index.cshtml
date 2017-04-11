@@ -9,7 +9,9 @@
     {
         <div id="event-carousel">
             @Html.Partial("/Views/Partials/EventPartial.cshtml", Model.Events)
+
         </div>
+        <p class="clear"></p>
     }
     else
     {
@@ -21,12 +23,12 @@
 <div class="collapseEvents"><span class="glyphicon glyphicon-eject"></span></div>
 <div class="navbar navbar-default buttonBar">
     <ul class="nav navbar-nav">
-        <li class="col-md-2 fixtureButton"><a href="#">Fixtures</a></li>
-        <li class="col-md-2 eventsButton"><a href="#">Events</a></li>
-        <li class="col-md-2 teamsButton"><a href="#">Teams</a></li>
-        <li class="col-md-2 sportsButton"><a href="#">Sports</a></li>
-        <li class="col-md-2 calendarButton"><a href="#">Calendar</a></li>
-        <li class="col-md-2 selfButton"><a href="#">You</a></li>
+        <li class="col-xs-2 fixtureButton"><a href="#">Fixtures</a></li>
+        <li class="col-xs-2 eventsButton"><a href="#">Events</a></li>
+        <li class="col-xs-2 teamsButton"><a href="#">Teams</a></li>
+        <li class="col-xs-2 sportsButton"><a href="#">Sports</a></li>
+        <li class="col-xs-2 calendarButton"><a href="#">Calendar</a></li>
+        <li class="col-xs-2 selfButton"><a href="#">You</a></li>
     </ul>
 </div>
 <div class="lower">

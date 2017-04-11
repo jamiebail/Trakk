@@ -62,7 +62,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public ActionResult Put(Event eventUpdate)
+        public ActionResult Put(EventReturnEditViewModel eventUpdate)
         {
             if (ModelState.IsValid)
             {

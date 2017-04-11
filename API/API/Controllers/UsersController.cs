@@ -29,10 +29,14 @@ namespace API.Controllers
                 }
                 return Json(allMembers, JsonRequestBehavior.AllowGet);
             }
-            TeamMember singleMember = _userLogic.GetUser(id.Value);
-            singleMember.Teams = _teamLogic.GetTeamsByUserId(id.Value);
-
+            if (id != 0)
+            {
+                TeamMember singleMember = _userLogic.GetUser(id.Value);
+                singleMember.Teams = _teamLogic.GetTeamsByUserId(id.Value);
+            
             return Json(singleMember, JsonRequestBehavior.AllowGet);
+        }
+            return null;
         }
 
 

@@ -113,4 +113,4 @@ C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.Migrations.Acc
 C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.csproj.GenerateResource.Cache
 C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.dll
 C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.pdb
-C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.Migrations.test.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\Trakk\Trakk\obj\Debug\Trakk.Migrations.usernames.resources

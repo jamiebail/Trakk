@@ -84,20 +84,20 @@ namespace Trakk.Controllers
             return View(team);
         }
 
-        // POST: Teams/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Team team)
-        {
-            if (ModelState.IsValid)
-            {
-                _setter.UpdateTeam(team);
-                return RedirectToAction("Index");
-            }
-            return View(team);
-        }
+        //// POST: Teams/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,Name")] Team team)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _setter.UpdateTeam(team);
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(team);
+        //}
 
         // GET: Teams/Delete/5
         public ActionResult Delete(int? id)

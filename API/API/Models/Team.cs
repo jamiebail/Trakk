@@ -19,9 +19,11 @@ namespace API.Models
         public string Name { get; set; }
         [NotMapped]
         public List<TeamMember> Members { get; set; }
-        [Required]
         public virtual Sport Sport { get; set; }
         public virtual TeamStatistics Statistics { get; set; }
         public string FbFeed { get; set; }
+        [NotMapped]
+        public int Position { get; set; }
+
     }
 }

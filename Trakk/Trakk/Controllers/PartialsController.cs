@@ -66,7 +66,7 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserEventList()
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            EventsListViewModel vm = new EventsListViewModel(){ Events = await _getter.GetUserEvents(member.Id, true)};
+            EventsListViewModel vm = new EventsListViewModel(){ Events = await _getter.GetUserEvents(member.Id, false)};
             vm.Events = vm.Events.Where(x => x.Type == TrakkEnums.EventType.Social || x.Type == TrakkEnums.EventType.Training).ToList();
             return PartialView("~/Views/Partials/UserEventsPartial.cshtml", vm);
         }
@@ -75,7 +75,7 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserFixtureList()
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            EventsListViewModel vm = new EventsListViewModel() { Events = await _getter.GetUserEvents(member.Id, true) };
+            EventsListViewModel vm = new EventsListViewModel() { Events = await _getter.GetUserEvents(member.Id, false) };
             vm.Events = vm.Events.Where(x => x.Type != TrakkEnums.EventType.Social && x.Type != TrakkEnums.EventType.Training).ToList();
             return PartialView("~/Views/Partials/UserFixturePartial.cshtml", vm.Events);
         }
@@ -123,6 +123,6 @@ namespace Trakk.Controllers
             return Json(team.Members, JsonRequestBehavior.AllowGet);
         }
 
-             
+       
     }
 }

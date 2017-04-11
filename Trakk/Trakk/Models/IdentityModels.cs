@@ -23,7 +23,8 @@ namespace Trakk.Models
         }
 
 
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int MemberId { get; set; }
     }
 

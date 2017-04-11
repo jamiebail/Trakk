@@ -22,5 +22,7 @@ namespace Trakk.Models
         [Required]
         public Sport Sport { get; set; }
         public TeamStatistics Statistics { get; set; }
+        public int Position { get; set; }
+
     }
 }

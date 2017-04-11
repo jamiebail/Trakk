@@ -7,13 +7,13 @@ namespace Trakk.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class test : IMigrationMetadata
+    public sealed partial class usernames : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(test));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(usernames));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704051937338_test"; }
+            get { return "201704110950479_usernames"; }
         }
         
         string IMigrationMetadata.Source

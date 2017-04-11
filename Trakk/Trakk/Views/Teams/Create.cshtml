@@ -8,6 +8,7 @@
 
         <div class="form-horizontal">
             <h4>Create a Team</h4>
+            <p hidden class="userid">@Model.UserId</p>
             <hr/>
             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
             <div class="form-group">
@@ -29,7 +30,7 @@
     </div>
     <div class="col-lg-8">
         <div class="teamrosterheader col-lg-12">Your Team</div>
-        <ul class="selected-users col-lg-8"></ul>
+        <ul class="selected-users col-xs-8"></ul>
         <input type="submit" value="Create" id="createTeam" class="btn btn-default col-lg-12 createteam"/>
     </div>
 </div>

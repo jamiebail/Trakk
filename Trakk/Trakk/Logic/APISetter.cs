@@ -56,7 +56,7 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<EntityResponse> UpdateTeam(Team team)
+        public async Task<EntityResponse> UpdateTeam(TeamReturnEditViewModel team)
         {
             using (HttpClient client = new HttpClient())
             {

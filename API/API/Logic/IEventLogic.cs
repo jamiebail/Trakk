@@ -16,7 +16,7 @@ namespace API.Logic
         List<Event> GetTeamEvents(int teamId);
         Event GetEvent(int eventId);
         EntityResponse CreateEvent(EventReturnCreateViewModel newEvent);
-        EntityResponse UpdateEvent(Event eventUpdate);
+        EntityResponse UpdateEvent(EventReturnEditViewModel eventUpdate);
         EntityResponse DeleteEvent(int id);
     }
 }

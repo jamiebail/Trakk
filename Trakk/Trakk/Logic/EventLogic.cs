@@ -15,21 +15,38 @@ namespace Trakk.Logic
             events.Add(positionEvent);
             events = events.OrderBy(x => x.Start).ToList();
             int index = events.FindIndex(a => a.Id == positionEvent.Id);
-
-            if (index + 1 == events.Count)
+            if (events.Count > 1)
             {
-                primaries.Add(events[index - 1]);
-                primaries.Add(events[index - 2]);
-                primaries.Add(events[index - 3]);
+                // Last Element
+                if (index + 1 == events.Count)
+                {
+                  if(events.Count == 2) { 
+                        primaries.Add(events[index - 1]);
+                }
+                   else
+                   {
+                        primaries.Add(events[index - 1]);
+                        primaries.Add(events[index - 2]);
+                        primaries.Add(events[index - 3]);
+                    }
+                        return primaries;
+                }
+                // next event
+                if (index != 0)
+                {
+                    primaries.Add(events[index - 1]);
+                }
+
+                primaries.Add(events[index + 1]);
+                if (index + 2 < events.Count)
+                {
+                    primaries.Add(events[index + 2]);
+                    return primaries;
+                }
                 return primaries;
+
             }
-            primaries.Add(events[index + 1]);
-            if (index + 2 >= events.Count)
-                return primaries;
-            primaries.Add(events[index + 2]);
-            if (index + 3 <= events.Count)
-                primaries.Add(events[index + 3]);
-            return primaries;
+            return null;
         }
     }
 }

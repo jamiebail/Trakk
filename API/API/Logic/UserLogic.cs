@@ -29,7 +29,11 @@ namespace API.Logic
             TeamMembership membership = new TeamMembership(){ MemberId = userId,TeamId = teamId, Accepted = false};
             try
             {
-                _membershipRepository.Add(membership);
+                TeamMembership existingMembership =
+                    _membershipRepository.FindBy(x => x.TeamId == membership.TeamId && x.MemberId == membership.MemberId)
+                        .FirstOrDefault();
+                if(existingMembership == null)
+                     _membershipRepository.Add(membership);
                 return new EntityResponse(true, "membership created successfully");
             }
             catch (Exception e)

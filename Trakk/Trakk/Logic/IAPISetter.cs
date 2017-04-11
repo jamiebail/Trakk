@@ -15,7 +15,7 @@ namespace Trakk.Logic
         Task<EntityResponse> CreateUser(TeamMember user);
         Task<EntityResponse> UpdateUser(TeamMember user);
         Task<EntityResponse> CreateTeam(TeamReturnCreateViewModel team);
-        Task<EntityResponse> UpdateTeam(Team team);
+        Task<EntityResponse> UpdateTeam(TeamReturnEditViewModel team);
         Task<EntityResponse> CreateSport(Sport sport);
         Task<EntityResponse> UpdateSport(Sport sport);
         Task<EntityResponse> CreateFixture(Fixture fixture);

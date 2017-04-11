@@ -89,12 +89,27 @@ namespace Trakk.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Event @event = await _getter.GetEvent(id);
-            if (@event == null)
+            Team team = await _getter.GetTeam(@event.TeamId);
+            List<TeamMember> teamMembers = team.Members;
+            List<TeamMember> notInvited = new List<TeamMember>();
+            teamMembers.RemoveAll(item => @event.Members.Contains(item));
+            foreach (var teamMember in team.Members)
+                foreach (var privateMember in @event.Members)
+                {
+                    if (privateMember.Id == teamMember.Id)
+                    {
+                        
+                    }
+                }
+            EventEditViewModel vm = new EventEditViewModel()
             {
-                return HttpNotFound();
-            }
-            return View(@event);
+                Event = @event,
+                Members = @event.Members,
+                AllMembers = teamMembers 
+            };
+            return View(vm);
         }
 
         //POST: Events/Edit/5

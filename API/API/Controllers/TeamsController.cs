@@ -27,8 +27,11 @@ namespace API.Controllers
                 return Json(_teamLogic.GetAllTeams(), JsonRequestBehavior.AllowGet);
 
             Team team = _teamLogic.GetTeamById(id.Value);
-            team.Members = _teamLogic.GetTeamMembersByTeamId(id.Value);
+            if (team == null)
+                return null;
 
+            team.Members = _teamLogic.GetTeamMembersByTeamId(id.Value);
+            
             return Json(team, JsonRequestBehavior.AllowGet);
         }
         
@@ -49,13 +52,14 @@ namespace API.Controllers
 
                 EntityResponse response = _teamLogic.CreateTeam(newTeam);
                 int teamId = newTeam.Id;
-                foreach (int member in team.PlayerIDs)
-                {
-                    _userLogic.SetUserTeam(member, teamId);
-                }
+
 
                 if (response.Success)
                 {
+                    foreach (int member in team.PlayerIDs)
+                    {
+                        _userLogic.SetUserTeam(member, teamId);
+                    }
                     return Json(new {success = true, responseText = newTeam.Name + " updated successfully."},
                         JsonRequestBehavior.AllowGet);
                 }
@@ -70,15 +74,34 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public ActionResult Put(Team team)
+        public ActionResult Put(TeamReturnEditViewModel team)
         {
             if (ModelState.IsValid)
             {
-                EntityResponse response = _teamLogic.UpdateTeam(team);
+                Team editTeam = new Team
+                {
+                    Sport = _sportLogic.GetSportById(team.SportId),
+                    Name = team.TeamName,
+                    Id = team.TeamId,
+                    Statistics = new TeamStatistics()
+                };
+
+                List<TeamMember> currentMembers = _teamLogic.GetTeamMembersByTeamId(team.TeamId);
+                foreach (var member in team.PlayerIDs)
+                {
+                    TeamMember memberobj = _userLogic.GetUser(member);
+                    TeamMember existing = currentMembers.FirstOrDefault(x => x.Id == memberobj.Id);
+                    if (existing == null)
+                    {
+                        _userLogic.SetUserTeam(member, team.TeamId);
+                    }
+                }
+
+                EntityResponse response = _teamLogic.UpdateTeam(editTeam);
                 if (response.Success)
-                    return Json(new {success = true, responseText = team.Name + " updated successfully."}, JsonRequestBehavior.AllowGet);
+                    return Json(new {success = true, responseText = editTeam.Name + " updated successfully."}, JsonRequestBehavior.AllowGet);
                 else
-                    return Json(new {success = false, responseText = team.Name + " failed to update: " + response.Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new {success = false, responseText = editTeam.Name + " failed to update: " + response.Message }, JsonRequestBehavior.AllowGet);
             }
             else
             {

@@ -71,6 +71,10 @@ namespace Trakk.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
+        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 

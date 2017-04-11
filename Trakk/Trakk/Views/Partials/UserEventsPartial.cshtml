@@ -2,7 +2,7 @@
 @model Trakk.Viewmodels.EventsListViewModel
 
 <p class="createevent">
-    <a>Create</a>
+    <a><span class="glyphicon glyphicon-plus"></span></a>
 </p>
 
 @foreach (var item in Model.Events)
@@ -10,20 +10,24 @@
     if (item.Type == TrakkEnums.EventType.Social)
     {
         <div class="event-widget social">
-            <div class="event-date col-lg-3"">
-                <h4>@Html.DisplayFor(modelItem => item.Start)</h4>
+            <a href="@Url.Action("Edit", "Events", new { id = item.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
+            <div class="event-date col-xs-3">
+                <div class="col-xs-6">
+                    <h4>@Html.DisplayFor(modelItem => item.Start.DayOfWeek)</h4>
+                </div>
+                <h4>@Html.DisplayFor(modelItem => item.Start.TimeOfDay)</h4>
 
-                <h4>@Html.DisplayFor(modelItem => item.End)</h4>
+                <h4>@Html.DisplayFor(modelItem => item.End.TimeOfDay)</h4>
             </div>
-            <div class="event-text col-lg-6">
+            <div class="event-text col-xs-6">
                 <h4> @Html.DisplayFor(modelItem => item.Title)</h4>
                 <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
-             </div>
-            <div class="event-type col-lg-3"">
+            </div>
+            <div class="event-type col-xs-3">
                 @Html.DisplayFor(modelItem => item.Type)
             </div>
             <div class="clear"></div>
-            </div>
+        </div>
         <div class="event-widget-dropdown">
             @Html.DisplayFor(modelItem => item.Comments)
             @Html.DisplayFor(modelItem => item.Attending)
@@ -34,16 +38,16 @@
     else if (item.Type == TrakkEnums.EventType.Training)
     {
         <div class="event-widget training">
-            <div class="event-date col-lg-3">
+            <div class="event-date col-xs-3">
                 <h4>@Html.DisplayFor(modelItem => item.Start)</h4>
 
-                <h4>@Html.DisplayFor(modelItem => item.End)</h4>
+                <h4>@Html.DisplayFor(modelItem => item.End.ToShortTimeString())</h4>
             </div>
-            <div class="event-text col-lg-6">
+            <div class="event-text col-xs-6">
                 <h4> @Html.DisplayFor(modelItem => item.Title)</h4>
                 <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
             </div>
-            <div class="event-type col-lg-3">
+            <div class="event-type col-xs-3">
                 @Html.DisplayFor(modelItem => item.Type)
             </div>
             <div class="clear"></div>

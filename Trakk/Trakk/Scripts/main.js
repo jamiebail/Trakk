@@ -63,12 +63,32 @@
         $("#mainBody").load("Events/Create");
     });
 
+
+    $(document).on('click', ".editevent a", function () {
+        var id = $(this).parent().parent().attr("id");
+        $("#mainBody").load("Events/Edit", { id });
+    });
+
     $(".sportsButton").click(function() {
         $("#mainBody").load("Partials/UserSportList");
     });
 
-    $("#addMember").click(function() {
-            $(".selected-users").append($(".selected-user-list .selected").removeClass("selected"));
+
+    var currentMembers = [];
+
+    $("#addMember").click(function () {
+        $(".selected-users .id").each(function() {
+            currentMembers.push($(this).text());
+        });
+
+
+        $(".selected-user-list .selected").each(function() {
+            var newId = $(this).children(".id").text();
+            if (!currentMembers.includes(newId)) {
+                $(".selected-users").append("<li class=\" col-xs-6 user-widget\"><div class=\"image\"></div><span hidden class=\"id\">" + $(this).children(".id").text() + "</span><span class=\"name\">" + $(this).children(".name").text() + "</span><span class=\"glyphicon glyphicon-remove removeMember\"></span></li>");
+            }
+        });
+        currentMembers = [];
     });
 
     $(document).on('click', ".selected-user-list li", function () {
@@ -77,8 +97,9 @@
 
 
     $("#createTeam").click(function () {
-
-        var team = { TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : $(".selected-users .id").map(function(){return $(this).text();}).get()}
+        var players = $(".selected-users .id").map(function() { return $(this).text(); }).get();
+        players.push($(".userid").text());
+        var team = { TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : players}
 
         $.ajax({
             url: "/Teams/Create",
@@ -89,6 +110,25 @@
 
             }
         });
+    });
+
+    $("#editTeam").click(function () {
+
+        var team = { TeamId: $(".form-horizontal").attr("id"), TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : $(".selected-users .id").map(function(){return $(this).text();}).get()}
+
+        $.ajax({
+            url: "/Teams/Edit",
+            dataType: "json",
+            type: "POST",
+            data: team,
+            success: function (data) {
+
+            }
+        });
+    });
+
+    $(document).on('click',".removeMember",function() {
+        $(this).parent().remove();
     });
 
     $(document).on('click', '#submitEvent', function () {
@@ -166,13 +206,14 @@
                 if (matchedMembers.length > 0) {
                     for (var i = 0; i < matchedMembers.length; i++) {
                         //$(".selected-users").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
-                        $(".selected-users").append("<li class=\" col-lg-6 user-widget\"><div class=\"image\"></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
+                        $(".selected-users").append("<li class=\" col-xs-6 user-widget\"><div class=\"image\"></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"glyphicon glyphicon-remove removeMember\"></span></li>");
 
                     }
                 }
             }
         });
     });
+
 
 
     $(document).on('click', ".selected-users li", function() {

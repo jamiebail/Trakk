@@ -53,7 +53,36 @@ namespace API.Logic
 
         public Event GetEvent(int eventId)
         {
-            return _eventRepository.FindBy(x => x.Id == eventId).FirstOrDefault();
+            Event e = _eventRepository.FindBy(x => x.Id == eventId).FirstOrDefault();
+            if (e != null)
+            {
+
+                List<PrivateEvent> privateInvites = _privateEventRepository.FindBy(x => x.EventId == e.Id);
+                TeamEvent teamEvent = _teamEventRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
+                List<TeamMember> members = new List<TeamMember>();
+                if (privateInvites == null)
+                {
+                    if (teamEvent != null)
+                    {
+                        members.AddRange(_teamLogic.GetTeamMembersByTeamId(teamEvent.TeamId));
+                        e.Members = members;
+                        e.TeamId = teamEvent.TeamId;
+                        return e;
+                    }
+                }
+                else
+                {
+                    foreach (var privateInv in privateInvites)
+                    {
+                        e.TeamId = privateInv.TeamId;
+                        members.Add(_teamMemberRepository.FindBy(x => x.Id == privateInv.UserId).FirstOrDefault());
+                    }
+
+                    e.Members = members;
+                    return e;
+                }
+            }
+            return null;
         }
 
         public EntityResponse CreateEvent(EventReturnCreateViewModel newEvent)
@@ -84,7 +113,7 @@ namespace API.Logic
                {
                    foreach (int id in newEvent.UserIds)
                    {
-                       _privateEventRepository.Add(new PrivateEvent() {EventId = eventEntity.Id, UserId = id});
+                       _privateEventRepository.Add(new PrivateEvent() {EventId = eventEntity.Id, UserId = id, TeamId = team.Id});
                    }
                    _privateEventRepository.Save();
                }
@@ -101,11 +130,45 @@ namespace API.Logic
             }
         }
 
-        public EntityResponse UpdateEvent(Event eventUpdate)
+        public EntityResponse UpdateEvent(EventReturnEditViewModel eventUpdate)
         {
             try
             {
-                _eventRepository.Update(eventUpdate);
+                Team team = _teamLogic.GetTeamById(eventUpdate.TeamId);
+                team.Members = _teamLogic.GetTeamMembersByTeamId(eventUpdate.TeamId);
+
+                Helpers.TrakkEnums.EventType type;
+                Enum.TryParse(eventUpdate.Type, out type);
+                Event eventEntity = new Event()
+                {
+                    Id = eventUpdate.EventId,
+                    Title = eventUpdate.Title,
+                    Type = type,
+                    Invited = eventUpdate.UserIds.Count,
+                    Start = DateTime.Parse(eventUpdate.Start),
+                    End = DateTime.Parse(eventUpdate.End),
+                    Location = eventUpdate.Location,
+                    Comments = eventUpdate.Comments
+                };
+
+                _eventRepository.Add(eventEntity);
+                _eventRepository.Save();
+
+                // If a private event between a few team members, not all
+                if (eventUpdate.UserIds.Count != team.Members.Count)
+                {
+                    foreach (int id in eventUpdate.UserIds)
+                    {
+                        _privateEventRepository.Add(new PrivateEvent() { EventId = eventEntity.Id, UserId = id, TeamId = team.Id});
+                    }
+                    _privateEventRepository.Save();
+                }
+                // Team events, all members will receive. 
+                else
+                {
+                    _teamEventRepository.Add(new TeamEvent() { TeamId = eventUpdate.TeamId, EventId = eventEntity.Id });
+                    _teamEventRepository.Save();
+                }
                 return new EntityResponse(true, "Event : " + eventUpdate.Title + " updated successfully");
             }
             catch (Exception e)

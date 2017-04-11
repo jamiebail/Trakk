@@ -21,5 +21,16 @@ namespace Trakk.Models
         public List<Team> Teams { get; set; } 
         public int Score { get ; set; }
         public int AccountId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as TeamMember);
+        }
+
+        public bool Equals(TeamMember obj)
+        {
+            return obj != null && obj.Id == this.Id;
+            // Or whatever you think qualifies as the objects being equal.
+        }
     }
 }

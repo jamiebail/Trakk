@@ -42,7 +42,11 @@ namespace Trakk.Controllers
                         httpCookie.Value = _userLogic.GetPlayerId(User.Identity).ToString();
                 }
                 TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-                hvm.Events = await _getter.GetUserEvents(member.Id, true);
+                if(member != null)
+                    if (member.Id != 0)
+                    {
+                        hvm.Events = await _getter.GetUserEvents(member.Id, true);
+                    }
             }
             return View(hvm);
         }
