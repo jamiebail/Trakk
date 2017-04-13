@@ -32,6 +32,7 @@ namespace API.Controllers
                 return null;
             team.Formations = _formationLogic.GetTeamFormations(team.Id);
             team.Members = _teamLogic.GetTeamMembersByTeamId(id.Value);
+            team.Sport = _sportLogic.GetSportById(team.SportId);
             
             return Json(team, JsonRequestBehavior.AllowGet);
         }
@@ -45,8 +46,8 @@ namespace API.Controllers
             if (ModelState.IsValid)
             {
                 Team newTeam = new Team
-                {
-                    Sport = _sportLogic.GetSportById(team.SportId),
+                { 
+                    SportId = team.SportId,
                     Name = team.TeamName,
                     Statistics = new TeamStatistics()
                 };

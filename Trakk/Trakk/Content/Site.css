@@ -27,10 +27,14 @@
     white-space: normal;
 }
 
-.formations-bar {
+.formations-bar, .formations-bar-second {
     height: 70px;
     background-color: white;
-        box-shadow: 0 1px 5px rgba(34, 34, 34, 0.46);
+    box-shadow: 0 1px 5px rgba(34, 34, 34, 0.46);
+}
+
+img {
+
 }
 
 .formation-widget {
@@ -39,6 +43,18 @@
     margin-top: 0px;
     text-align: center;
     line-height: 55px;
+}
+
+#formation-name {
+    border: none;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: none;
+    color:#757575;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.54);
+            
 }
 
 .formation-circle {
@@ -58,18 +74,53 @@
     background-color: #54c717 !important;
 }
 
+.editbutton, .plusbutton {
+    background-color: white;
+    height: 34px;
+         box-shadow: 0 1px 5px rgba(111, 111, 111, 0.46);
+    text-align: center;
+}
+
+.editbutton, .plusbutton span{
+    margin: 0 auto;
+    font-size: 20px;
+    padding-top: 4px;
+    color:#515151
+}
+
+#homeTeam, #awayTeam{
+     text-align: center;
+    height: 40px;
+       width: 100%;
+    border-radius: 3px;
+    font-size: 20px;
+    color: #4d4a4a;
+    margin-top: 20px;
+}
+
 .pitchFrame {
     position: relative;
+        -webkit-user-drag: none !important;
 }
 
 .pitchFrame img {
     width: 100%;
-    border: 2px solid #969696
+    -webkit-user-select: none;       
+
+    -webkit-user-drag: none !important;
+}
+
+.pitchFrame input {
+        -webkit-user-select: none;
+}
+
+.formation-name {
+    padding: 0;
 }
 
 .pitchLocation {
     background-color: white;
-    width: 7%;
+    width: 7.5%;
     height: 11%;
     border-radius: 40px;
     margin-top: -3.4%;
@@ -77,6 +128,11 @@
     border: 1px solid rgba(185, 185, 185, 0.46);
      box-shadow: 0 1px 5px rgba(111, 111, 111, 0.46);
 }
+
+#mainBody {
+    text-align: center;
+}
+
 
 .pitchLocation input {
     width: 90%;
@@ -550,6 +606,7 @@ textarea {
     float: left;
     margin-top: 3px;
 }
+
 
 .comments h2{
     font-size: 16px;

@@ -306,6 +306,10 @@
     <Compile Include="Migrations\201704121812007_formationsname.Designer.cs">
       <DependentUpon>201704121812007_formationsname.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704131407591_sportidteamsave.cs" />
+    <Compile Include="Migrations\201704131407591_sportidteamsave.Designer.cs">
+      <DependentUpon>201704131407591_sportidteamsave.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -479,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704121812007_formationsname.resx">
       <DependentUpon>201704121812007_formationsname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704131407591_sportidteamsave.resx">
+      <DependentUpon>201704131407591_sportidteamsave.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

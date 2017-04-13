@@ -29,6 +29,8 @@ namespace API.Logic
         public Team GetTeamById(int id)
         {
              Team team = _teamRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            if(team != null)
+             team.Sport = _sportLogic.GetSportById(team.SportId);
              //if(team != null)
              //   team.Statistics = GetTeamStats(team.Id);
             return team;
@@ -57,7 +59,7 @@ namespace API.Logic
             {
                 Team editTeam = new Team
                 {
-                    Sport = _sportLogic.GetSportById(team.SportId),
+                    SportId = team.SportId,
                     Name = team.TeamName,
                     Id = team.TeamId,
                     Statistics = new TeamStatistics()

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function() {
 
-    $(".collapseEvents").on("click", function () {
+    $(".collapseEvents").on("click", function() {
         if ($(this).hasClass("collapsed")) {
             $("#event-carousel").slideDown();
             $(".emptycarousel").slideDown();
@@ -16,7 +16,7 @@
         $(this).siblings().css('background-color', "#f7f7f7");
     });
 
-    $('.event-container').mouseleave(function () {
+    $('.event-container').mouseleave(function() {
         $(this).siblings().css('background-color', "#f7f7f7");
         var centre = $(this).parent().children().eq(1);
         $(centre).css('background-color', "white");
@@ -28,17 +28,16 @@
             dataType: "html",
             data: { date: date },
             type: "POST",
-            success: function (data) {
+            success: function(data) {
                 if (data.length > 0 && $('.collapseEvents').hasClass("collapsed")) {
                     $('.collapseEvents').click();
                     $("#event-carousel").html(data);
-                }
-                else if (data.length == 0 && !$('.collapseEvents').hasClass("collapsed")) {
+                } else if (data.length == 0 && !$('.collapseEvents').hasClass("collapsed")) {
                     $('.collapseEvents').click();
                 } else {
                     $("#event-carousel").html(data);
                 }
-                
+
             }
         });
     }
@@ -53,8 +52,8 @@
     $(".fixtureButton").click(function() {
         $("#mainBody").load("Partials/UserFixtureList");
     });
-        
-    $(document).on('click', ".team-widget", function () {
+
+    $(document).on('click', ".team-widget", function() {
         var id = $(this).attr("id");
         $("#mainBody").load("Partials/TeamDetailsPartial", { id });
     });
@@ -64,7 +63,7 @@
     });
 
 
-    $(document).on('click', ".editevent a", function () {
+    $(document).on('click', ".editevent a", function() {
         var id = $(this).parent().parent().attr("id");
         $("#mainBody").load("Events/Edit", { id });
     });
@@ -76,7 +75,7 @@
 
     var currentMembers = [];
 
-    $("#addMember").click(function () {
+    $("#addMember").click(function() {
         $(".selected-users .id").each(function() {
             currentMembers.push($(this).text());
         });
@@ -91,56 +90,95 @@
         currentMembers = [];
     });
 
-    $(document).on('click', ".selected-user-list li", function () {
+    $(document).on('click', ".selected-user-list li", function() {
         $(this).toggleClass("selected");
     });
 
 
-    $("#createTeam").click(function () {
+    $("#createTeam").click(function() {
         var players = $(".selected-users .id").map(function() { return $(this).text(); }).get();
         players.push($(".userid").text());
-        var team = { TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : players}
+        var team = { TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), PlayerIds: players }
 
         $.ajax({
             url: "/Teams/Create",
             dataType: "json",
             type: "POST",
             data: team,
-            success: function (data) {
+            success: function(data) {
 
             }
         });
     });
 
-    $(document).on('click', ".pitchFrame div", function (e) {
+    $(document).on('click', ".pitchFrame div", function(e) {
         e.stopPropagation();
     });
 
-    $(".pitchFrame img").click(function (e) {
-        $(".clicked span").fadeOut();
-        $(".clicked").removeClass("clicked");
-        var posX = $(this).parent().position().left, posY = $(this).parent().position().top;
-        var pitchframeheight = $(".pitchFrame").height();
-        var pitchframewidth = $(".pitchFrame").width();
-        var xcoord = e.pageX - posX;
-        var ycoord = e.pageY - posY;
-        var xpercent = xcoord / pitchframewidth * 100;
-        var ypercent = ycoord / pitchframeheight * 100;
+
+
+    $(".editbutton").click(function () {
+        if ($(this).hasClass("selected")) {
+            $(".pitchLocation").draggable('disable');
+        } else {
+            $(".pitchLocation").draggable({
+                start: function() {
+
+                },
+                drag: function() {
+
+                },
+                stop: function() {
+                    $(".saveButton").removeClass("saved");
+                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                },
+                containment: ".pitchFrame img"
+            });
+        }
+        $(this).toggleClass("selected");
+    });
+
+
+
+    $(".plusbutton").click(function() {
+        $(this).toggleClass("selected");
+        $("#formation-name").val("");
+        $(".saveButton").removeClass('indb');
         $(".saveButton").removeClass("saved");
         $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-        $("<div style=\"position: absolute; top:" + Math.round(ypercent) + "%; left:" + Math.round(xpercent) + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
-            start: function () {
-
-            },
-            drag: function () {
-
-            },
-            stop: function () {
-                $(".saveButton").removeClass("saved");
-                $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-            }
-        });
+        $(".pitchLocation").remove();
+        $(".formation-circle").removeClass("selected");
     });
+
+    $(".pitchFrame img").click(function(e) {
+        if ($(".editbutton").hasClass("selected") || $(".plusbutton").hasClass("selected")) {
+            $(".clicked span").fadeOut();
+            $(".clicked").removeClass("clicked");
+            var posX = $(this).parent().position().left, posY = $(this).parent().position().top;
+            var pitchframeheight = $(".pitchFrame").height();
+            var pitchframewidth = $(".pitchFrame").width();
+            var xcoord = e.pageX - posX;
+            var ycoord = e.pageY - posY;
+            var xpercent = xcoord / pitchframewidth * 100;
+            var ypercent = ycoord / pitchframeheight * 100;
+            $(".saveButton").removeClass("saved");
+            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+            $("<div style=\"position: absolute; top:" + Math.round(ypercent) + "%; left:" + Math.round(xpercent) + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
+                start: function () {
+
+                },
+                drag: function () {
+
+                },
+                stop: function () {
+                    $(".saveButton").removeClass("saved");
+                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                },
+                containment: ".pitchFrame img"
+            });
+        }
+    });
+
 
 
     $(".saveButton").click(function() {
@@ -175,6 +213,7 @@
                 success: function(data) {
                     if (data.Success) {
                         $(".saveButton").addClass("saved");
+                        $("#homeTeam").trigger('change');
                         $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                         $(".saveButton").addClass('indb');
                     }
@@ -192,6 +231,7 @@
                 success: function(data) {
                     if (data.Success) {
                         $(".saveButton").addClass("saved");
+                        $("#homeTeam").trigger('change');
                         $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                         $(".saveButton").addClass('indb');
                         $(".pitchFrame").attr('id', data.IdReturn);
@@ -199,12 +239,21 @@
                 }
             });
         }
-        $("#homeTeam").trigger('change');
+        
     });
+
 
     $(document).on('change', "#homeTeam", function() {
         var teamId = $(this).val();
-        $(".formations-bar").load("/Fixtures/GetTeamFormations", {teamId});
+        $(".formation-widget").remove();
+        $(".team-member-widget").load("/Partials/TeamMembersPartial", { id : teamId });
+        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function() {
+            if ($(".formations-bar").children().length === 4) {
+                $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
+            }
+        });
+     
+
     });
 
     $("#homeTeam").trigger('change');
@@ -234,19 +283,7 @@
                     if (name == undefined) {
                         name = "";
                     }
-                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\""+name+"\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
-                        start: function () {
-
-                        },
-                        drag: function () {
-
-                        },
-                        stop: function () {
-                            $(".saveButton").removeClass("saved");
-                            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-                        }
-                    });
-   
+                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame');
                 }
             }
         });

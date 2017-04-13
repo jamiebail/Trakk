@@ -11,5 +11,6 @@ namespace Trakk.Viewmodels
     {
         public Fixture Fixture { get; set; }
         public IEnumerable<SelectListItem> UserTeams { get; set; }
+        public IEnumerable<SelectListItem> AllTeams { get; set; }
     }
 }

@@ -59,7 +59,8 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserTeamList()
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            return PartialView("~/Views/Partials/TeamListPartial.cshtml", member);
+                return PartialView("~/Views/Partials/TeamListPartial.cshtml", member);
+            return null;
         }
 
         // GET: Events
@@ -121,6 +122,12 @@ namespace Trakk.Controllers
         {
             Team team = await _getter.GetTeam(id);
             return Json(team.Members, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<PartialViewResult> TeamMembersPartial(int id)
+        {
+            Team team = await _getter.GetTeam(id);
+            return PartialView("~/Views/Partials/TeamMembersPartial.cshtml", team.Members);
         }
 
 

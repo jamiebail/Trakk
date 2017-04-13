@@ -1,0 +1,14 @@
+﻿@model List<Trakk.Models.TeamMember>
+<ul class="user-list col-lg-12">
+    @foreach (var member in Model)
+            {
+
+        <li class="user-widget">
+            <div class="image"></div>
+            @member.Name
+        </li>
+
+    }
+
+</ul>
+

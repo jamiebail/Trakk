@@ -55,16 +55,25 @@ namespace Trakk.Controllers
         {
             int id = _userLogic.GetPlayerId(User.Identity);
             TeamMember member = await _getter.GetUser(id);
-            IEnumerable<SelectListItem> selectTeamsList =
+            Sport sport = await _getter.GetSport(member.Teams[0].Sport.Id);
+            IEnumerable<SelectListItem> selectUserTeamsList =
             from team in member.Teams
             select new SelectListItem
             {
                 Text = team.Name,
                 Value = team.Id.ToString()
             };
+            IEnumerable<SelectListItem> selectAllTeamsList =
+             from team in sport.Teams
+             select new SelectListItem
+             {
+                 Text = team.Name,
+                 Value = team.Id.ToString()
+             };
             FixtureCreateViewModel vm = new FixtureCreateViewModel()
             {
-                UserTeams = selectTeamsList
+                UserTeams = selectUserTeamsList,
+                AllTeams = selectAllTeamsList
             };
            
             return View(vm);
@@ -138,10 +147,24 @@ namespace Trakk.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<PartialViewResult> GetTeamFormations(int teamId)
+        public async Task<PartialViewResult> GetTeamFormations(int teamId, bool second)
         {
             Team team = await _getter.GetTeam(teamId);
-            return PartialView("~/Views/Partials/FormationListPartial.cshtml",team.Formations);
+            if (second)
+            {
+                List<Formation> formations = team.Formations.GetRange(3, team.Formations.Count - 3).ToList();
+                return PartialView("~/Views/Partials/FormationListPartial.cshtml", formations);
+            }
+            if (team.Formations.Count > 4)
+            {
+                List<Formation> formations = team.Formations.GetRange(0, 4).ToList();
+                return PartialView("~/Views/Partials/FormationListPartial.cshtml", formations);
+            }
+            else
+            {
+                return PartialView("~/Views/Partials/FormationListPartial.cshtml", team.Formations);
+            }
+
         }
 
         public async Task<JsonResult> GetFormation(int teamId, int formationId)

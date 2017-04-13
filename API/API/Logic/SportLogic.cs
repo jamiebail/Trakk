@@ -25,7 +25,7 @@ namespace API.Logic
 
         public List<Team> GetTeamsBySport(Sport sportIn)
         {
-           List<Team> teams = _teamRepository.FindBy(x => x.Sport.Id == sportIn.Id);
+           List<Team> teams = _teamRepository.FindBy(x => x.SportId == sportIn.Id);
             return teams;
         }
 

@@ -599,6 +599,7 @@
     <Content Include="Views\Events\Create.cshtml" />
     <Content Include="Views\Partials\TeamEditPartial.cshtml" />
     <Content Include="Views\Partials\FormationListPartial.cshtml" />
+    <Content Include="Views\Partials\TeamMembersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
