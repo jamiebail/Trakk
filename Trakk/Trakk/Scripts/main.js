@@ -1,5 +1,14 @@
 ﻿$(document).ready(function() {
 
+
+
+    // Initialisers
+    refreshFormationBar();
+
+
+
+
+
     $(".collapseEvents").on("click", function() {
         if ($(this).hasClass("collapsed")) {
             $("#event-carousel").slideDown();
@@ -116,7 +125,8 @@
     });
 
 
-    $(".editbutton").click(function() {
+    $(".editbutton").click(function () {
+        $(".plusbutton").removeClass("selected");
         if ($(this).hasClass("selected")) {
             $(".pitchLocation").draggable('disable');
         } else {
@@ -139,7 +149,8 @@
     });
 
 
-    $(".plusbutton").click(function() {
+    $(".plusbutton").click(function () {
+        $(".editbutton").removeClass("selected");
         $(this).toggleClass("selected");
         $("#formation-name").val("");
         $(".saveButton").removeClass('indb');
@@ -174,6 +185,7 @@
                     $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
                 },
                 containment: ".pitchFrame img"
+
             }).droppable({
                 hoverClass: 'drop-hover',
                 drop: function(event, ui) {
@@ -223,7 +235,7 @@
                 success: function(data) {
                     if (data.Success) {
                         $(".saveButton").addClass("saved");
-                        $("#homeTeam").trigger('change');
+                        refreshFormationBar();
                         $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                         $(".saveButton").addClass('indb');
                     }
@@ -241,7 +253,7 @@
                 success: function(data) {
                     if (data.Success) {
                         $(".saveButton").addClass("saved");
-                        $("#homeTeam").trigger('change');
+                        refreshFormationBar();
                         $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                         $(".saveButton").addClass('indb');
                         $(".pitchFrame").attr('id', data.IdReturn);
@@ -251,6 +263,7 @@
         }
 
     });
+
 
 
     $(document).on('change', "#homeTeam", function() {
@@ -265,20 +278,38 @@
                         draggableOffset = draggable.offset(),
                         container = $(event.target),
                         containerOffset = container.offset();
-
+                    refreshFormationBar();
 
                     draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: -10, top: -50 }, 200);
+
                 }
             });
         });
 
+        $(".user-widget").draggable({
+            start: function () {
 
-        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function() {
+            },
+            drag: function () {
+
+            },
+            stop: function () {
+                $(".saveButton").removeClass("saved");
+                $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+            },
+            containment: ".pitchFrame"
+        });
+       
+    });
+
+    function refreshFormationBar() {
+        var teamId = $("#homeTeam").val();
+        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function () {
             if ($(".formations-bar").children().length === 4) {
                 $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
             }
         });
-    });
+    }
 
     $("#homeTeam").trigger('change');
 
@@ -309,12 +340,15 @@
                     }
                     $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').droppable({
                         hoverClass: 'drop-hover',
+                        out: function (event, ui) {
+                            $(this).droppable("option", "disabled", false);
+                        },
                         drop: function(event, ui) {
                             var draggable = $(ui.draggable[0]),
                                 draggableOffset = draggable.offset(),
                                 container = $(event.target),
                                 containerOffset = container.offset();
-
+                            $(this).droppable("option", "disabled", true);
                             $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
                             draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
@@ -338,6 +372,19 @@
         case 1:
             if ($(this).hasClass("clicked")) {
                 $(this).remove();
+                $(this).children(".user-widget").appendTo(".user-list").draggable({
+                    start: function() {
+
+                    },
+                    drag: function() {
+
+                    },
+                    stop: function() {
+                        $(".saveButton").removeClass("saved");
+                        $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                    },
+                    containment: ".pitchFrame"
+                });
                 $(".saveButton").removeClass("saved");
                 $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
             }
@@ -414,11 +461,18 @@
     });
 
     $("#submitFixture").click(function() {
-        var homeId = $("#homeTeam").val();
-        var awayId = $("#awayTeam").val();
+        var homeid = $("#homeTeam").val();
+        var awayid = $("#awayTeam").val();
         var start = $("#Fixture_Start").val();
         var end = $("#Fixture_End").val();
         var comments = $("#Fixture_Comments").val();
+
+        var playerpositions = [];
+        $('.pitchLocation').each(function() {
+            var position = { index: $(this).index(), playerid: $(this).children("li").attr("id") }
+            playerpositions.push(position);
+        });
+        var fixture = {homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, positions: playerpositions}
     });
 
 

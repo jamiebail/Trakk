@@ -3,7 +3,7 @@
     @foreach (var member in Model)
             {
 
-        <li class="user-widget">
+        <li class="user-widget" id="@member.Id">
             <div class="image"></div>
             @member.Name
         </li>
@@ -23,22 +23,13 @@
 
             $(this).addClass('being-dragged');
         },
-        stop: function () {
+        stop: function() {
+            $(".saveButton").removeClass("saved");
             $(this).removeClass('being-dragged');
-        }
+            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+        },
+        containment: ".pitchFrame"
+
     });
 
-    $('.pitchFrame .pitchLocation').droppable({
-        hoverClass: 'drop-hover',
-        drop: function (event, ui) {
-            var draggable = $(ui.draggable[0]),
-				draggableOffset = draggable.offset(),
-				container = $(event.target),
-				containerOffset = container.offset();
-
-            $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
-
-            draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
-        }
-    });
 </script>
