@@ -35,35 +35,35 @@
             var defenceUserIDs = $(".defence");
         }
 
-        //function() {
-        //    var droppableParent;
 
-        //    $('.widget').draggable({
-        //        revert: 'invalid',
-        //        revertDuration: 200,
-        //        start: function() {
-        //            droppableParent = $(this).parent();
+            var droppableParent;
 
-        //            $(this).addClass('being-dragged');
-        //        },
-        //        stop: function() {
-        //            $(this).removeClass('being-dragged');
-        //        }
-        //    });
+            $('.user-widget').draggable({
+                revert: 'invalid',
+                revertDuration: 200,
+                start: function() {
+                    droppableParent = $(this).parent();
 
-        //    $('.sortable li').droppable({
-        //        hoverClass: 'drop-hover',
-        //        drop: function(event, ui) {
-        //            var draggable = $(ui.draggable[0]),
-        //                draggableOffset = draggable.offset(),
-        //                container = $(event.target),
-        //                containerOffset = container.offset();
+                    $(this).addClass('being-dragged');
+                },
+                stop: function() {
+                    $(this).removeClass('being-dragged');
+                }
+            });
 
-        //            $('.widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+            $('.pitchLocation').droppable({
+                hoverClass: 'drop-hover',
+                drop: function(event, ui) {
+                    var draggable = $(ui.draggable[0]),
+                        draggableOffset = draggable.offset(),
+                        container = $(event.target),
+                        containerOffset = container.offset();
 
-        //            draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
-        //        }
-        //    });
-        //}
-    }
+                    $('.widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+
+                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                }
+            });
+        }
+    
 );

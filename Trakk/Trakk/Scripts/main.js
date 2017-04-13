@@ -116,8 +116,7 @@
     });
 
 
-
-    $(".editbutton").click(function () {
+    $(".editbutton").click(function() {
         if ($(this).hasClass("selected")) {
             $(".pitchLocation").draggable('disable');
         } else {
@@ -134,10 +133,10 @@
                 },
                 containment: ".pitchFrame img"
             });
+            $(".pitchLocation").draggable('enable');
         }
         $(this).toggleClass("selected");
     });
-
 
 
     $(".plusbutton").click(function() {
@@ -164,27 +163,38 @@
             $(".saveButton").removeClass("saved");
             $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
             $("<div style=\"position: absolute; top:" + Math.round(ypercent) + "%; left:" + Math.round(xpercent) + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
-                start: function () {
+                start: function() {
 
                 },
-                drag: function () {
+                drag: function() {
 
                 },
-                stop: function () {
+                stop: function() {
                     $(".saveButton").removeClass("saved");
                     $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
                 },
                 containment: ".pitchFrame img"
+            }).droppable({
+                hoverClass: 'drop-hover',
+                drop: function(event, ui) {
+                    var draggable = $(ui.draggable[0]),
+                        draggableOffset = draggable.offset(),
+                        container = $(event.target),
+                        containerOffset = container.offset();
+
+                    $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+
+                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                }
             });
         }
     });
 
 
-
     $(".saveButton").click(function() {
         var positions = [];
         $(".pitchLocation").each(function() {
-            var xcoord  = parseInt($(this).css('left'));
+            var xcoord = parseInt($(this).css('left'));
             var ycoord = parseInt($(this).css('top'));
             var pitchframeheight = $(".pitchFrame").height();
             var pitchframewidth = $(".pitchFrame").width();
@@ -199,7 +209,7 @@
         var fixtureid = $("#fixture-id").text();
         var teamid = $("#homeTeam").val();
         var id = $(".pitchFrame").attr("id");
-       
+
 
         if ($(".saveButton").hasClass('indb')) {
 
@@ -239,26 +249,40 @@
                 }
             });
         }
-        
+
     });
 
 
     $(document).on('change', "#homeTeam", function() {
         var teamId = $(this).val();
         $(".formation-widget").remove();
-        $(".team-member-widget").load("/Partials/TeamMembersPartial", { id : teamId });
+        $(".pitchLocation").remove();
+        $(".team-member-widget").load("/Partials/TeamMembersPartial", { id: teamId }, function() {
+            $(".team-member-widget").droppable({
+                hoverClass: 'drop-hover',
+                drop: function(event, ui) {
+                    var draggable = $(ui.draggable[0]),
+                        draggableOffset = draggable.offset(),
+                        container = $(event.target),
+                        containerOffset = container.offset();
+
+
+                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: -10, top: -50 }, 200);
+                }
+            });
+        });
+
+
         $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function() {
             if ($(".formations-bar").children().length === 4) {
                 $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
             }
         });
-     
-
     });
 
     $("#homeTeam").trigger('change');
 
-    $(document).on('click', '.formation-widget', function () {
+    $(document).on('click', '.formation-widget', function() {
         $(".selected").removeClass("selected");
         $(this).children(".formation-circle").addClass("selected");
         var teamid = $("#homeTeam").val();
@@ -267,8 +291,8 @@
             url: "/Fixtures/GetFormation",
             dataType: "json",
             type: "POST",
-            data: {teamId : teamid, formationId: $(this).attr("id")},
-            success: function (data) {
+            data: { teamId: teamid, formationId: $(this).attr("id") },
+            success: function(data) {
 
                 $(".saveButton").addClass("saved");
                 $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
@@ -283,72 +307,86 @@
                     if (name == undefined) {
                         name = "";
                     }
-                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame');
+                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').droppable({
+                        hoverClass: 'drop-hover',
+                        drop: function(event, ui) {
+                            var draggable = $(ui.draggable[0]),
+                                draggableOffset = draggable.offset(),
+                                container = $(event.target),
+                                containerOffset = container.offset();
+
+                            $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+
+                            draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                        }
+                    });
                 }
+
+
             }
         });
     });
+
 
     $(document).on('input', ".pitchLocation input", function() {
         $(".saveButton").removeClass("saved");
         $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
     });
 
-    $(document).on('mousedown', '.pitchLocation', function (event) {
+    $(document).on('mousedown', '.pitchLocation', function(event) {
         switch (event.which) {
-            case 1:
-                if ($(this).hasClass("clicked")) {
-                    $(this).remove();
-                    $(".saveButton").removeClass("saved");
-                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-                } 
-                break;
-            case 2:
-                break;
-            case 3:
-                event.preventDefault();
-                if ($(this).hasClass("clicked")) {
-                    $(".clicked span").hide();
-                    $(".clicked").removeClass("clicked");
-                    $(this).children("input").fadeIn();
-                } else {
-                    $(this).children("input").hide();
-                    $(this).addClass("clicked").append("<span class=\"glyphicon glyphicon-trash\"></span>");
-                }
+        case 1:
+            if ($(this).hasClass("clicked")) {
+                $(this).remove();
+                $(".saveButton").removeClass("saved");
+                $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+            }
+            break;
+        case 2:
+            break;
+        case 3:
+            event.preventDefault();
+            if ($(this).hasClass("clicked")) {
+                $(".clicked span").hide();
+                $(".clicked").removeClass("clicked");
+                $(this).children("input").fadeIn();
+            } else {
+                $(this).children("input").hide();
+                $(this).addClass("clicked").append("<span class=\"glyphicon glyphicon-trash\"></span>");
+            }
 
-                break;
-            default:
-    }
+            break;
+        default:
+        }
     });
 
-    $(".Box").contextmenu(function (e) {
+    $(".Box").contextmenu(function(e) {
 
     });
 
 
+    $("#editTeam").click(function() {
 
-    $("#editTeam").click(function () {
-
-        var team = { TeamId: $(".form-horizontal").attr("id"), TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : $(".selected-users .id").map(function(){return $(this).text();}).get()}
+        var team = { TeamId: $(".form-horizontal").attr("id"), TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), PlayerIds: $(".selected-users .id").map(function() { return $(this).text(); }).get() }
 
         $.ajax({
             url: "/Teams/Edit",
             dataType: "json",
             type: "POST",
             data: team,
-            success: function (data) {
+            success: function(data) {
 
             }
         });
     });
 
-    $(document).on('click',".removeMember",function() {
+    $(document).on('click', ".removeMember", function() {
         $(this).parent().remove();
     });
 
-    $(document).on('click', '#submitEvent', function () {
+    $(document).on('click', '#submitEvent', function() {
         var id = $("#selectedTeam").val();
-        var users = $(".selected .id").map(function () { return $(this).text(); }).get();
+        var users = $(".selected .id").map(function() { return $(this).text(); }).get();
         var type = $("#Event_Type").val();
         var start = $("#Event_Start").val();
         var end = $("#Event_End").val();
@@ -358,7 +396,7 @@
 
 
         //validation here
-        var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments:comments }
+        var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
         var token = $('input[name="__RequestVerificationToken"]').val();
 
         var headers = {};
@@ -370,16 +408,24 @@
             dataType: "json",
             type: "POST",
             data: newEvent,
-            success: function (data) {
+            success: function(data) {
             }
         });
     });
 
+    $("#submitFixture").click(function() {
+        var homeId = $("#homeTeam").val();
+        var awayId = $("#awayTeam").val();
+        var start = $("#Fixture_Start").val();
+        var end = $("#Fixture_End").val();
+        var comments = $("#Fixture_Comments").val();
+    });
 
-    $(document).on('click', '#editEvent', function () {
+
+    $(document).on('click', '#editEvent', function() {
         var id = $(".eventId").attr("id");
         var teamid = $(".teamId").attr("id");
-        var users = $(".selected .id").map(function () { return $(this).text(); }).get();
+        var users = $(".selected .id").map(function() { return $(this).text(); }).get();
         var type = $("#Event_Type").val();
         var start = $("#Event_Start").val();
         var end = $("#Event_End").val();
@@ -389,14 +435,14 @@
 
 
         //validation here
-        var newEvent = { EventId: id, TeamId: teamid,Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
+        var newEvent = { EventId: id, TeamId: teamid, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
 
         $.ajax({
             url: "/Events/Edit",
             dataType: "json",
             type: "POST",
             data: newEvent,
-            success: function (data) {
+            success: function(data) {
 
             }
         });
@@ -419,14 +465,14 @@
                     data: {
                         term: request.term
                     },
-                    success: function (data) {
+                    success: function(data) {
                         matchedMembers = data;
                         $(".selected-user-list").empty();
                         if (matchedMembers.length > 0) {
                             for (var i = 0; i < matchedMembers.length; i++) {
                                 $(".selected-user-list").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"sport\">" + matchedMembers[i].Sport + "</span></li>");
                             }
-                        } 
+                        }
                     }
 
                 });
@@ -438,7 +484,7 @@
         });
     });
 
-    $(document).on('change', '#selectedTeam', function () {
+    $(document).on('change', '#selectedTeam', function() {
         $(".selected-users").empty();
         $.ajax({
             url: "/Partials/GetTeamMembers",
@@ -446,7 +492,7 @@
             data: {
                 id: $(this).val()
             },
-            success: function (data) {
+            success: function(data) {
                 matchedMembers = data;
                 $(".selected-user-list").empty();
                 if (matchedMembers.length > 0) {
@@ -459,7 +505,6 @@
             }
         });
     });
-
 
 
     $(document).on('click', ".selected-users li", function() {
@@ -479,31 +524,34 @@
     });
 
     $('#calendar').fullCalendar({
-            });
-
-    $(".calendarButton").click(function () {
-        $("#mainBody").load("Partials/UserCalendar", function () {
-           
-            var eventList;
-            $.ajax({
-                url: "/Partials/UserCalendarEvents",
-                dataType: "json",
-                type: "POST",
-                success: function(data) {
-                    eventList = data;
-                    $('#calendar').fullCalendar({
-                        events: eventList,
-                        dayClick: function (date) {
-                            getDateEvents(date.format());
-                        }
-                    });
-                }
-            });
-            
-        });
-       
+    
     });
 
-    $(".calendarButton").trigger('click');
+    $(".calendarButton").click(function() {
+        $("#mainBody").load("Partials/UserCalendar", function() {
+            $("#mainBody").load("Partials/UserCalendar", function() {
 
+                var eventList;
+                $.ajax({
+                    url: "/Partials/UserCalendarEvents",
+                    dataType: "json",
+                    type: "POST",
+                    success: function(data) {
+                        eventList = data;
+                        $('#calendar').fullCalendar({
+                            events: eventList,
+                            dayClick: function(date) {
+                                getDateEvents(date.format());
+                            }
+                        });
+                    }
+                });
+
+            });
+
+        });
+
+        $(".calendarButton").trigger('click');
+
+    });
 });

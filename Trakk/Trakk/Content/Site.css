@@ -81,6 +81,11 @@ img {
     text-align: center;
 }
 
+.pitchLocation .image {
+    display: none;
+}
+
+
 .editbutton, .plusbutton span{
     margin: 0 auto;
     font-size: 20px;
@@ -114,8 +119,20 @@ img {
         -webkit-user-select: none;
 }
 
-.formation-name {
+.pitchFrame div{
     padding: 0;
+}
+
+.team-member-widget {
+    height: auto;
+    min-height: 200px;
+    border: 1px solid rgba(167, 167, 167, 0.75);
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.team-member-widget .user-widget{
+    margin: 10px !important;
 }
 
 .pitchLocation {
@@ -139,8 +156,15 @@ img {
     margin-top: 40%;
     margin-left: 5%;
     border: none;
-    font-size: 12px;
+    font-size: 1vw;
     text-align: center;
+}
+
+.pitchLocation .user-widget {
+    width: auto;
+    color: white;
+    margin: 35% auto;
+    font-size: 1.3vw;
 }
 
 .pitchLocation span {
