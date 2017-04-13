@@ -1,124 +1,96 @@
-﻿@model Trakk.Models.Fixture
+﻿@model Trakk.Viewmodels.FixtureCreateViewModel
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Fixture</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <hr/>
+        <div class="toolBar row">
+            <div class="formations-bar col-lg-5">
+                <div class="formation-widget"></div>
+            </div>
+            <div class="col-lg-2 button-space">
+                <div class="saveButton">
+                    <span class="glyphicon glyphicon-save"></span>
+                </div>
+            </div>
+            <div class="col-lg-5 formations-bar">
+                <div class="formation-widget"></div>
+            </div>
+        </div>
+        <div class="pitchFrame" oncontextmenu="return false;">
+            <img src="../../Images/footballPitchReal.png"/>
+        </div>
+        <div id="mainBody">
+            <p hidden id="team-id"></p>
+            <div>
+                <div class="col-xs-6">
+                    @Html.DropDownListFor(model => model.UserTeams, new SelectList(Model.UserTeams, "Value", "Text"), new { id = "homeTeam" })
+            </div>
+            <div class="col-xs-6">
+                @Html.DropDownListFor(model => model.UserTeams, new SelectList(Model.UserTeams, "Value", "Text"), new { id = "awayTeam" })
+            </div>
+        </div>
+        @Html.Editor("formation-name")
+
         <div class="form-group">
-            @Html.LabelFor(model => model.HomeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.Easting, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HomeId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HomeId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.Easting, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Easting, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AwayId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.Northing, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AwayId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AwayId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.Northing, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Northing, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Easting, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.State, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Easting, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Easting, "", new { @class = "text-danger" })
+                @Html.EnumDropDownListFor(model => model.Fixture.State, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Fixture.State, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Northing, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.Start, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Northing, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Northing, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.Start, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Start, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.End, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.State, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.End, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.End, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.Location, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Location, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Fixture.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Fixture.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Comments, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Attending, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Attending, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Attending, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Invited, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Invited, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Invited, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AttendanceState, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.AttendanceState, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AttendanceState, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

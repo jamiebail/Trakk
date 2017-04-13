@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\FixturesController.cs" />
+    <Compile Include="Controllers\FormationsController.cs" />
     <Compile Include="Controllers\GameReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SportsController.cs" />
@@ -227,6 +228,7 @@
     </Compile>
     <Compile Include="Helpers\EntityResponse.cs" />
     <Compile Include="Logic\EventLogic.cs" />
+    <Compile Include="Logic\FormationLogic.cs" />
     <Compile Include="Logic\IEventLogic.cs" />
     <Compile Include="Migrations\201610272207076_initial.cs" />
     <Compile Include="Migrations\201610272207076_initial.Designer.cs">
@@ -296,8 +298,17 @@
     <Compile Include="Migrations\201704112137005_privateteamid.Designer.cs">
       <DependentUpon>201704112137005_privateteamid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704121745278_formations.cs" />
+    <Compile Include="Migrations\201704121745278_formations.Designer.cs">
+      <DependentUpon>201704121745278_formations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704121812007_formationsname.cs" />
+    <Compile Include="Migrations\201704121812007_formationsname.Designer.cs">
+      <DependentUpon>201704121812007_formationsname.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Formation.cs" />
     <Compile Include="Models\Goal.cs" />
     <Compile Include="Models\PlayerEventAvailability.cs" />
     <Compile Include="Models\Position.cs" />
@@ -400,6 +411,7 @@
     <Folder Include="Migrations\201702062059246_Start\" />
     <Folder Include="Views\Events\" />
     <Folder Include="Views\Fixtures\" />
+    <Folder Include="Views\Formations\" />
     <Folder Include="Views\Sports\" />
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +473,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704112137005_privateteamid.resx">
       <DependentUpon>201704112137005_privateteamid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704121745278_formations.resx">
+      <DependentUpon>201704121745278_formations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704121812007_formationsname.resx">
+      <DependentUpon>201704121812007_formationsname.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

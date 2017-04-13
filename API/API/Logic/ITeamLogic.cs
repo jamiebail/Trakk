@@ -16,7 +16,7 @@ namespace API.Logic
         //TeamStatistics GetTeamStats(int id);
         EntityResponse UpdateTeamStatistics(StatUpdateViewModel update);
         List<TeamMember> GetTeamMembersByTeamId(int id);
-        EntityResponse UpdateTeam(Team team);
+        EntityResponse UpdateTeam(TeamReturnEditViewModel team);
         EntityResponse CreateTeam(Team team);
         List<Team> GetTeamsByUserId(int id);
     }

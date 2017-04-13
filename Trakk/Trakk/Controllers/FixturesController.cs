@@ -7,8 +7,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Trakk.Helpers;
 using Trakk.Logic;
 using Trakk.Models;
+using Trakk.Viewmodels;
 
 namespace Trakk.Controllers
 {
@@ -28,6 +30,7 @@ namespace Trakk.Controllers
         {
             _getter = new APIGetter();
             _setter = new APISetter();
+            _userLogic = new UserLogic();
         }
 
 
@@ -48,9 +51,23 @@ namespace Trakk.Controllers
         }
 
         // GET: Teams/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return PartialView("~/Views/Fixtures/Create.cshtml");
+            int id = _userLogic.GetPlayerId(User.Identity);
+            TeamMember member = await _getter.GetUser(id);
+            IEnumerable<SelectListItem> selectTeamsList =
+            from team in member.Teams
+            select new SelectListItem
+            {
+                Text = team.Name,
+                Value = team.Id.ToString()
+            };
+            FixtureCreateViewModel vm = new FixtureCreateViewModel()
+            {
+                UserTeams = selectTeamsList
+            };
+           
+            return View(vm);
         }
 
         // POST: Teams/Create
@@ -68,6 +85,9 @@ namespace Trakk.Controllers
 
             return null;
         }
+
+
+
 
         // GET: Teams/Edit/5
         public async Task<ActionResult> Edit(int? id)
@@ -99,16 +119,37 @@ namespace Trakk.Controllers
         //    return View(team);
         //}
 
-        // GET: Teams/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public async Task<JsonResult> CreateFormation(Formation newFormation)
         {
-            if (id == null)
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+            EntityResponse response = await _setter.CreateFormation(newFormation);
+            return Json(response, JsonRequestBehavior.AllowGet);
             }
-
-            return View();
+            return null;
         }
+
+
+        public async Task<JsonResult> UpdateFormation(Formation newFormation)
+        {
+           EntityResponse response  = await _setter.UpdateFormation(newFormation);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<PartialViewResult> GetTeamFormations(int teamId)
+        {
+            Team team = await _getter.GetTeam(teamId);
+            return PartialView("~/Views/Partials/FormationListPartial.cshtml",team.Formations);
+        }
+
+        public async Task<JsonResult> GetFormation(int teamId, int formationId)
+        {
+            Team team = await _getter.GetTeam(teamId);
+            return Json(team.Formations.FirstOrDefault(x=>x.Id == formationId), JsonRequestBehavior.AllowGet);
+        }
+
 
 
         protected override void Dispose(bool disposing)

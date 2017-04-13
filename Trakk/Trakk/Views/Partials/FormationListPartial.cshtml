@@ -1,0 +1,8 @@
+﻿@using Trakk.Models
+@model List<Trakk.Models.Formation>
+
+@foreach(var formation in Model) {
+    <div class="formation-widget col-xs-3" id="@formation.Id">
+        <div class="formation-circle">@formation.Name</div>
+    </div>
+}

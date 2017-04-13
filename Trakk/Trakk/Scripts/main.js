@@ -112,6 +112,184 @@
         });
     });
 
+    $(document).on('click', ".pitchFrame div", function (e) {
+        e.stopPropagation();
+    });
+
+    $(".pitchFrame img").click(function (e) {
+        $(".clicked span").fadeOut();
+        $(".clicked").removeClass("clicked");
+        var posX = $(this).parent().position().left, posY = $(this).parent().position().top;
+        var pitchframeheight = $(".pitchFrame").height();
+        var pitchframewidth = $(".pitchFrame").width();
+        var xcoord = e.pageX - posX;
+        var ycoord = e.pageY - posY;
+        var xpercent = xcoord / pitchframewidth * 100;
+        var ypercent = ycoord / pitchframeheight * 100;
+        $(".saveButton").removeClass("saved");
+        $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+        $("<div style=\"position: absolute; top:" + Math.round(ypercent) + "%; left:" + Math.round(xpercent) + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
+            start: function () {
+
+            },
+            drag: function () {
+
+            },
+            stop: function () {
+                $(".saveButton").removeClass("saved");
+                $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+            }
+        });
+    });
+
+
+    $(".saveButton").click(function() {
+        var positions = [];
+        $(".pitchLocation").each(function() {
+            var xcoord  = parseInt($(this).css('left'));
+            var ycoord = parseInt($(this).css('top'));
+            var pitchframeheight = $(".pitchFrame").height();
+            var pitchframewidth = $(".pitchFrame").width();
+            var xpercent = Math.round(xcoord / pitchframewidth * 100);
+            var ypercent = Math.round(ycoord / pitchframeheight * 100);
+            var positiontext = $(this).children("input").val();
+
+            var position = { top: ypercent, left: xpercent, text: positiontext }
+            positions.push(position);
+        });
+        var name = $("#formation-name").val();
+        var fixtureid = $("#fixture-id").text();
+        var teamid = $("#homeTeam").val();
+        var id = $(".pitchFrame").attr("id");
+       
+
+        if ($(".saveButton").hasClass('indb')) {
+
+            var updateFormation = { Id: id, TeamId: teamid, FormationJson: JSON.stringify(positions), Name: name }
+
+            $.ajax({
+                url: "/Fixtures/UpdateFormation",
+                dataType: "json",
+                type: "POST",
+                data: updateFormation,
+                success: function(data) {
+                    if (data.Success) {
+                        $(".saveButton").addClass("saved");
+                        $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
+                        $(".saveButton").addClass('indb');
+                    }
+                }
+            });
+        } else {
+
+            var newFormation = { TeamId: teamid, FormationJson: JSON.stringify(positions), Name: name }
+
+            $.ajax({
+                url: "/Fixtures/CreateFormation",
+                dataType: "json",
+                type: "POST",
+                data: newFormation,
+                success: function(data) {
+                    if (data.Success) {
+                        $(".saveButton").addClass("saved");
+                        $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
+                        $(".saveButton").addClass('indb');
+                        $(".pitchFrame").attr('id', data.IdReturn);
+                    }
+                }
+            });
+        }
+        $("#homeTeam").trigger('change');
+    });
+
+    $(document).on('change', "#homeTeam", function() {
+        var teamId = $(this).val();
+        $(".formations-bar").load("/Fixtures/GetTeamFormations", {teamId});
+    });
+
+    $("#homeTeam").trigger('change');
+
+    $(document).on('click', '.formation-widget', function () {
+        $(".selected").removeClass("selected");
+        $(this).children(".formation-circle").addClass("selected");
+        var teamid = $("#homeTeam").val();
+        var id = $(this).attr('id');
+        $.ajax({
+            url: "/Fixtures/GetFormation",
+            dataType: "json",
+            type: "POST",
+            data: {teamId : teamid, formationId: $(this).attr("id")},
+            success: function (data) {
+
+                $(".saveButton").addClass("saved");
+                $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
+                $(".saveButton").addClass('indb');
+                $(".pitchFrame").attr('id', id);
+                $(".pitchLocation").remove();
+                var position = JSON.parse(data.FormationJson);
+
+                $("#formation-name").val(data.Name);
+                for (var i = 0; i < position.length; i++) {
+                    var name = position[i].text;
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\""+name+"\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
+                        start: function () {
+
+                        },
+                        drag: function () {
+
+                        },
+                        stop: function () {
+                            $(".saveButton").removeClass("saved");
+                            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                        }
+                    });
+   
+                }
+            }
+        });
+    });
+
+    $(document).on('input', ".pitchLocation input", function() {
+        $(".saveButton").removeClass("saved");
+        $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+    });
+
+    $(document).on('mousedown', '.pitchLocation', function (event) {
+        switch (event.which) {
+            case 1:
+                if ($(this).hasClass("clicked")) {
+                    $(this).remove();
+                    $(".saveButton").removeClass("saved");
+                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                } 
+                break;
+            case 2:
+                break;
+            case 3:
+                event.preventDefault();
+                if ($(this).hasClass("clicked")) {
+                    $(".clicked span").hide();
+                    $(".clicked").removeClass("clicked");
+                    $(this).children("input").fadeIn();
+                } else {
+                    $(this).children("input").hide();
+                    $(this).addClass("clicked").append("<span class=\"glyphicon glyphicon-trash\"></span>");
+                }
+
+                break;
+            default:
+    }
+    });
+
+    $(".Box").contextmenu(function (e) {
+
+    });
+
+
+
     $("#editTeam").click(function () {
 
         var team = { TeamId: $(".form-horizontal").attr("id"), TeamName: $("#teamName").val(), SportId : $("#teamSport").val(), PlayerIds : $(".selected-users .id").map(function(){return $(this).text();}).get()}
@@ -144,9 +322,40 @@
 
         //validation here
         var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments:comments }
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var headers = {};
+
+        headers['__RequestVerificationToken'] = token;
 
         $.ajax({
             url: "/Events/Create",
+            dataType: "json",
+            type: "POST",
+            data: newEvent,
+            success: function (data) {
+            }
+        });
+    });
+
+
+    $(document).on('click', '#editEvent', function () {
+        var id = $(".eventId").attr("id");
+        var teamid = $(".teamId").attr("id");
+        var users = $(".selected .id").map(function () { return $(this).text(); }).get();
+        var type = $("#Event_Type").val();
+        var start = $("#Event_Start").val();
+        var end = $("#Event_End").val();
+        var title = $("#Event_Title").val();
+        var comments = $("#Event_Comments").val();
+        var location = $("#Event_Location").val();
+
+
+        //validation here
+        var newEvent = { EventId: id, TeamId: teamid,Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
+
+        $.ajax({
+            url: "/Events/Edit",
             dataType: "json",
             type: "POST",
             data: newEvent,
@@ -221,9 +430,12 @@
     });
 
     $(document).on('click', "#inviteall", function() {
-        $(".selected-users li").toggleClass("selected");
+        if ($(".selected-users li").each(function() {
+            if (!$(this).hasClass("selected")) {
+                $(this).addClass("selected");
+            }
+        }));
     });
-
 
     $(".teamsButton").click(function() {
         $("#mainBody").load("Teams/Index");
@@ -254,5 +466,7 @@
         });
        
     });
+
+    $(".calendarButton").trigger('click');
 
 });

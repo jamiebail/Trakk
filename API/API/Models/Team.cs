@@ -24,6 +24,7 @@ namespace API.Models
         public string FbFeed { get; set; }
         [NotMapped]
         public int Position { get; set; }
+        public List<Formation> Formations { get; set; }
 
     }
 }

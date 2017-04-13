@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.js" />
+/// <reference path="canvas.js" />
 /// <reference path="fullcalendar.min.js" />
 /// <reference path="jquery.cookie.js" />
 /// <reference path="jquery.mobile-1.4.5.min.js" />

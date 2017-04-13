@@ -19,6 +19,7 @@ namespace API.Controllers
         private readonly ISportLogic _sportLogic = new SportLogic();
         private readonly ITeamLogic _teamLogic = new TeamLogic();
         private readonly IUserLogic _userLogic = new UserLogic();
+        private readonly FormationLogic _formationLogic = new FormationLogic();
 
         [HttpGet]
         public ActionResult Get(int? id)
@@ -29,7 +30,7 @@ namespace API.Controllers
             Team team = _teamLogic.GetTeamById(id.Value);
             if (team == null)
                 return null;
-
+            team.Formations = _formationLogic.GetTeamFormations(team.Id);
             team.Members = _teamLogic.GetTeamMembersByTeamId(id.Value);
             
             return Json(team, JsonRequestBehavior.AllowGet);
@@ -78,30 +79,13 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                Team editTeam = new Team
-                {
-                    Sport = _sportLogic.GetSportById(team.SportId),
-                    Name = team.TeamName,
-                    Id = team.TeamId,
-                    Statistics = new TeamStatistics()
-                };
+             
 
-                List<TeamMember> currentMembers = _teamLogic.GetTeamMembersByTeamId(team.TeamId);
-                foreach (var member in team.PlayerIDs)
-                {
-                    TeamMember memberobj = _userLogic.GetUser(member);
-                    TeamMember existing = currentMembers.FirstOrDefault(x => x.Id == memberobj.Id);
-                    if (existing == null)
-                    {
-                        _userLogic.SetUserTeam(member, team.TeamId);
-                    }
-                }
-
-                EntityResponse response = _teamLogic.UpdateTeam(editTeam);
+                EntityResponse response = _teamLogic.UpdateTeam(team);
                 if (response.Success)
-                    return Json(new {success = true, responseText = editTeam.Name + " updated successfully."}, JsonRequestBehavior.AllowGet);
+                    return Json(new {success = true, responseText = team.TeamName + " updated successfully."}, JsonRequestBehavior.AllowGet);
                 else
-                    return Json(new {success = false, responseText = editTeam.Name + " failed to update: " + response.Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new {success = false, responseText = team.TeamName + " failed to update: " + response.Message }, JsonRequestBehavior.AllowGet);
             }
             else
             {

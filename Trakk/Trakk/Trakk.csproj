@@ -211,6 +211,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Fixture.cs" />
+    <Compile Include="Models\Formation.cs" />
     <Compile Include="Models\GameReport.cs" />
     <Compile Include="Models\Goal.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Viewmodels\EventCreateViewModel.cs" />
     <Compile Include="Viewmodels\EventsListViewModel.cs" />
+    <Compile Include="Viewmodels\FixtureCreateViewModel.cs" />
     <Compile Include="Viewmodels\HomeViewModel.cs" />
     <Compile Include="Viewmodels\TeamCreateViewModel.cs" />
     <Compile Include="Viewmodels\TeamManageViewModel.cs" />
@@ -494,6 +496,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\footballPitchReal.png" />
     <Content Include="Images\green.png" />
     <Content Include="Images\light_honeycomb.png" />
     <Content Include="Images\light_honeycomb_%402X.png" />
@@ -502,6 +505,7 @@
     <Content Include="Images\soccer-ball.png" />
     <Content Include="Images\tweed.png" />
     <Content Include="Images\yellow.png" />
+    <Content Include="Scripts\Canvas.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ClassDiagram1.cd" />
@@ -594,9 +598,11 @@
     <Content Include="Views\Partials\TeamDetailsPartial.cshtml" />
     <Content Include="Views\Events\Create.cshtml" />
     <Content Include="Views\Partials\TeamEditPartial.cshtml" />
+    <Content Include="Views\Partials\FormationListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="obj\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

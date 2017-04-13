@@ -18,7 +18,7 @@ namespace API.Logic
         readonly IRepository<TeamStatistics> _statisticsRepository = new Repository<TeamStatistics>();
         readonly IRepository<TeamMembership> _membershipRepository = new Repository<TeamMembership>();
         readonly IRepository<Position> _positionRepository = new Repository<Position>();
-
+        readonly ISportLogic _sportLogic = new SportLogic();
         readonly IUserLogic _userLogic = new UserLogic();
 
         public List<Team> GetAllTeams()
@@ -51,17 +51,38 @@ namespace API.Logic
             return teamMemberships.Select(membership => GetTeamById(membership.TeamId)).ToList();
         }
 
-        public EntityResponse UpdateTeam(Team team)
+        public EntityResponse UpdateTeam(TeamReturnEditViewModel team)
         {
             try
             {
-                _teamRepository.Update(team);
+                Team editTeam = new Team
+                {
+                    Sport = _sportLogic.GetSportById(team.SportId),
+                    Name = team.TeamName,
+                    Id = team.TeamId,
+                    Statistics = new TeamStatistics()
+                };
+ 
+                // Delete current memberships
+                List<TeamMembership> memberships = _membershipRepository.FindBy(x => x.TeamId == team.TeamId);
+                foreach (var member in memberships)
+                {
+                    _membershipRepository.Remove(member);
+                }
+                _membershipRepository.Save();
+
+                // Setup memberships
+                foreach (var member in team.PlayerIDs)
+                {
+                    _userLogic.SetUserTeam(member, team.TeamId);
+                }
+                _teamRepository.Update(editTeam);
                 _teamRepository.Save();
-                return new EntityResponse(true, team.Name + " updated successfully");
+                return new EntityResponse(true, editTeam.Name + " updated successfully");
             }
             catch(Exception e)
             {
-                return new EntityResponse(false, team.Name + " updating failed: " + e.Message);
+                return new EntityResponse(false, team.TeamName + " updating failed: " + e.Message);
             }
         }
 

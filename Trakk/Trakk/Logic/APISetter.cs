@@ -91,6 +91,30 @@ namespace Trakk.Logic
             }
         }
 
+
+        public async Task<EntityResponse> CreateFormation(Formation formation)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(formation), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("formations/POST/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+        public async Task<EntityResponse> UpdateFormation(Formation formation)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(formation), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("formations/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
         public async Task<EntityResponse> CreateFixture(Fixture fixture)
         {
             using (HttpClient client = new HttpClient())
@@ -127,7 +151,7 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<EntityResponse> UpdateEvent(Event eventUpdate)
+        public async Task<EntityResponse> UpdateEvent(EventReturnEditViewModel eventUpdate)
         {
             using (HttpClient client = new HttpClient())
             {

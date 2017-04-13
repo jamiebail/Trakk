@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Trakk.Helpers;
 using Trakk.Logic;
 using Trakk.Models;
 using Trakk.Viewmodels;
@@ -93,16 +94,7 @@ namespace Trakk.Controllers
             Event @event = await _getter.GetEvent(id);
             Team team = await _getter.GetTeam(@event.TeamId);
             List<TeamMember> teamMembers = team.Members;
-            List<TeamMember> notInvited = new List<TeamMember>();
             teamMembers.RemoveAll(item => @event.Members.Contains(item));
-            foreach (var teamMember in team.Members)
-                foreach (var privateMember in @event.Members)
-                {
-                    if (privateMember.Id == teamMember.Id)
-                    {
-                        
-                    }
-                }
             EventEditViewModel vm = new EventEditViewModel()
             {
                 Event = @event,
@@ -116,13 +108,13 @@ namespace Trakk.Controllers
          //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Start,End,Location,Comments,Title,Attending,Invited,Type,AttendanceState")] Event @event)
+        public async Task<ActionResult> Edit([Bind(Include = "EventId, TeamId,Start,End,Location,Comments,Title,Invited,Type,UserIds")] EventReturnEditViewModel @event)
         {
             if (ModelState.IsValid)
             {
-                await _setter.UpdateEvent(@event);
-                return RedirectToAction("Index", "Home");
+                EntityResponse response = await _setter.UpdateEvent(@event);
+                if(response.Success)
+                    return RedirectToAction("Index", "Home");
             }
             return View(@event);
         }

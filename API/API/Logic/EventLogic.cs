@@ -60,7 +60,7 @@ namespace API.Logic
                 List<PrivateEvent> privateInvites = _privateEventRepository.FindBy(x => x.EventId == e.Id);
                 TeamEvent teamEvent = _teamEventRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
                 List<TeamMember> members = new List<TeamMember>();
-                if (privateInvites == null)
+                if (privateInvites == null || privateInvites.Count == 0)
                 {
                     if (teamEvent != null)
                     {
@@ -151,23 +151,60 @@ namespace API.Logic
                     Comments = eventUpdate.Comments
                 };
 
-                _eventRepository.Add(eventEntity);
+                _eventRepository.Update(eventEntity);
                 _eventRepository.Save();
 
                 // If a private event between a few team members, not all
                 if (eventUpdate.UserIds.Count != team.Members.Count)
                 {
+                    TeamEvent teamEvent = _teamEventRepository.FindBy(x => x.EventId == eventUpdate.EventId && x.TeamId == eventUpdate.TeamId).FirstOrDefault();
+                    if (teamEvent != null)
+                    {
+                        _teamEventRepository.Remove(teamEvent);
+                        _teamEventRepository.Save();
+                        
+                    }
+
+                    // Get Current Private Invites
+
+                    List<PrivateEvent> privateInvites = _privateEventRepository.FindBy(x => x.EventId == eventEntity.Id);
+                    if (privateInvites != null)
+                    {
+                        foreach (var invite in privateInvites)
+                        {
+                            // Delete all private event invites
+                            _privateEventRepository.Remove(invite);
+                        }
+                        _privateEventRepository.Save();
+                    }
+
+                    // Create new private invites
                     foreach (int id in eventUpdate.UserIds)
                     {
-                        _privateEventRepository.Add(new PrivateEvent() { EventId = eventEntity.Id, UserId = id, TeamId = team.Id});
+                        PrivateEvent privateInv = _privateEventRepository.FindBy(x => x.EventId == eventUpdate.EventId && x.UserId == id).FirstOrDefault();
+                        if(privateInv == null)
+                            _privateEventRepository.Add(new PrivateEvent() { EventId = eventEntity.Id, UserId = id, TeamId = team.Id});
                     }
                     _privateEventRepository.Save();
                 }
                 // Team events, all members will receive. 
                 else
                 {
-                    _teamEventRepository.Add(new TeamEvent() { TeamId = eventUpdate.TeamId, EventId = eventEntity.Id });
-                    _teamEventRepository.Save();
+                    List<PrivateEvent> privateInvites = _privateEventRepository.FindBy(x => x.EventId == eventEntity.Id);
+                    if (privateInvites != null)
+                    {
+                        foreach (var invite in privateInvites)
+                        {
+                            _privateEventRepository.Remove(invite);
+                        }
+                        _privateEventRepository.Save();
+                    }
+                    TeamEvent teamEvent = _teamEventRepository.FindBy(x => x.EventId == eventUpdate.EventId && x.TeamId == eventUpdate.TeamId).FirstOrDefault();
+                    if (teamEvent == null)
+                    {
+                        _teamEventRepository.Add(new TeamEvent() {TeamId = eventUpdate.TeamId, EventId = eventEntity.Id});
+                        _teamEventRepository.Save();
+                    }
                 }
                 return new EntityResponse(true, "Event : " + eventUpdate.Title + " updated successfully");
             }
