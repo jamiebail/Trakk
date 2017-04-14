@@ -30,5 +30,10 @@ namespace API.Models
         public DateTime End { get; set; }
         [NotMapped]
         public TrakkEnums.UserAvailability AttendanceState { get; set; }
+
+        public TrakkEnums.FixtureState State { get; set; }
+
+        public string Comments { get; set; }
+        public string Positions { get; set; }
     }
 }

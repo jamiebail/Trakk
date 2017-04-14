@@ -5,6 +5,7 @@ using System.Web;
 using API.Helpers;
 using API.Models;
 using API.Repositories;
+using API.Viewmodels;
 
 namespace API.Logic
 {
@@ -60,16 +61,27 @@ namespace API.Logic
             return fixtures;
         } 
 
-        public EntityResponse CreateFixture(Fixture fixture)
+        public EntityResponse CreateFixture(FixtureCreateReturnViewModel fixtureIn)
         {
             try
             {
+                Fixture fixture = new Fixture()
+                {
+                    HomeId = fixtureIn.HomeId,
+                    AwayId = fixtureIn.AwayId,
+                    Start = fixtureIn.Start,
+                    End  = fixtureIn.End,
+                    Comments = fixtureIn.Comments,
+                    Positions = fixtureIn.Positions,
+                    State = TrakkEnums.FixtureState.New,
+                };
                 _fixtureRepository.Add(fixture);
-                return new EntityResponse(true, "Fixture : " + fixture.HomeTeam.Name + " v " + fixture.AwayTeam.Name + " created successfully.");
+                _fixtureRepository.Save();
+                return new EntityResponse(true, "Fixture : " + fixture.HomeId + " v " + fixture.AwayTeam.Name + " created successfully.");
             }
             catch (Exception e)
             {
-                return new EntityResponse(false, "Fixture : " + fixture.HomeTeam.Name + " v " + fixture.AwayTeam.Name + " creation failed: " + e.Message);
+                return new EntityResponse(false, "Fixture : creation failed: " + e.Message);
             }
 
         }

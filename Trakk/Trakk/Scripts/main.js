@@ -165,8 +165,8 @@
             $(".clicked span").fadeOut();
             $(".clicked").removeClass("clicked");
             var posX = $(this).parent().position().left, posY = $(this).parent().position().top;
-            var pitchframeheight = $(".pitchFrame").height();
-            var pitchframewidth = $(".pitchFrame").width();
+            var pitchframeheight = $(".pitchFrame img").height();
+            var pitchframewidth = $(".pitchFrame img").width();
             var xcoord = e.pageX - posX;
             var ycoord = e.pageY - posY;
             var xpercent = xcoord / pitchframewidth * 100;
@@ -271,7 +271,7 @@
         $(".formation-widget").remove();
         $(".pitchLocation").remove();
         $(".team-member-widget").load("/Partials/TeamMembersPartial", { id: teamId }, function() {
-            $(".team-member-widget").droppable({
+            $(".user-list").droppable({
                 hoverClass: 'drop-hover',
                 drop: function(event, ui) {
                     var draggable = $(ui.draggable[0]),
@@ -297,7 +297,7 @@
                 $(".saveButton").removeClass("saved");
                 $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
             },
-            containment: ".pitchFrame"
+            containment: "body-content"
         });
        
     });
@@ -329,7 +329,26 @@
                 $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                 $(".saveButton").addClass('indb');
                 $(".pitchFrame").attr('id', id);
+                $(".user-widget").appendTo(".user-list").draggable({
+                        start: function () {
+
+                        },
+                        drag: function () {
+
+                        },
+                        stop: function () {
+                            $(".saveButton").removeClass("saved");
+                            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                        },
+                        containment: "body-content"
+                    });
+                
+
                 $(".pitchLocation").remove();
+             
+                $(".saveButton").removeClass("saved");
+                $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+            
                 var position = JSON.parse(data.FormationJson);
 
                 $("#formation-name").val(data.Name);
@@ -348,7 +367,7 @@
                                 draggableOffset = draggable.offset(),
                                 container = $(event.target),
                                 containerOffset = container.offset();
-                            $(this).droppable("option", "disabled", true);
+                            
                             $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
                             draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
@@ -383,7 +402,7 @@
                         $(".saveButton").removeClass("saved");
                         $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
                     },
-                    containment: ".pitchFrame"
+                    containment: "body-content"
                 });
                 $(".saveButton").removeClass("saved");
                 $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
@@ -466,13 +485,31 @@
         var start = $("#Fixture_Start").val();
         var end = $("#Fixture_End").val();
         var comments = $("#Fixture_Comments").val();
-
+        
         var playerpositions = [];
-        $('.pitchLocation').each(function() {
-            var position = { index: $(this).index(), playerid: $(this).children("li").attr("id") }
+        $('.pitchLocation').each(function() { 
+            var xcoord = parseInt($(this).css('left'));
+            var ycoord = parseInt($(this).css('top'));
+            var pitchframeheight = $(".pitchFrame").height();
+            var pitchframewidth = $(".pitchFrame").width();
+            var xpercent = Math.round(xcoord / pitchframewidth * 100);
+            var ypercent = Math.round(ycoord / pitchframeheight * 100);
+            var positiontext = $(this).children("input").val();
+
+            var position = { index: $(this).index(), playerid: $(this).children("li").attr("id"), playername: $(this).children("li").children(".username").text(), positionname: positiontext, top: ypercent,left:  xpercent}
             playerpositions.push(position);
         });
-        var fixture = {homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, positions: playerpositions}
+        var fixture = { homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, positions: JSON.stringify(playerpositions) }
+
+        $.ajax({
+            url: "/Fixtures/Create",
+            dataType: "json",
+            type: "POST",
+            data: fixture,
+            success: function (data) {
+
+            }
+        });
     });
 
 
@@ -581,6 +618,8 @@
     
     });
 
+    $(".calendarButton").trigger('click');
+
     $(".calendarButton").click(function() {
         $("#mainBody").load("Partials/UserCalendar", function() {
             $("#mainBody").load("Partials/UserCalendar", function() {
@@ -605,7 +644,7 @@
 
         });
 
-        $(".calendarButton").trigger('click');
+  
 
     });
 });

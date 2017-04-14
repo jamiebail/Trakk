@@ -46,5 +46,6 @@ namespace API.Models
         public DbSet<PlayerEventAvailability> Availabilities { get; set; }
         public DbSet<PrivateEvent> PrivateEvents { get; set; }
         public DbSet<Formation> Formations { get; set; }
+        public DbSet<PlayerFixtureAvailability> FixtureAvailabilities { get; set; }
     }
 }

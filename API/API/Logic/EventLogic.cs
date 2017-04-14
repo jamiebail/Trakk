@@ -33,8 +33,9 @@ namespace API.Logic
                 userEvents.Add(GetEvent(pevent.EventId));
             }
            
-            foreach (var e in userEvents)
+            foreach (Event e in userEvents)
             {
+
                 PlayerEventAvailability pev = _availabilitiesRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
                 if (pev != null)
                     e.AttendanceState = pev.Availability;

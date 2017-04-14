@@ -187,3 +187,6 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.privatete
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.formations.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.formationsname.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.sportidteamsave.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.createfixtures.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.createfixtures2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.fixtureavailabilities.resources

@@ -10,6 +10,7 @@ using API.Helpers;
 using API.Logic;
 using API.Models;
 using API.Repositories;
+using API.Viewmodels;
 
 namespace API.Controllers
 {
@@ -37,7 +38,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Fixture fixture)
+        public ActionResult Post(FixtureCreateReturnViewModel fixture)
         {
             if (fixture == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

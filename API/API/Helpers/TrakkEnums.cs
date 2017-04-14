@@ -21,6 +21,14 @@ namespace API.Helpers
             Loss = 0
         }
 
+
+        public enum FixtureState
+        {
+            New = 1,
+            Finished = 0
+        }
+
+
         public enum EventType
         {
             Fixture = 1,

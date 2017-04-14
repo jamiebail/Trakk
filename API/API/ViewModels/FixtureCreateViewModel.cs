@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Trakk.Models;
+using API.Models;
 
-namespace Trakk.Viewmodels
+namespace API.Viewmodels
 {
     public class FixtureCreateViewModel
     {
@@ -22,12 +22,5 @@ namespace Trakk.Viewmodels
         public DateTime End { get; set; }
         public string Comments { get; set; }
         public string Positions { get; set; }
-    }
-
-    public class FixtureEditViewModel
-    {
-        public Fixture Fixture { get; set; }
-        public List<PlayerPositionViewModel> Positions { get; set; }
-        public List<TeamMember> Members { get; set; }
     }
 }

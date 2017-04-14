@@ -115,7 +115,7 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<EntityResponse> CreateFixture(Fixture fixture)
+        public async Task<EntityResponse> CreateFixture(FixtureCreateReturnViewModel fixture)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -127,7 +127,7 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<EntityResponse> UpdateFixture(Fixture fixture)
+        public async Task<EntityResponse> UpdateFixture(FixtureCreateReturnViewModel fixture)
         {
             using (HttpClient client = new HttpClient())
             {

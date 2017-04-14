@@ -18,8 +18,8 @@ namespace Trakk.Logic
         Task<EntityResponse> UpdateTeam(TeamReturnEditViewModel team);
         Task<EntityResponse> CreateSport(Sport sport);
         Task<EntityResponse> UpdateSport(Sport sport);
-        Task<EntityResponse> CreateFixture(Fixture fixture);
-        Task<EntityResponse> UpdateFixture(Fixture fixture);
+        Task<EntityResponse> CreateFixture(FixtureCreateReturnViewModel fixture);
+        Task<EntityResponse> UpdateFixture(FixtureCreateReturnViewModel fixture);
         Task<EntityResponse> UpdateEvent(EventReturnEditViewModel eventUpdate);
         Task<EntityResponse> CreateEvent(EventReturnCreateViewModel newEvent);
         Task<EntityResponse> CreateFormation(Formation formation);

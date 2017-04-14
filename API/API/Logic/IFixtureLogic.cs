@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Helpers;
 using API.Models;
+using API.Viewmodels;
 
 namespace API.Logic
 {
@@ -13,7 +14,7 @@ namespace API.Logic
         List<Fixture> GetFixtures();
         Fixture GetFixture(int id);
         List<Fixture> GetTeamFixtures(int id);
-        EntityResponse CreateFixture(Fixture fixture);
+        EntityResponse CreateFixture(FixtureCreateReturnViewModel fixture);
         EntityResponse UpdateFixture(Fixture fixture);
         EntityResponse DeleteFixture(int id);
         List<Fixture> GetUserFixtures(int id);

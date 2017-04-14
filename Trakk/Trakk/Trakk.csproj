@@ -228,6 +228,7 @@
     <Compile Include="Viewmodels\EventsListViewModel.cs" />
     <Compile Include="Viewmodels\FixtureCreateViewModel.cs" />
     <Compile Include="Viewmodels\HomeViewModel.cs" />
+    <Compile Include="Viewmodels\PlayerPositionViewModel.cs" />
     <Compile Include="Viewmodels\TeamCreateViewModel.cs" />
     <Compile Include="Viewmodels\TeamManageViewModel.cs" />
     <Compile Include="Viewmodels\UserViewModel.cs" />
@@ -600,6 +601,7 @@
     <Content Include="Views\Partials\TeamEditPartial.cshtml" />
     <Content Include="Views\Partials\FormationListPartial.cshtml" />
     <Content Include="Views\Partials\TeamMembersPartial.cshtml" />
+    <Content Include="Views\Fixtures\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

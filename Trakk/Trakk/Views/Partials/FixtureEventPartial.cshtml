@@ -9,8 +9,26 @@
 
         case TrakkEnums.FixtureState.New:
             <div class="fixture-container event-container">
-                <div class="mapPanel"></div>
-                <div></div>
+                <div class="score row">
+                    <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length - 6)</div>
+                    <div class="homeTeam col-lg-5">
+                        <h4 class="col-lg-12">@Model.HomeTeam.Name</h4>
+                    </div>
+                    <h2 class="col-lg-2" style="text-align: center"> vs </h2>
+                    <div class="awayTeam col-lg-5">
+                        <h4 class="col-lg-12">@Model.AwayTeam.Name</h4>
+                    </div>
+                </div>
+                <div>@Model.Location</div>
+                <div class="comments">
+                    <h2>Comments</h2>
+                    <h3>@Model.Comments</h3>
+                </div>
+                <div class="attendance">
+                    <div class="invited col-xs-3">@Model.Invited</div>
+                    @Html.Partial("/Views/Partials/AttendancePartial.cshtml", Model)
+                    <div class="attending col-xs-3">@Model.Attending</div>
+                </div>
                 </div>
                 break;
                 case TrakkEnums.FixtureState.Finished:

@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Trakk.Helpers;
 using Trakk.Logic;
 using Trakk.Models;
@@ -83,12 +84,11 @@ namespace Trakk.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Team team)
+        public async Task<ActionResult> Create( FixtureCreateReturnViewModel fixture)
         {
             if (ModelState.IsValid)
             {
-                
+                EntityResponse response = await _setter.CreateFixture(fixture);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -105,28 +105,39 @@ namespace Trakk.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Team team = await _getter.GetTeam(id.Value);
-            if (team == null)
+            Fixture fixture = await _getter.GetFixture(id.Value);
+            if (fixture == null)
             {
                 return HttpNotFound();
             }
-            return View(team);
+            fixture.HomeTeam = await _getter.GetTeam(fixture.HomeId);
+            fixture.AwayTeam = await _getter.GetTeam(fixture.AwayId);
+            List<PlayerPositionViewModel> positions = JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
+
+            FixtureEditViewModel editmodel = new FixtureEditViewModel()
+            {
+                Fixture = fixture,
+                Positions = positions,
+                Members = fixture.HomeTeam.Members
+            };
+
+            return View(editmodel);
         }
 
-        //// POST: Teams/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,Name")] Team team)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _setter.UpdateTeam(team);
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(team);
-        //}
+        // POST: Teams/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(FixtureCreateReturnViewModel fixture)
+        {
+            if (ModelState.IsValid)
+            {
+                _setter.UpdateFixture(fixture);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
 
         [HttpPost]
         public async Task<JsonResult> CreateFormation(Formation newFormation)
