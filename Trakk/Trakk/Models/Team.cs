@@ -24,5 +24,6 @@ namespace Trakk.Models
         public TeamStatistics Statistics { get; set; }
         public int Position { get; set; }
         public List<Formation> Formations { get; set; }
+        public List<TeamRoles> Roles { get; set; }
     }
 }

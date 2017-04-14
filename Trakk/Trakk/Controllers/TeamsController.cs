@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Trakk.Helpers;
 using Trakk.Logic;
 using Trakk.Models;
 using Trakk.Viewmodels;
@@ -93,59 +94,66 @@ namespace Trakk.Controllers
             if (id != null)
             {
                 Team team = await _getter.GetTeam(id.Value);
-                List<Sport> sports = await _getter.GetAllSports();
-                IEnumerable<SelectListItem> selectSportsList =
-                    from sport in sports
-                    select new SelectListItem
-                    {
-                        Text = sport.Name,
-                        Value = sport.Id.ToString()
-                    };
-                List<TeamMember> members = team.Members;
-                IEnumerable<SelectListItem> selectUserList =
-                    from member in members
-                    select new SelectListItem
-                    {
-                        Text = member.Name,
-                        Value = member.Id.ToString()
-                    };
+                if (await _userLogic.CheckIfTeamAdmin(User.Identity, team.Id))
+                {
+                    List<Sport> sports = await _getter.GetAllSports();
+                    IEnumerable<SelectListItem> selectSportsList =
+                        from sport in sports
+                        select new SelectListItem
+                        {
+                            Text = sport.Name,
+                            Value = sport.Id.ToString()
+                        };
+                    List<TeamMember> members = team.Members;
+                    IEnumerable<SelectListItem> selectUserList =
+                        from member in members
+                        select new SelectListItem
+                        {
+                            Text = member.Name,
+                            Value = member.Id.ToString()
+                        };
 
-                if (team == null)
-                {
-                    return null;
+                    return View(new TeamCreateViewModel()
+                    {
+                        Sports = selectSportsList,
+                        Team = team,
+                        Users = members
+                    });
                 }
-                return View(new TeamCreateViewModel()
-                {
-                    Sports = selectSportsList,
-                    Team = team,
-                    Users = members
-                });
             }
-            return null;
+            return View("BadRequestView",
+                new EntityResponse() {Message = "You are not an admin for this team.", Success = false});
         }
 
         // POST: Teams/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(TeamReturnEditViewModel team)
+        public async Task<ActionResult> Edit(TeamReturnEditViewModel team)
         {
-            if (ModelState.IsValid)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, team.TeamId))
             {
-                _setter.UpdateTeam(team);
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    EntityResponse response = await _setter.UpdateTeam(team);
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            return null;
+            return View("BadRequestView",
+                new EntityResponse() {Message = "You are not an admin for this team.", Success = false});
         }
 
         // GET: Teams/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, id.Value))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
             }
-           
             return View();
         }
 

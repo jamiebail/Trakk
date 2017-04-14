@@ -14,7 +14,8 @@ namespace API.Logic
         private readonly IRepository<Fixture> _fixtureRepository = new Repository<Fixture>(); 
         private readonly IRepository<Team> _teamRepository = new Repository<Team>(); 
         private readonly IRepository<PlayerEventAvailability> _avilabilityRepository = new Repository<PlayerEventAvailability>(); 
-        private readonly ITeamLogic _teamLogic = new TeamLogic(); 
+        private readonly ITeamLogic _teamLogic = new TeamLogic();
+        private readonly IReportLogic _reportLogic = new ReportLogic();
         public List<Fixture> GetFixtures()
         {
             return _fixtureRepository.GetAll();
@@ -74,6 +75,7 @@ namespace API.Logic
                     Comments = fixtureIn.Comments,
                     Positions = fixtureIn.Positions,
                     State = TrakkEnums.FixtureState.New,
+                    Location = fixtureIn.Location
                 };
                 _fixtureRepository.Add(fixture);
                 _fixtureRepository.Save();
@@ -90,7 +92,16 @@ namespace API.Logic
         {
             try
             {
+                if (fixture.End > DateTime.Now)
+                    fixture.State = TrakkEnums.FixtureState.New;
+                else
+                {
+                    fixture.State = TrakkEnums.FixtureState.Finished;
+                }
+                //fixture.Result = _reportLogic.GetReport()   TODO
                 _fixtureRepository.Update(fixture);
+                fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
+                fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
                 return new EntityResponse(true, "Fixture : " + fixture.HomeTeam.Name + " v " + fixture.AwayTeam.Name + " updated successfully");
             }
             catch (Exception e)

@@ -25,6 +25,7 @@ namespace Trakk.Models
         public virtual GameReport Result { get; set; }
         public int Easting { get; set; }
         public int Northing { get; set; }
+        public string Location { get; set; }
         public TrakkEnums.FixtureState State { get; set; }
         public string Positions { get; set; }
     }

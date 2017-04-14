@@ -51,7 +51,9 @@
         <td>
             @Html.DisplayFor(modelItem => fixture.AttendanceState)
         </td>
+
     </tr>
+    <a href="@Url.Action("Edit", "Fixtures", new { id = fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
 }
 
 </table>

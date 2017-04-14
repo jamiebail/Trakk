@@ -219,7 +219,14 @@
         });
         var name = $("#formation-name").val();
         var fixtureid = $("#fixture-id").text();
-        var teamid = $("#homeTeam").val();
+        var teamid; 
+        if ($("#homeTeam").length === 0) {
+            teamid =
+            $("#homeTeamEdit").text();
+        } else {
+           teamid = $("#homeTeam").val();
+        }
+
         var id = $(".pitchFrame").attr("id");
 
 
@@ -303,10 +310,15 @@
     });
 
     function refreshFormationBar() {
-        var teamId = $("#homeTeam").val();
-        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function () {
+        var teamid;
+        if ($("#homeTeam").length === 0) {
+            teamid =$("#homeTeamEdit").text();
+        } else {
+            teamid = $("#homeTeam").val();
+        }
+        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamid, second: false }, function () {
             if ($(".formations-bar").children().length === 4) {
-                $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
+                $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamid, second: true });
             }
         });
     }
@@ -316,7 +328,12 @@
     $(document).on('click', '.formation-widget', function() {
         $(".selected").removeClass("selected");
         $(this).children(".formation-circle").addClass("selected");
-        var teamid = $("#homeTeam").val();
+        var teamid;
+        if ($("#homeTeam").length === 0) {
+            teamid = $("#homeTeamEdit").text();
+        } else {
+            teamid = $("#homeTeam").val();
+        }
         var id = $(this).attr('id');
         $.ajax({
             url: "/Fixtures/GetFormation",
@@ -485,6 +502,7 @@
         var start = $("#Fixture_Start").val();
         var end = $("#Fixture_End").val();
         var comments = $("#Fixture_Comments").val();
+        var location = $("#Fixture_Location").val();
         
         var playerpositions = [];
         $('.pitchLocation').each(function() { 
@@ -499,7 +517,7 @@
             var position = { index: $(this).index(), playerid: $(this).children("li").attr("id"), playername: $(this).children("li").children(".username").text(), positionname: positiontext, top: ypercent,left:  xpercent}
             playerpositions.push(position);
         });
-        var fixture = { homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, positions: JSON.stringify(playerpositions) }
+        var fixture = { homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions) }
 
         $.ajax({
             url: "/Fixtures/Create",
@@ -511,6 +529,44 @@
             }
         });
     });
+
+
+    $("#editFixture").click(function () {
+        var homeid = $("#homeTeamEdit").text();
+        var awayid = $("#awayTeamEdit").text();
+        var start = $("#Fixture_Start").val();
+        var end = $("#Fixture_End").val();
+        var comments = $("#Fixture_Comments").val();
+        var location = $("#Fixture_Location").val();
+        var id = $(".pitchFrame").attr("id");
+
+        var playerpositions = [];
+        $('.pitchLocation').each(function () {
+            var xcoord = parseInt($(this).css('left'));
+            var ycoord = parseInt($(this).css('top'));
+            var pitchframeheight = $(".pitchFrame").height();
+            var pitchframewidth = $(".pitchFrame").width();
+            var xpercent = Math.round(xcoord / pitchframewidth * 100);
+            var ypercent = Math.round(ycoord / pitchframeheight * 100);
+            var positiontext = $(this).children("input").val();
+
+            var position = { index: $(this).index(), playerid: $(this).children("li").attr("id"), playername: $(this).children("li").children(".username").text(), positionname: positiontext, top: ypercent, left: xpercent }
+            playerpositions.push(position);
+        });
+        var fixture = { id: id, homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions) }
+
+        $.ajax({
+            url: "/Fixtures/Edit",
+            dataType: "json",
+            type: "POST",
+            data: fixture,
+            success: function (data) {
+
+            }
+        });
+    });
+
+
 
 
     $(document).on('click', '#editEvent', function() {

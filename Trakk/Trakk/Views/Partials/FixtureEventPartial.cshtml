@@ -11,19 +11,16 @@
             <div class="fixture-container event-container">
                 <div class="score row">
                     <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length - 6)</div>
-                    <div class="homeTeam col-lg-5">
-                        <h4 class="col-lg-12">@Model.HomeTeam.Name</h4>
+                    <div class="homeTeam col-xs-5">
+                        <h4 class="col-xs-12">@Model.HomeTeam.Name</h4>
                     </div>
-                    <h2 class="col-lg-2" style="text-align: center"> vs </h2>
-                    <div class="awayTeam col-lg-5">
-                        <h4 class="col-lg-12">@Model.AwayTeam.Name</h4>
+                    <h2 class="col-xs-2" style="text-align: center"> vs </h2>
+                    <div class="awayTeam col-xs-5">
+                        <h4 class="col-xs-12">@Model.AwayTeam.Name</h4>
                     </div>
                 </div>
-                <div>@Model.Location</div>
-                <div class="comments">
-                    <h2>Comments</h2>
-                    <h3>@Model.Comments</h3>
-                </div>
+                <div class="social-location">@Model.Location</div>
+                <div class="social-comments">@Model.Comments</div>
                 <div class="attendance">
                     <div class="invited col-xs-3">@Model.Invited</div>
                     @Html.Partial("/Views/Partials/AttendancePartial.cshtml", Model)
@@ -32,22 +29,22 @@
                 </div>
                 break;
                 case TrakkEnums.FixtureState.Finished:
-                <div class="fixture-container event-container col-lg-3">
+                <div class="fixture-container event-container col-xs-3">
                     <div class="score row">
                         <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length-6)</div>
-                        <div class="homeTeam col-lg-5">
-                            <h4 class="col-lg-9">@Model.HomeTeam.Name</h4>
-                            <h2 class="col-lg-2">@Model.Result.HomeScore</h2>
+                        <div class="homeTeam col-xs-5">
+                            <h4 class="col-xs-9">@Model.HomeTeam.Name</h4>
+                            <h2 class="col-xs-2">@Model.Result.HomeScore</h2>
                         </div>
-                        <h2 class="col-lg-2" style="text-align: center"> - </h2>
-                        <div class="awayTeam col-lg-5">
-                            <h2 class="col-lg-2">@Model.Result.AwayScore</h2>
-                            <h4 class="col-lg-9">@Model.AwayTeam.Name</h4>
+                        <h2 class="col-xs-2" style="text-align: center"> - </h2>
+                        <div class="awayTeam col-xs-5">
+                            <h2 class="col-xs-2">@Model.Result.AwayScore</h2>
+                            <h4 class="col-xs-9">@Model.AwayTeam.Name</h4>
                         </div>
                     </div>
                     <div class="stats row">
                         <div class="goals">
-                            <div class="homeGoals col-lg-6">
+                            <div class="homeGoals col-xs-6">
                                 @foreach(var goal in Model.Result.Goals.OrderBy(x=>x.Minute).Where(x => x.Side == TrakkEnums.Side.Home))
                                 {
                                     <img src="~/Images/soccer-ball.png"/>
@@ -55,7 +52,7 @@
                                     <h5>@goal.Minute'</h5>
                                 }
                             </div>
-                        <div class="awayGoals col-lg-6">
+                        <div class="awayGoals col-xs-6">
                                 @foreach (var goal in Model.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Away))
                                 {
                                 <img src="~/Images/soccer-ball.png" />
@@ -65,7 +62,7 @@
                             </div>
                         </div>
                         <div class="cards row">
-                            <div class="homeCards col-lg-6">
+                            <div class="homeCards col-xs-6">
                                 @foreach (var card in Model.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Home))
                                 {
                                     switch (card.CardColour)
@@ -91,7 +88,7 @@
 
                                 }
                             </div>
-                            <div class="awayCards col-lg-6">
+                            <div class="awayCards col-xs-6">
                                 @foreach (var card in Model.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Away))
                                 {
                                     switch (card.CardColour)

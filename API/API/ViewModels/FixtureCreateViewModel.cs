@@ -16,11 +16,13 @@ namespace API.Viewmodels
 
     public class FixtureCreateReturnViewModel
     {
+        public int Id { get; set; }
         public int HomeId { get; set; }
         public int AwayId { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Comments { get; set; }
         public string Positions { get; set; }
+        public string Location { get; set; }
     }
 }

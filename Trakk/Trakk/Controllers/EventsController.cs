@@ -52,20 +52,25 @@ namespace Trakk.Controllers
         // GET: Events/Create
         public async Task<ActionResult> Create()
         {
-            int id = _userLogic.GetPlayerId(User.Identity);
-            TeamMember member = await _getter.GetUser(id);
-            IEnumerable<SelectListItem> selectSportsList =
-            from team in member.Teams
-            select new SelectListItem
+            List<Team> adminteams = await _userLogic.CheckIfTeamAdminAny(User.Identity);
+            if (adminteams?.Count > 0)
             {
-                Text = team.Name,
-                Value = team.Id.ToString()
-            };
-            EventCreateViewModel vm = new EventCreateViewModel()
-            {
-                UserTeams = selectSportsList
-            };
-            return PartialView("~/Views/Events/Create.cshtml", vm);
+                int id = _userLogic.GetPlayerId(User.Identity);
+                TeamMember member = await _getter.GetUser(id);
+                IEnumerable<SelectListItem> selectSportsList =
+                    from team in member.Teams
+                    select new SelectListItem
+                    {
+                        Text = team.Name,
+                        Value = team.Id.ToString()
+                    };
+                EventCreateViewModel vm = new EventCreateViewModel()
+                {
+                    UserTeams = selectSportsList
+                };
+                return PartialView("~/Views/Events/Create.cshtml", vm);
+            }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for any teams.", Success = false });
         }
 
         // POST: Events/Create
@@ -74,13 +79,15 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> Create( EventReturnCreateViewModel newEvent)
         {
-            if (ModelState.IsValid)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, newEvent.TeamId))
             {
-                await _setter.CreateEvent(newEvent);
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    await _setter.CreateEvent(newEvent);
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
-            return View();
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
         // GET: Events/Edit/5
@@ -90,18 +97,21 @@ namespace Trakk.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Event @event = await _getter.GetEvent(id);
-            Team team = await _getter.GetTeam(@event.TeamId);
-            List<TeamMember> teamMembers = team.Members;
-            teamMembers.RemoveAll(item => @event.Members.Contains(item));
-            EventEditViewModel vm = new EventEditViewModel()
+            Event ev = await _getter.GetEvent(id.Value);
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, ev.TeamId))
             {
-                Event = @event,
-                Members = @event.Members,
-                AllMembers = teamMembers 
-            };
-            return View(vm);
+                Team team = await _getter.GetTeam(ev.TeamId);
+                List<TeamMember> teamMembers = team.Members;
+                teamMembers.RemoveAll(item => ev.Members.Contains(item));
+                EventEditViewModel vm = new EventEditViewModel()
+                {
+                    Event = ev,
+                    Members = ev.Members,
+                    AllMembers = teamMembers
+                };
+                return View(vm);
+            }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
         //POST: Events/Edit/5
@@ -110,13 +120,17 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit([Bind(Include = "EventId, TeamId,Start,End,Location,Comments,Title,Invited,Type,UserIds")] EventReturnEditViewModel @event)
         {
-            if (ModelState.IsValid)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, @event.TeamId))
             {
-                EntityResponse response = await _setter.UpdateEvent(@event);
-                if(response.Success)
-                    return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    EntityResponse response = await _setter.UpdateEvent(@event);
+                    if (response.Success)
+                        return RedirectToAction("Index", "Home");
+                }
+                return Json(new EntityResponse() { Message = "Model Invalid", Success = false }, JsonRequestBehavior.AllowGet);
             }
-            return View(@event);
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
         //// GET: Events/Delete/5

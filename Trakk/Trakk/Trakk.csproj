@@ -221,6 +221,7 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamMember.cs" />
     <Compile Include="Models\TeamMembership.cs" />
+    <Compile Include="Models\TeamRoles.cs" />
     <Compile Include="Models\TeamStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -602,6 +603,7 @@
     <Content Include="Views\Partials\FormationListPartial.cshtml" />
     <Content Include="Views\Partials\TeamMembersPartial.cshtml" />
     <Content Include="Views\Fixtures\Edit.cshtml" />
+    <Content Include="Views\Shared\BadRequestView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

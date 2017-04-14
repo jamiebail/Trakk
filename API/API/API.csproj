@@ -322,6 +322,14 @@
     <Compile Include="Migrations\201704141136349_fixtureavailabilities.Designer.cs">
       <DependentUpon>201704141136349_fixtureavailabilities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704142123426_roles.cs" />
+    <Compile Include="Migrations\201704142123426_roles.Designer.cs">
+      <DependentUpon>201704142123426_roles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704142138368_roles2.cs" />
+    <Compile Include="Migrations\201704142138368_roles2.Designer.cs">
+      <DependentUpon>201704142138368_roles2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -350,6 +358,7 @@
     <Compile Include="Models\Sport.cs" />
     <Compile Include="Models\TeamEvent.cs" />
     <Compile Include="Models\TeamMembership.cs" />
+    <Compile Include="Models\TeamRoles.cs" />
     <Compile Include="Models\TeamStatistics.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamMember.cs" />
@@ -509,6 +518,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704141136349_fixtureavailabilities.resx">
       <DependentUpon>201704141136349_fixtureavailabilities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704142123426_roles.resx">
+      <DependentUpon>201704142123426_roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704142138368_roles2.resx">
+      <DependentUpon>201704142138368_roles2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

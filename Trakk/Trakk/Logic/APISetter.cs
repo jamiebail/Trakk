@@ -133,7 +133,7 @@ namespace Trakk.Logic
             {
                 client.BaseAddress = Uri;
                 var content = new StringContent(JsonConvert.SerializeObject(fixture), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("sports/PUT/", content);
+                var response = await client.PostAsync("fixtures/PUT/", content);
                 string textResult = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
             }

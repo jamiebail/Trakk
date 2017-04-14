@@ -23,13 +23,20 @@ namespace Trakk.Logic
                   if(events.Count == 2) { 
                         primaries.Add(events[index - 1]);
                 }
-                   else
+                   else if(index >= 3)
                    {
                         primaries.Add(events[index - 1]);
                         primaries.Add(events[index - 2]);
                         primaries.Add(events[index - 3]);
-                    }
                         return primaries;
+                    }
+                        
+                    else
+                    {
+                        primaries.Add(events[index - 1]);
+                        primaries.Add(events[index - 2]);
+                        return primaries;
+                    }
                 }
                 // next event
                 if (index != 0)

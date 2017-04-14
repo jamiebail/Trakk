@@ -20,6 +20,7 @@ namespace API.Logic
         readonly IRepository<Position> _positionRepository = new Repository<Position>();
         readonly ISportLogic _sportLogic = new SportLogic();
         readonly IUserLogic _userLogic = new UserLogic();
+        readonly IRepository<TeamRoles> _roleRepository = new Repository<TeamRoles>(); 
 
         public List<Team> GetAllTeams()
         {
@@ -29,9 +30,12 @@ namespace API.Logic
         public Team GetTeamById(int id)
         {
              Team team = _teamRepository.FindBy(x => x.Id == id).FirstOrDefault();
-            if(team != null)
-             team.Sport = _sportLogic.GetSportById(team.SportId);
-             //if(team != null)
+            if (team != null)
+            {
+                team.Sport = _sportLogic.GetSportById(team.SportId);
+                team.Roles = _roleRepository.FindBy(x => x.TeamId == team.Id);
+            }
+            //if(team != null)
              //   team.Statistics = GetTeamStats(team.Id);
             return team;
         }

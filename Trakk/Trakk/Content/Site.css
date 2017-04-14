@@ -583,6 +583,7 @@ textarea {
 .homeTeam, .awayTeam {
     padding-left: 0;
     padding-right: 0;
+    height: auto;
 }
 
 .awayTeam h2 {

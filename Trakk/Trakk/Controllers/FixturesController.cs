@@ -54,30 +54,36 @@ namespace Trakk.Controllers
         // GET: Teams/Create
         public async Task<ActionResult> Create()
         {
-            int id = _userLogic.GetPlayerId(User.Identity);
-            TeamMember member = await _getter.GetUser(id);
-            Sport sport = await _getter.GetSport(member.Teams[0].Sport.Id);
-            IEnumerable<SelectListItem> selectUserTeamsList =
-            from team in member.Teams
-            select new SelectListItem
+            List<Team> adminteams = await _userLogic.CheckIfTeamAdminAny(User.Identity);
+            if (adminteams?.Count > 0)
             {
-                Text = team.Name,
-                Value = team.Id.ToString()
-            };
-            IEnumerable<SelectListItem> selectAllTeamsList =
-             from team in sport.Teams
-             select new SelectListItem
-             {
-                 Text = team.Name,
-                 Value = team.Id.ToString()
-             };
-            FixtureCreateViewModel vm = new FixtureCreateViewModel()
-            {
-                UserTeams = selectUserTeamsList,
-                AllTeams = selectAllTeamsList
-            };
-           
-            return View(vm);
+                int id = _userLogic.GetPlayerId(User.Identity);
+                TeamMember member = await _getter.GetUser(id);
+                Sport sport = await _getter.GetSport(member.Teams[0].Sport.Id);
+                IEnumerable<SelectListItem> selectUserTeamsList =
+                    from team in adminteams
+                    select new SelectListItem
+                    {
+                        Text = team.Name,
+                        Value = team.Id.ToString()
+                    };
+                IEnumerable<SelectListItem> selectAllTeamsList =
+                    from team in sport.Teams
+                    select new SelectListItem
+                    {
+                        Text = team.Name,
+                        Value = team.Id.ToString()
+                    };
+                FixtureCreateViewModel vm = new FixtureCreateViewModel()
+                {
+                    UserTeams = selectUserTeamsList,
+                    AllTeams = selectAllTeamsList
+                };
+                return View(vm);
+            }
+
+
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for any teams.", Success = false });
         }
 
         // POST: Teams/Create
@@ -86,13 +92,19 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> Create( FixtureCreateReturnViewModel fixture)
         {
-            if (ModelState.IsValid)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
             {
-                EntityResponse response = await _setter.CreateFixture(fixture);
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    EntityResponse response = await _setter.CreateFixture(fixture);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return Json(new EntityResponse() { Message = "Model Invalid", Success = false }, JsonRequestBehavior.AllowGet);
+                }
             }
-
-            return null;
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
 
@@ -101,61 +113,72 @@ namespace Trakk.Controllers
         // GET: Teams/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Fixture fixture = await _getter.GetFixture(id.Value);
-            if (fixture == null)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
             {
-                return HttpNotFound();
+                fixture.HomeTeam = await _getter.GetTeam(fixture.HomeId);
+                fixture.AwayTeam = await _getter.GetTeam(fixture.AwayId);
+                List<PlayerPositionViewModel> positions =
+                    JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
+
+                FixtureEditViewModel editmodel = new FixtureEditViewModel()
+                {
+                    Fixture = fixture,
+                    Positions = positions,
+                    Members = fixture.HomeTeam.Members
+                };
+                return View(editmodel);
             }
-            fixture.HomeTeam = await _getter.GetTeam(fixture.HomeId);
-            fixture.AwayTeam = await _getter.GetTeam(fixture.AwayId);
-            List<PlayerPositionViewModel> positions = JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
 
-            FixtureEditViewModel editmodel = new FixtureEditViewModel()
-            {
-                Fixture = fixture,
-                Positions = positions,
-                Members = fixture.HomeTeam.Members
-            };
-
-            return View(editmodel);
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
+    
 
-        // POST: Teams/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(FixtureCreateReturnViewModel fixture)
-        {
-            if (ModelState.IsValid)
-            {
-                _setter.UpdateFixture(fixture);
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
 
         [HttpPost]
-        public async Task<JsonResult> CreateFormation(Formation newFormation)
+        public async Task<ActionResult> Edit(FixtureCreateReturnViewModel fixture)
         {
-            if (ModelState.IsValid)
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
             {
-            
-            EntityResponse response = await _setter.CreateFormation(newFormation);
-            return Json(response, JsonRequestBehavior.AllowGet);
+                if (ModelState.IsValid)
+                {
+                    EntityResponse reponse = await _setter.UpdateFixture(fixture);
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            return null;
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateFormation(Formation newFormation)
+        {
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, newFormation.TeamId))
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    EntityResponse response = await _setter.CreateFormation(newFormation);
+                    return Json(response, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
 
-        public async Task<JsonResult> UpdateFormation(Formation newFormation)
+        public async Task<ActionResult> UpdateFormation(Formation newFormation)
         {
-           EntityResponse response  = await _setter.UpdateFormation(newFormation);
-            return Json(response, JsonRequestBehavior.AllowGet);
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, newFormation.TeamId))
+            {
+                EntityResponse response = await _setter.UpdateFormation(newFormation);
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            return View("BadRequestView" ,new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
         public async Task<PartialViewResult> GetTeamFormations(int teamId, bool second)

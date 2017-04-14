@@ -21,7 +21,7 @@
                 <div class="formation-widget"></div>
             </div>
         </div>
-        <div class="pitchFrame" oncontextmenu="return false;">
+        <div class="pitchFrame" id="@Model.Fixture.Id" oncontextmenu="return false;">
 
             <div>
                 <div class="col-xs-4 editbutton"><span class="glyphicon glyphicon-pencil"></span></div>
@@ -34,7 +34,17 @@
             <img src="../../Images/footballPitchReal.png" />
             @foreach (var position in Model.Positions)
             {
-                <div style="position: absolute; top: @position.Top% ; left: @position.Left%; " id="@position.PlayerId"  class="pitchLocation draggable"><input type="text" value="@position.PlayerName"   placeholder="Position"></div>
+                <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation draggable">
+                    <input type="text" value="@position.PositionName" placeholder="Position">
+
+                    @if (position.PlayerId != 0)
+                    {
+                        <li class="user-widget" id="@position.PlayerId">
+                            <div class="image"></div>
+                            <span class="username">@position.PlayerName</span>
+                        </li>
+                    }
+                </div>
             }
         </div>
         <div class="team-member-widget">
@@ -46,39 +56,16 @@
             <div>
                 <div class="col-xs-5">
                     <h2>@Model.Fixture.HomeTeam.Name</h2>
+                    <p hidden id="homeTeamEdit">@Model.Fixture.HomeId</p>
                 </div>
                 <div class="col-xs-2">
                     <h2>V</h2>
                 </div>
                 <div class="col-xs-5">
-                    <h2>@Model.Fixture.AwayTeam.Name</h2>
+                    <h2 class="awayTeamFixture">@Model.Fixture.AwayTeam.Name</h2>
+                    <h2 hidden id="awayTeamEdit">@Model.Fixture.AwayId</h2>
                 </div>
             </div>
-
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.Fixture.Easting, htmlAttributes: new {@class = "control-label col-md-2"})
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Fixture.Easting, new {htmlAttributes = new {@class = "form-control"}})
-                        @Html.ValidationMessageFor(model => model.Fixture.Easting, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fixture.Northing, htmlAttributes: new {@class = "control-label col-md-2"})
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Fixture.Northing, new {htmlAttributes = new {@class = "form-control"}})
-                        @Html.ValidationMessageFor(model => model.Fixture.Northing, "", new {@class = "text-danger"})
-                    </div>
-                </div>*@
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.Fixture.State, htmlAttributes: new {@class = "control-label col-md-2"})
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Fixture.State, htmlAttributes: new {@class = "form-control", placeholder="Start Time"})
-                        @Html.ValidationMessageFor(model => model.Fixture.State, "", new {@class = "text-danger"})
-                    </div>
-                </div>*@
 
             <div class="form-group">
                 <div class="col-xs-6">
@@ -117,5 +104,65 @@
 }
 
 <div class="col-md-12">
-    <input type="submit" value="Create" id="editFixture" class="btn btn-default" />
+    <input type="submit" value="Create" id="editFixture" class="btn btn-default"/>
 </div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".user-widget").draggable({
+                start: function () {
+
+                },
+                drag: function () {
+
+                },
+                stop: function () {
+                    $(".saveButton").removeClass("saved");
+                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                },
+                containment: "body-content"
+            });
+       
+        }); 
+
+        $(".user-list").droppable({
+            hoverClass: 'drop-hover',
+            drop: function (event, ui) {
+                var draggable = $(ui.draggable[0]),
+                    draggableOffset = draggable.offset(),
+                    container = $(event.target),
+                    containerOffset = container.offset();
+                refreshFormationBar();
+
+                draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+
+            }
+        });
+
+        function refreshFormationBar() {
+            var teamId = $("#homeTeam").val();
+            $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function () {
+                if ($(".formations-bar").children().length === 4) {
+                    $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
+                }
+            });
+        }
+
+        $(".pitchLocation").droppable({
+            hoverClass: 'drop-hover',
+            drop: function (event, ui) {
+                var draggable = $(ui.draggable[0]),
+                    draggableOffset = draggable.offset(),
+                    container = $(event.target),
+                    containerOffset = container.offset();
+
+                $('.user-widget', event.target).appendTo(droppableParent).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ opacity: 1 }, 200);
+
+                draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+            }
+        });
+
+    </script>
+}

@@ -48,5 +48,11 @@ namespace API.Helpers
             Rejected = 2,
             Maybe = 3
         }
+        public enum TeamRole
+        {
+            Player = 0,
+            Committee = 1,
+            Captain = 2
+        }
     }
 }

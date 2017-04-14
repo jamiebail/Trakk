@@ -190,3 +190,5 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.sportidte
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.createfixtures.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.createfixtures2.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.fixtureavailabilities.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.roles.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.roles2.resources

@@ -20,6 +20,7 @@ namespace API.Controllers
         private readonly ITeamLogic _teamLogic = new TeamLogic();
         private readonly ISportLogic _sportLogic = new SportLogic();
         private readonly IUserLogic _userLogic = new UserLogic();
+        private readonly IReportLogic _reportLogic = new ReportLogic();
 
         [HttpGet]
         public ActionResult Get(int? id)
