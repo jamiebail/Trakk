@@ -156,6 +156,14 @@ img {
 
 }
 
+.Captain{
+    background-color: gold !important;
+}
+
+.Committee{
+    background-color:aquamarine !important;
+}
+
 .pitchLocation {
     background-color: white;
     width: 7.5%;

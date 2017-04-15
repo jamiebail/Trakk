@@ -24,20 +24,20 @@
             <div class="searchBox col-lg-4">
                 <input placeholder="Search a name" class="col-lg-12" id="nameBox">
                 <ul class="selected-user-list col-lg-12">
-                    @foreach (var member in Model.Users)
-                    {
-
-                    }
                 </ul>
                  <button id="addMember" class="btn btn-default col-lg-12">Add Team Member</button>
 
             </div>
             <div class="col-lg-8">
                 <div class="teamrosterheader col-lg-12">Your Team</div>
+                <button id="makeCaptain">Captain</button>
+                <button id="makeCommittee">Committee</button>
                 <ul class="selected-users col-lg-8">
                     @foreach (var member in Model.Users)
                     {
-                        <li class="col-xs-6 user-widget">
+                        var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
+                        
+                        <li class="col-xs-6 user-widget @role.Role">
                             <span class="glyphicon glyphicon-remove removeMember"></span>
                             <div class="image"></div><span hidden class="id">@member.Id</span><span class="name">@member.Name</span>
                         </li>

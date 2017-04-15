@@ -52,8 +52,10 @@ namespace Trakk.Controllers
                             Name = member.Name,
                             
                         };
-                        if (member.Teams.Count > 0)
-                            uvm.Sport = member.Teams[0].Sport.Name;
+                      if (member.Teams.Count > 0)
+                            foreach(var team in member.Teams)
+                                if(team != null)
+                            uvm.Sport = team.Sport.Name;
                         else
                             uvm.Sport = "None";
                         matchedVM.Add(uvm);

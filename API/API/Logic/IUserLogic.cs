@@ -17,6 +17,8 @@ namespace API.Logic
         EntityResponse UpdateUser(TeamMember user);
         EntityResponse CreateUser(TeamMember user);
         EntityResponse SetUserTeam(int userId, int teamId);
+        EntityResponse SetUserRole(TeamRoles role);
+        EntityResponse UpdateUserRole(TeamRoles role);
 
     }
 }

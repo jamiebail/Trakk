@@ -58,9 +58,14 @@ namespace API.Controllers
 
                 if (response.Success)
                 {
-                    foreach (int member in team.PlayerIDs)
+                    foreach (var member in team.Roles)
                     {
-                        _userLogic.SetUserTeam(member, teamId);
+                        _userLogic.SetUserTeam(member.UserId, teamId);
+                    }
+                    foreach(var role in team.Roles)
+                    {
+                        role.TeamId = teamId;
+                        _userLogic.SetUserRole(role);
                     }
                     return Json(new {success = true, responseText = newTeam.Name + " updated successfully."},
                         JsonRequestBehavior.AllowGet);

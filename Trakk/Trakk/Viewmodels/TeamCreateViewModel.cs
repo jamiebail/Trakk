@@ -13,6 +13,7 @@ namespace Trakk.Viewmodels
         public IEnumerable<SelectListItem> Sports { get; set; }
         public Team Team { get; set; }
         public List<TeamMember> Users { get; set; } 
+        public List<TeamRoles> Roles { get; set; }
         public int UserId { get; set; }
     }
 
@@ -25,7 +26,7 @@ namespace Trakk.Viewmodels
         [Required]
         public int SportId { get; set; }
         [Required]
-        public List<int> PlayerIDs { get; set; } 
+        public List<TeamRoles> Roles { get; set; } 
     }
 
     public class TeamReturnEditViewModel
@@ -37,6 +38,6 @@ namespace Trakk.Viewmodels
         [Required]
         public int SportId { get; set; }
         [Required]
-        public List<int> PlayerIDs { get; set; }
+        public List<TeamRoles> Roles { get; set; }
     }
 }

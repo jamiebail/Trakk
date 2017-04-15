@@ -78,7 +78,7 @@ namespace Trakk.Controllers
         [HttpPost]
         public ActionResult Create(TeamReturnCreateViewModel team)
         {
-            team.PlayerIDs = team.PlayerIDs.Distinct().ToList();
+            team.Roles = team.Roles.Distinct().ToList();
             if (ModelState.IsValid)
             {
                 _setter.CreateTeam(team);
@@ -117,7 +117,8 @@ namespace Trakk.Controllers
                     {
                         Sports = selectSportsList,
                         Team = team,
-                        Users = members
+                        Users = members,
+                        Roles = team.Roles
                     });
                 }
             }

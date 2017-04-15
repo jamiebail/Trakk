@@ -13,7 +13,9 @@ namespace API.Logic
     {
         private readonly IRepository<TeamMember> _userRepository = new Repository<TeamMember>();
         private readonly IRepository<Team> _teamRepository = new Repository<Team>(); 
-        private readonly IRepository<TeamMembership> _membershipRepository = new Repository<TeamMembership>(); 
+        private readonly IRepository<TeamMembership> _membershipRepository = new Repository<TeamMembership>();
+        private readonly IRepository<TeamRoles> _rolesRepository = new Repository<TeamRoles>();
+
         public List<TeamMember> GetUsers()
         {
             return _userRepository.GetAll().ToList();
@@ -40,6 +42,37 @@ namespace API.Logic
             {
                 return new EntityResponse(false, "membership create failed: " + e.Message);
             }
+        }
+
+        public EntityResponse SetUserRole(TeamRoles role)
+        {
+            try
+            {
+                _rolesRepository.Add(role);
+                _rolesRepository.Save();
+                return new EntityResponse(true, role.UserId + " role set successfully");
+            }
+            catch(Exception e)
+            {
+                return new EntityResponse(false, role.UserId + " updating failed: " + e.Message);
+            }
+
+        }
+
+
+        public EntityResponse UpdateUserRole(TeamRoles role)
+        {
+            try
+            {
+                _rolesRepository.Update(role);
+                _rolesRepository.Save();
+                return new EntityResponse(true, role.UserId + " role set successfully");
+            }
+            catch (Exception e)
+            {
+                return new EntityResponse(false, role.UserId + " updating failed: " + e.Message);
+            }
+
         }
 
         public EntityResponse UpdateUser(TeamMember user)

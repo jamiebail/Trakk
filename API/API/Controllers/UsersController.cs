@@ -25,7 +25,7 @@ namespace API.Controllers
                 List<TeamMember> allMembers = _userLogic.GetUsers();
                 foreach (var member in allMembers)
                 {
-                    member.Teams = _teamLogic.GetTeamsByUserId(member.Id);
+                  member.Teams = _teamLogic.GetTeamsByUserId(member.Id);
                 }
                 return Json(allMembers, JsonRequestBehavior.AllowGet);
             }

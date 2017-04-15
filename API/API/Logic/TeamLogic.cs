@@ -54,7 +54,8 @@ namespace API.Logic
         public List<Team> GetTeamsByUserId(int id)
         {
             List<TeamMembership> teamMemberships = _membershipRepository.FindBy(x => x.MemberId == id);
-            return teamMemberships.Select(membership => GetTeamById(membership.TeamId)).ToList();
+            List<Team> teams = teamMemberships.Select(membership => GetTeamById(membership.TeamId)).ToList();
+            return teams;
         }
 
         public EntityResponse UpdateTeam(TeamReturnEditViewModel team)
@@ -76,11 +77,19 @@ namespace API.Logic
                     _membershipRepository.Remove(member);
                 }
                 _membershipRepository.Save();
-
                 // Setup memberships
-                foreach (var member in team.PlayerIDs)
+                foreach (var role in team.Roles)
                 {
-                    _userLogic.SetUserTeam(member, team.TeamId);
+                    TeamRoles currentRole = _roleRepository.FindBy(x => x.TeamId == role.TeamId && x.UserId == role.UserId).FirstOrDefault();
+                    if(currentRole == null)
+                        _userLogic.SetUserRole(role);
+                    else
+                    {
+                        role.Id = currentRole.Id;
+                        _userLogic.UpdateUserRole(role);
+                    }
+
+                    _userLogic.SetUserTeam(role.UserId, team.TeamId);
                 }
                 _teamRepository.Update(editTeam);
                 _teamRepository.Save();

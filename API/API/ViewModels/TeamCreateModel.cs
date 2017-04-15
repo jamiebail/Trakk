@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using API.Models;
 using System.Web;
 
 namespace API.ViewModels
@@ -15,7 +16,7 @@ namespace API.ViewModels
         [Required]
         public int SportId { get; set; }
         [Required]
-        public List<int> PlayerIDs { get; set; }
+        public List<TeamRoles> Roles { get; set; }
     }
     public class TeamReturnEditViewModel
     {
@@ -26,6 +27,6 @@ namespace API.ViewModels
         [Required]
         public int SportId { get; set; }
         [Required]
-        public List<int> PlayerIDs { get; set; }
+        public List<TeamRoles> Roles { get; set; }
     }
 }

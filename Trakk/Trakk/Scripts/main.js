@@ -104,10 +104,66 @@
     });
 
 
-    $("#createTeam").click(function() {
-        var players = $(".selected-users .id").map(function() { return $(this).text(); }).get();
-        players.push($(".userid").text());
-        var team = { TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), PlayerIds: players }
+    $("#makeCaptain").click(function () {
+        $(".selected-users .selected").addClass("Captain").removeClass("selected");
+
+    });
+
+    $("#makeCommittee").click(function () {
+        $(".selected-users .selected").addClass("Committee").removeClass("selected");
+    });
+
+    $("#editTeam").click(function () {
+        var players = [];
+        var teamid= $(".form-horizontal").attr("id");
+        $(".selected-users li").each(function () {
+            var userid = $(this).children(".id").html();
+            if ($(this).hasClass("Captain")) {
+                var role = { userId: userid, role: 2 , teamid: teamid}
+                players.push(role);
+            }
+            else if ($(this).hasClass("Committee")) {
+                var role = { userId: userid, role: 1, teamid: teamid }
+                players.push(role);
+            }
+            else {
+                var role = { userId: userid, role: 0, teamid: teamid }
+                players.push(role);
+            }
+        });
+        var team = {  TeamId: teamid, TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), Roles: players }
+
+        $.ajax({
+            url: "/Teams/Edit",
+            dataType: "json",
+            type: "POST",
+            data: team,
+            success: function (data) {
+
+            }
+        });
+    });
+
+    $("#createTeam").click(function () {
+        var players = [];
+        $(".selected-users li").each(function () {
+            var userid = $(this).children(".id").html();
+            if ($(this).hasClass("Captain")) {
+                var role = { userId: userid, role: 2 }
+                players.push(role);
+            }
+            else if ($(this).hasClass("Committee")) {
+                var role = { userId: userid, role: 1 }
+                players.push(role);
+            }
+            else{
+                var role = { userId: userid, role: 0 }
+                players.push(role);
+            }
+        });
+        var userid =  $(".userid").text();
+        players.push({ UserId: userid, role: 2 });
+        var team = { TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), Roles: players }
 
         $.ajax({
             url: "/Teams/Create",
@@ -448,20 +504,7 @@
     });
 
 
-    $("#editTeam").click(function() {
 
-        var team = { TeamId: $(".form-horizontal").attr("id"), TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), PlayerIds: $(".selected-users .id").map(function() { return $(this).text(); }).get() }
-
-        $.ajax({
-            url: "/Teams/Edit",
-            dataType: "json",
-            type: "POST",
-            data: team,
-            success: function(data) {
-
-            }
-        });
-    });
 
     $(document).on('click', ".removeMember", function() {
         $(this).parent().remove();
