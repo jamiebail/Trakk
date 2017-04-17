@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
+using API.Models;
 using Trakk.Models;
 using Newtonsoft.Json;
 using Trakk.Helpers;
@@ -152,6 +153,19 @@ namespace Trakk.Logic
         }
 
         public async Task<EntityResponse> UpdateEvent(EventReturnEditViewModel eventUpdate)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(eventUpdate), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("events/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+
+        public async Task<EntityResponse> UpdateAvailability(PlayerEventAvailability eventUpdate)
         {
             using (HttpClient client = new HttpClient())
             {

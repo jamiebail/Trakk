@@ -111,21 +111,7 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            $(".user-widget").draggable({
-                start: function () {
 
-                },
-                drag: function () {
-
-                },
-                stop: function () {
-                    $(".saveButton").removeClass("saved");
-                    $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-                },
-                containment: "body-content"
-            });
-       
-        }); 
 
         $(".user-list").droppable({
             hoverClass: 'drop-hover',
@@ -158,11 +144,11 @@
                     container = $(event.target),
                     containerOffset = container.offset();
 
-                $('.user-widget', event.target).appendTo(droppableParent).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ opacity: 1 }, 200);
+                $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
                 draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
             }
         });
-
+        });
     </script>
 }

@@ -244,7 +244,7 @@
 
             }).droppable({
                 hoverClass: 'drop-hover',
-                drop: function(event, ui) {
+                drop: function (event, ui) {
                     var draggable = $(ui.draggable[0]),
                         draggableOffset = draggable.offset(),
                         container = $(event.target),
@@ -336,14 +336,14 @@
         $(".team-member-widget").load("/Partials/TeamMembersPartial", { id: teamId }, function() {
             $(".user-list").droppable({
                 hoverClass: 'drop-hover',
-                drop: function(event, ui) {
+                drop: function (event, ui) {
                     var draggable = $(ui.draggable[0]),
                         draggableOffset = draggable.offset(),
                         container = $(event.target),
                         containerOffset = container.offset();
                     refreshFormationBar();
 
-                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: -10, top: -50 }, 200);
+                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
 
                 }
             });
@@ -360,10 +360,12 @@
                 $(".saveButton").removeClass("saved");
                 $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
             },
-            containment: "body-content"
+            containment: "#formation-interface"
         });
        
     });
+
+
 
     function refreshFormationBar() {
         var teamid;
@@ -402,19 +404,7 @@
                 $(".saveButton span").removeClass("glyphicon-save").addClass("glyphicon-saved");
                 $(".saveButton").addClass('indb');
                 $(".pitchFrame").attr('id', id);
-                $(".user-widget").appendTo(".user-list").draggable({
-                        start: function () {
-
-                        },
-                        drag: function () {
-
-                        },
-                        stop: function () {
-                            $(".saveButton").removeClass("saved");
-                            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
-                        },
-                        containment: "body-content"
-                    });
+                $(".user-widget").appendTo(".user-list");
                 
 
                 $(".pitchLocation").remove();
@@ -430,17 +420,27 @@
                     if (name == undefined) {
                         name = "";
                     }
-                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').droppable({
-                        hoverClass: 'drop-hover',
-                        out: function (event, ui) {
-                            $(this).droppable("option", "disabled", false);
+                    $("<div style=\"position: absolute; top:" + position[i].top + "%; left:" + position[i].left + "% \"; class=\"pitchLocation draggable\"><input type=\"text\" value=\"" + name + "\" placeholder=\"Position\"></input></div>").appendTo('.pitchFrame').draggable({
+                        start: function () {
+
                         },
-                        drop: function(event, ui) {
+                        drag: function () {
+
+                        },
+                        stop: function () {
+                            $(".saveButton").removeClass("saved");
+                            $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
+                        },
+                        containment: ".pitchFrame img"
+
+                    }).droppable({
+                        hoverClass: 'drop-hover',
+                        drop: function (event, ui) {
                             var draggable = $(ui.draggable[0]),
                                 draggableOffset = draggable.offset(),
                                 container = $(event.target),
                                 containerOffset = container.offset();
-                            
+
                             $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
                             draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
@@ -475,7 +475,7 @@
                         $(".saveButton").removeClass("saved");
                         $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
                     },
-                    containment: "body-content"
+                    containment: "#formation-interface"
                 });
                 $(".saveButton").removeClass("saved");
                 $(".saveButton span").removeClass("glyphicon-saved").addClass("glyphicon-save");
@@ -746,4 +746,6 @@
   
 
     });
+
+    $(".calendarButton a").trigger('click');
 });

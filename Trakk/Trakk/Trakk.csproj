@@ -217,6 +217,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IEvent.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PlayerEventAvailability.cs" />
+    <Compile Include="Models\PlayerFixtureAvailability.cs" />
     <Compile Include="Models\Sport.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamMember.cs" />

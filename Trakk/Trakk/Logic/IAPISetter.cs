@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using API.Models;
 using Trakk.Models;
 using Trakk.Helpers;
 using Trakk.Viewmodels;
@@ -24,5 +25,6 @@ namespace Trakk.Logic
         Task<EntityResponse> CreateEvent(EventReturnCreateViewModel newEvent);
         Task<EntityResponse> CreateFormation(Formation formation);
         Task<EntityResponse> UpdateFormation(Formation formation);
+        Task<EntityResponse> UpdateAvailability(PlayerEventAvailability eventUpdate);
     }
 }

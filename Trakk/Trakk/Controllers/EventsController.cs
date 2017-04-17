@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using API.Helpers;
+using API.Models;
 using Trakk.Helpers;
 using Trakk.Logic;
 using Trakk.Models;
@@ -130,6 +132,19 @@ namespace Trakk.Controllers
                 }
                 return Json(new EntityResponse() { Message = "Model Invalid", Success = false }, JsonRequestBehavior.AllowGet);
             }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> CreateAvailability(TrakkEnums.UserAvailability availability, int eventId)
+        {
+                if (ModelState.IsValid)
+                {
+                    int id = _userLogic.GetPlayerId(User.Identity);
+                    await _setter.UpdateAvailability(new PlayerEventAvailability(){Availability = availability, EventId = eventId, UserId = id});
+                    return RedirectToAction("Index", "Home");
+                }
             return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 
