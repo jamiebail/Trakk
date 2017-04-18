@@ -95,7 +95,7 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserFixtureDetails(int id)
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            Fixture fixture = await _getter.GetFixture(id);
+            Fixture fixture = await _getter.GetFixture(new FixtureAvailabilityViewModel() {Id = id, UserId = member.Id});
             if (fixture.End < DateTime.Now)
             {
                 fixture.State = TrakkEnums.FixtureState.Finished;

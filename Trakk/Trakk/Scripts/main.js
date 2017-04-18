@@ -98,7 +98,7 @@
     }
 
 
-    $(".playing-status-button").click(function () {
+    $(document).on('click', ".playing-status-button", function () {
         if ($(this).hasClass("open")) {
             $(this).siblings(".availability-update").fadeOut();
             $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1}, 200);
@@ -125,7 +125,7 @@
 
     });
 
-    $(".availability-update .playing-status").click(function() {
+    $(document).on('click', ".event-container .availability-update .playing-status", function () {
         var containertype = $(this).closest(".event-container");
         var button = $(this);
         var id = containertype.attr("id");
@@ -158,6 +158,26 @@
             });
         }
     });
+    
+    $(document).on('click', ".fixture-details-widget .playing-status", function () {
+        var id = $(".pitchFrame-static").attr("id");
+        var text = $(this).text();
+        var color = $(this).css("background-color");
+        var attendance = $(this).attr("id");
+        var button = $(this);
+            $.ajax({
+                url: "/Fixtures/CreateAvailability",
+                dataType: "html",
+                data: { availability: attendance, eventId: id },
+                type: "POST",
+                success: function (data) {
+                    $(button).parent().parent().find(".playing-status-button").css("background-color", color);
+                    $(button).parent().parent().find(".playing-status-button").text(text);
+                    $(button).parent().parent().find(".playing-status-button").trigger('click');
+                }
+            });
+    });
+
 
 
     $(".teamsButton").click(function() {

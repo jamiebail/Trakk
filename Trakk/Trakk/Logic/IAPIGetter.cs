@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trakk.Models;
+using Trakk.Viewmodels;
 
 namespace Trakk.Logic
 {
     public interface IAPIGetter
     {
         Task<Fixture> GetFixture(int id);
+        Task<Fixture> GetFixture(FixtureAvailabilityViewModel fixtureRequest);
         Task<List<Fixture>> GetAllFixtures();
         Task<Team> GetTeam(int id);
         Task<List<Team>> GetAllTeams(int id);

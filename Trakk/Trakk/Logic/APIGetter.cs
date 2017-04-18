@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Trakk.Models;
 using Newtonsoft.Json;
+using Trakk.Viewmodels;
 
 namespace Trakk.Logic
 {
@@ -21,6 +22,19 @@ namespace Trakk.Logic
             {
                 client.BaseAddress = Uri;
                 var response = client.GetAsync("fixtures/GET/" + id).Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                Fixture fixture = JsonConvert.DeserializeObject<Fixture>(textResult);
+                return fixture;
+            }
+        }
+
+        public async Task<Fixture> GetFixture(FixtureAvailabilityViewModel fixtureRequest)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("fixtures/GetWithAvailability/" + fixtureRequest).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 Fixture fixture = JsonConvert.DeserializeObject<Fixture>(textResult);
                 return fixture;

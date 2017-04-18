@@ -99,6 +99,8 @@ namespace API.Logic
 
         }
 
+       
+
         public EntityResponse UpdateFixture(Fixture fixture)
         {
             try
@@ -125,6 +127,11 @@ namespace API.Logic
         {
             _fixtureRepository.Remove(_fixtureRepository.FindBy(x => x.Id == id).FirstOrDefault());
             return new EntityResponse(true, "Fixture deleted successfully");
+        }
+
+        public PlayerFixtureAvailability GetFixtureAvailability(int fixtureId, int userId)
+        {
+            return _avilabilityRepository.FindBy(x => x.EventId == fixtureId && x.UserId == userId).FirstOrDefault();
         }
     }
 }

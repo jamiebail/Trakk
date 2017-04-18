@@ -12,6 +12,7 @@ using API.Models;
 using API.Repositories;
 using API.Viewmodels;
 using API.ViewModels;
+using Trakk.Viewmodels;
 
 namespace API.Controllers
 {
@@ -29,6 +30,16 @@ namespace API.Controllers
             if (id == null)
                 return Json(_fixtureLogic.GetFixtures(), JsonRequestBehavior.AllowGet);
             Fixture fixture = _fixtureLogic.GetFixture(id.Value);
+            return Json(fixture, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetWithAvailability(FixtureAvailabilityViewModel fixtureRequest)
+        {
+            if (fixtureRequest == null)
+                return null;
+            Fixture fixture = _fixtureLogic.GetFixture(fixtureRequest.Id);
+            fixture.AttendanceState = _fixtureLogic.GetFixtureAvailability(fixture.Id, fixtureRequest.UserId).Availability;
             return Json(fixture, JsonRequestBehavior.AllowGet);
         }
 
@@ -116,7 +127,6 @@ namespace API.Controllers
             }
             return Json(new { success = false, responseText = "The fixture model provided is invalid" }, JsonRequestBehavior.AllowGet);
         }
-
     }
 }
 

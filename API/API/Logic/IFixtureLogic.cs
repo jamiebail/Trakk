@@ -19,5 +19,6 @@ namespace API.Logic
         EntityResponse DeleteFixture(int id);
         List<Fixture> GetUserFixtures(int id);
         List<TeamMember> GetAvailableForFixture(int fixtureId);
+        PlayerFixtureAvailability GetFixtureAvailability(int fixtureId, int userId);
     }
 }

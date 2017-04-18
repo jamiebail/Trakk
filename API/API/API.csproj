@@ -379,6 +379,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AvailabilityViewModel.cs" />
     <Compile Include="ViewModels\EventCreateModel.cs" />
+    <Compile Include="ViewModels\FixtureAvailabilityViewModel.cs" />
     <Compile Include="ViewModels\FixtureCreateViewModel.cs" />
     <Compile Include="ViewModels\StatUpdateViewModel.cs" />
     <Compile Include="ViewModels\TeamCreateModel.cs" />
