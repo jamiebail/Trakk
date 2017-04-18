@@ -171,7 +171,18 @@ namespace Trakk.Logic
             {
                 client.BaseAddress = Uri;
                 var content = new StringContent(JsonConvert.SerializeObject(eventUpdate), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("events/PUT/", content);
+                var response = await client.PostAsync("events/CreateAvailability/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+        public async Task<EntityResponse> UpdateFixtureAvailability(PlayerFixtureAvailability eventUpdate)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(eventUpdate), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("fixtures/CreateAvailability/", content);
                 string textResult = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
             }

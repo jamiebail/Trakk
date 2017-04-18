@@ -13,7 +13,7 @@ namespace API.Logic
     {
         private readonly IRepository<Fixture> _fixtureRepository = new Repository<Fixture>(); 
         private readonly IRepository<Team> _teamRepository = new Repository<Team>(); 
-        private readonly IRepository<PlayerEventAvailability> _avilabilityRepository = new Repository<PlayerEventAvailability>(); 
+        private readonly IRepository<PlayerFixtureAvailability> _avilabilityRepository = new Repository<PlayerFixtureAvailability>(); 
         private readonly ITeamLogic _teamLogic = new TeamLogic();
         private readonly IReportLogic _reportLogic = new ReportLogic();
         public List<Fixture> GetFixtures()
@@ -55,9 +55,9 @@ namespace API.Logic
             }
             foreach (var e in fixtures)
             {
-                PlayerEventAvailability pev = _avilabilityRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
-                if (pev != null)
-                    e.AttendanceState = pev.Availability;
+                PlayerFixtureAvailability pfv = _avilabilityRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
+                if (pfv != null)
+                    e.AttendanceState = pfv.Availability;
             }
             return fixtures;
         } 

@@ -6,7 +6,7 @@
 @{
 
 
-    <div class="social-container event-container col-lg-3">
+    <div  id="@Model.Id" class="social-container event-container col-lg-3">
         <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length - 6)</div>
         <div class="title">
             <h4>@Model.Title</h4>
@@ -14,9 +14,7 @@
         <div class="social-location">@Model.Location</div>
         <div class="social-comments">@Model.Comments</div>
         <div class="attendance">
-            <div class="invited col-xs-3">@Model.Invited</div>
             @Html.Partial("/Views/Partials/AttendancePartial.cshtml", Model)
-            <div class="attending col-xs-3">@Model.Attending </div>
         </div>
 
 

@@ -13,7 +13,7 @@ namespace API.Models
         [Key]
         public int Id { get; set; }
         public TrakkEnums.UserAvailability Availability { get; set; }
-        public int TeamMember { get; set; }
-        public int FixtureId { get; set; }
+        public int UserId { get; set; }
+        public int EventId { get; set; }
     }
 }

@@ -26,5 +26,6 @@ namespace Trakk.Logic
         Task<EntityResponse> CreateFormation(Formation formation);
         Task<EntityResponse> UpdateFormation(Formation formation);
         Task<EntityResponse> UpdateAvailability(PlayerEventAvailability eventUpdate);
+        Task<EntityResponse> UpdateFixtureAvailability(PlayerFixtureAvailability eventUpdate);
     }
 }

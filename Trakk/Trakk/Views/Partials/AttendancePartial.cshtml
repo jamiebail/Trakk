@@ -1,19 +1,26 @@
 ﻿@using API.Helpers
 @model Trakk.Models.Event
 @{
-    switch (Model.AttendanceState)
-    {
-        case TrakkEnums.UserAvailability.Accepted:
-            <div class="playing-status col-xs-6 playing">Available</div>
-            break;
-        case TrakkEnums.UserAvailability.Maybe:
-            <div class="playing-status col-xs-6 maybe">Maybe</div>
-            break;
-        case TrakkEnums.UserAvailability.Rejected:
-            <div class="playing-status col-xs-6 rejected">Unavailable</div>
-            break;
-        default:
-            <div class="playing-status col-xs-6  undecided">Join</div>
-            break;
-    }
+
+    <div class="availability-box">
+        <div class="availability-update">
+            <div id="@TrakkEnums.UserAvailability.Accepted" class="playing-status col-lg-12 playing">Available</div>
+            <div id="@TrakkEnums.UserAvailability.Rejected" class="playing-status col-lg-12 rejected">Unavailable</div>
+        </div>
+        @switch (Model.AttendanceState)
+        {
+            case TrakkEnums.UserAvailability.Accepted:
+                <div  class="playing-status-button col-xs-12 playing">Available</div>
+                break;
+            case TrakkEnums.UserAvailability.Maybe:
+                <div id="@TrakkEnums.UserAvailability.Maybe" class="playing-status-button col-xs-12 maybe">Maybe</div>
+                break;
+            case TrakkEnums.UserAvailability.Rejected:
+                <div class="playing-status-button col-xs-12 rejected">Unavailable</div>
+                break;
+            default:
+                <div class="playing-status-button col-xs-12 undecided">Select Availability</div>
+                break;
+        }
+    </div>
 }

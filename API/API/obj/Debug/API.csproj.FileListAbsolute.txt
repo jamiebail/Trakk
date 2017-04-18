@@ -89,22 +89,6 @@ C:\Users\Jamie\Documents\Visual Studio 2015\Projects\API\API\obj\Debug\API.cspro
 C:\Users\Jamie\Documents\Visual Studio 2015\Projects\API\API\obj\Debug\API.Migrations.anotherone.resources
 C:\Users\Jamie\Documents\Visual Studio 2015\Projects\API\API\obj\Debug\API.Migrations.Availabilities.resources
 C:\Users\Jamie\Documents\Visual Studio 2015\Projects\API\API\obj\Debug\API.Migrations.StartEnd.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.initial.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Stats.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Events.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate2.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate3.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Goals.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Goals2.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Cards2.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.TeamEvents.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.anotherone.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Availabilities.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.StartEnd.resources
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.csproj.GenerateResource.Cache
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.dll
-C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.pdb
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\roslyn\csc.exe
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -179,6 +163,19 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\Microsoft.Owin.Security.Google
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\bin\System.Web.Http.Owin.xml
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.initial.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Stats.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Events.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.EventsUpdate3.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Goals.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Goals2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Cards2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.TeamEvents.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.anotherone.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.Availabilities.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.StartEnd.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.teamrequest.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.privateevents.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.sportupdate.resources
@@ -191,4 +188,9 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.createfix
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.fixtureavailabilities.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.roles.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.roles2.resources
-C:\Users\jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.csprojResolveAssemblyReference.cache
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.csproj.GenerateResource.Cache
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.dll
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.pdb
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.availbilitesupdate.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.csprojResolveAssemblyReference.cache
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.availbilitesupdate2.resources

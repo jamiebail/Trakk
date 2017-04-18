@@ -7,6 +7,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using API.Helpers;
+using API.Models;
 using Newtonsoft.Json;
 using Trakk.Helpers;
 using Trakk.Logic;
@@ -208,6 +210,17 @@ namespace Trakk.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<ActionResult> CreateAvailability(TrakkEnums.UserAvailability availability, int eventId)
+        {
+            if (ModelState.IsValid)
+            {
+                int id = _userLogic.GetPlayerId(User.Identity);
+                await _setter.UpdateFixtureAvailability(new PlayerFixtureAvailability() { Availability = availability, EventId = eventId, UserId = id });
+                return RedirectToAction("Index", "Home");
+            }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -11,6 +11,7 @@ using API.Logic;
 using API.Models;
 using API.Repositories;
 using API.Viewmodels;
+using API.ViewModels;
 
 namespace API.Controllers
 {
@@ -90,6 +91,30 @@ namespace API.Controllers
                 return Json(new { success = false, responseText = "The team record for that id doesn't exist" }, JsonRequestBehavior.AllowGet);
             }
             return Json(team, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CreateAvailability(AvailabilityViewModel availabilityIn)
+        {
+            if (ModelState.IsValid)
+            {
+                PlayerFixtureAvailability availability = new PlayerFixtureAvailability()
+                {
+                    Availability = availabilityIn.Availability,
+                    EventId = availabilityIn.EventId,
+                    UserId = availabilityIn.UserId
+                };
+
+                EntityResponse response = _userLogic.UpdateFixtureAvailability(availability);
+                if (response.Success)
+                {
+                    return Json(new { success = true, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { success = false, responseText = "The fixture model provided is invalid" }, JsonRequestBehavior.AllowGet);
         }
 
     }

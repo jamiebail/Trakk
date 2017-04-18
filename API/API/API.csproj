@@ -330,10 +330,19 @@
     <Compile Include="Migrations\201704142138368_roles2.Designer.cs">
       <DependentUpon>201704142138368_roles2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704172248085_availbilitesupdate.cs" />
+    <Compile Include="Migrations\201704172248085_availbilitesupdate.Designer.cs">
+      <DependentUpon>201704172248085_availbilitesupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704172347214_availbilitesupdate2.cs" />
+    <Compile Include="Migrations\201704172347214_availbilitesupdate2.Designer.cs">
+      <DependentUpon>201704172347214_availbilitesupdate2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
     <Compile Include="Models\Goal.cs" />
+    <Compile Include="Models\IAvailability.cs" />
     <Compile Include="Models\PlayerEventAvailability.cs" />
     <Compile Include="Models\PlayerFixtureAvailability.cs" />
     <Compile Include="Models\Position.cs" />
@@ -368,6 +377,7 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AvailabilityViewModel.cs" />
     <Compile Include="ViewModels\EventCreateModel.cs" />
     <Compile Include="ViewModels\FixtureCreateViewModel.cs" />
     <Compile Include="ViewModels\StatUpdateViewModel.cs" />
@@ -524,6 +534,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704142138368_roles2.resx">
       <DependentUpon>201704142138368_roles2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704172248085_availbilitesupdate.resx">
+      <DependentUpon>201704172248085_availbilitesupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704172347214_availbilitesupdate2.resx">
+      <DependentUpon>201704172347214_availbilitesupdate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -36,9 +36,10 @@ namespace API.Logic
             foreach (Event e in userEvents)
             {
 
-                PlayerEventAvailability pev = _availabilitiesRepository.FindBy(x => x.EventId == e.Id).FirstOrDefault();
+                PlayerEventAvailability pev = _availabilitiesRepository.FindBy(x => x.EventId == e.Id && x.UserId == user.Id).FirstOrDefault();
                 if (pev != null)
                     e.AttendanceState = pev.Availability;
+                 
             }
             return userEvents;
         }

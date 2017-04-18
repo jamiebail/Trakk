@@ -47,9 +47,102 @@
                     $("#event-carousel").html(data);
                 }
 
+
+                $(".playing-status-button").click(function () {
+                    if ($(this).hasClass("open")) {
+                        $(this).siblings(".availability-update").fadeOut();
+                        $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1 }, 200);
+                        $(this).toggleClass("open");
+                    } else {
+                        $(this).siblings(".availability-update").fadeIn();
+                        $(this).parent().parent().find(".playing-status-button").animate({ opacity: 0.2 }, 200);
+                        $(this).toggleClass("open");
+                    }
+                });
+
+                $(".availability-update .playing-status").click(function () {
+                    var containertype = $(this).closest(".event-container");
+                    var button = $(this);
+                    var id = containertype.attr("id");
+                    var text = $(this).text();
+                    var color = $(this).css("background-color");
+                    var attendance = $(this).attr("id");
+                    if ($(containertype).hasClass("fixture-container")) {
+                        $.ajax({
+                            url: "/Fixtures/CreateAvailability",
+                            dataType: "html",
+                            data: { availability: attendance, eventId: id },
+                            type: "POST",
+                            success: function (data) {
+                                $(button).parent().parent().find(".playing-status-button").css("background-color", color);
+                                $(button).parent().parent().find(".playing-status-button").text(text);
+                                $(button).parent().parent().find(".playing-status-button").trigger('click');
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: "/Events/CreateAvailability",
+                            dataType: "html",
+                            data: { availability: attendance, eventId: id },
+                            type: "POST",
+                            success: function (data) {
+                                $(button).parent().parent().find(".playing-status-button").css("background-color", color);
+                                $(button).parent().parent().find(".playing-status-button").text(text);
+                                $(button).parent().parent().find(".playing-status-button").trigger('click');
+                            }
+                        });
+                    }
+                });
             }
         });
     }
+
+
+    $(".playing-status-button").click(function () {
+        if ($(this).hasClass("open")) {
+            $(this).siblings(".availability-update").fadeOut();
+            $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1}, 200);
+            $(this).toggleClass("open");
+        } else {
+            $(this).siblings(".availability-update").fadeIn();
+            $(this).parent().parent().find(".playing-status-button").animate({ opacity: 0.2 }, 200);
+            $(this).toggleClass("open");
+        }
+    });
+
+    $(".availability-update .playing-status").click(function() {
+        var containertype = $(this).closest(".event-container");
+        var button = $(this);
+        var id = containertype.attr("id");
+        var text = $(this).text();
+        var color = $(this).css("background-color");
+        var attendance = $(this).attr("id");
+        if ($(containertype).hasClass("fixture-container")) {
+            $.ajax({
+                url: "/Fixtures/CreateAvailability",
+                dataType: "html",
+                data: { availability: attendance, eventId: id },
+                type: "POST",
+                success: function(data) {
+                    $(button).parent().parent().find(".playing-status-button").css("background-color", color);
+                    $(button).parent().parent().find(".playing-status-button").text(text);
+                    $(button).parent().parent().find(".playing-status-button").trigger('click');
+                }
+            });
+        } else {
+            $.ajax({
+                url: "/Events/CreateAvailability",
+                dataType: "html",
+                data: { availability: attendance, eventId: id },
+                type: "POST",
+                success: function (data) {
+                    $(button).parent().parent().find(".playing-status-button").css("background-color", color);
+                    $(button).parent().parent().find(".playing-status-button").text(text);
+                    $(button).parent().parent().find(".playing-status-button").trigger('click');
+                }
+            });
+        }
+    });
 
 
     $(".teamsButton").click(function() {
@@ -734,6 +827,7 @@
                             events: eventList,
                             dayClick: function(date) {
                                 getDateEvents(date.format());
+
                             }
                         });
                     }

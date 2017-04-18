@@ -90,6 +90,31 @@ namespace API.Controllers
             return Json(team, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult CreateAvailability(AvailabilityViewModel availabilityIn)
+        {
+            if (ModelState.IsValid)
+            {
+                PlayerEventAvailability availability = new PlayerEventAvailability()
+                {
+                    Availability = availabilityIn.Availability,
+                    EventId = availabilityIn.EventId,
+                    UserId = availabilityIn.UserId
+                };
+
+               EntityResponse response = _userLogic.UpdateAvailability(availability);
+                if (response.Success)
+                {
+                    return Json(new { success = true, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { success = false, responseText = "The fixture model provided is invalid" }, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
-    
+
 }

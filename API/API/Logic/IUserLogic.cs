@@ -19,6 +19,7 @@ namespace API.Logic
         EntityResponse SetUserTeam(int userId, int teamId);
         EntityResponse SetUserRole(TeamRoles role);
         EntityResponse UpdateUserRole(TeamRoles role);
-
+        EntityResponse UpdateAvailability(PlayerEventAvailability availability);
+        EntityResponse UpdateFixtureAvailability(PlayerFixtureAvailability availability);
     }
 }
