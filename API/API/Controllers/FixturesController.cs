@@ -28,8 +28,8 @@ namespace API.Controllers
         {
             if (id == null)
                 return Json(_fixtureLogic.GetFixtures(), JsonRequestBehavior.AllowGet);
-
-            return Json(_fixtureLogic.GetFixture(id.Value), JsonRequestBehavior.AllowGet);
+            Fixture fixture = _fixtureLogic.GetFixture(id.Value);
+            return Json(fixture, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Member(int? id)

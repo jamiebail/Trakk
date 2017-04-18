@@ -18,5 +18,6 @@ namespace API.Logic
         EntityResponse UpdateFixture(Fixture fixture);
         EntityResponse DeleteFixture(int id);
         List<Fixture> GetUserFixtures(int id);
+        List<TeamMember> GetAvailableForFixture(int fixtureId);
     }
 }

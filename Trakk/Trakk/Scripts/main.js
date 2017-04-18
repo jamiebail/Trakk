@@ -110,6 +110,21 @@
         }
     });
 
+    $(document).on('click', ".fixture-widget", function () {
+        var id = $(this).attr("id");
+        $("#mainBody").load("Partials/UserFixtureDetails", { id }, function () {
+            $(".pitchLocation-static input").prop('disabled', true);
+        });
+    });
+
+    $(document).on('click', ".fixture-container", function() {
+        var id = $(this).attr("id");
+        $("#mainBody").load("Partials/UserFixtureDetails", { id }, function() {
+            $(".pitchLocation-static input").prop('disabled', true);
+        });
+
+    });
+
     $(".availability-update .playing-status").click(function() {
         var containertype = $(this).closest(".event-container");
         var button = $(this);

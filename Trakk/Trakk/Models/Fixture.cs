@@ -28,5 +28,6 @@ namespace Trakk.Models
         public string Location { get; set; }
         public TrakkEnums.FixtureState State { get; set; }
         public string Positions { get; set; }
+        public List<TeamMember> Available { get; set; }
     }
 }

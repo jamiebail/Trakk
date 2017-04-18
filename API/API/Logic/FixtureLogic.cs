@@ -15,6 +15,7 @@ namespace API.Logic
         private readonly IRepository<Team> _teamRepository = new Repository<Team>(); 
         private readonly IRepository<PlayerFixtureAvailability> _avilabilityRepository = new Repository<PlayerFixtureAvailability>(); 
         private readonly ITeamLogic _teamLogic = new TeamLogic();
+        private readonly IUserLogic _userLogic = new UserLogic();
         private readonly IReportLogic _reportLogic = new ReportLogic();
         public List<Fixture> GetFixtures()
         {
@@ -28,6 +29,7 @@ namespace API.Logic
             {
                 fixture.HomeTeam = _teamRepository.FindBy(x => x.Id == fixture.HomeId).FirstOrDefault();
                 fixture.AwayTeam = _teamRepository.FindBy(x => x.Id == fixture.AwayId).FirstOrDefault();
+                fixture.Available = GetAvailableForFixture(fixture.Id);
                 return fixture;
             }
             else return null;
@@ -38,6 +40,14 @@ namespace API.Logic
         {
             return _fixtureRepository.FindBy(x => x.HomeId == id || x.AwayId == id);
         }
+
+
+        public List<TeamMember> GetAvailableForFixture(int fixtureId)
+        {
+            List<PlayerFixtureAvailability> availabiltiies = _avilabilityRepository.FindBy(x => x.EventId == fixtureId);
+            List<TeamMember> available = availabiltiies.Select(availability => _userLogic.GetUser(availability.UserId)).ToList();
+            return available;
+        } 
 
         public List<Fixture> GetUserFixtures(int id)
         {
@@ -52,6 +62,7 @@ namespace API.Logic
             {
                 fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
                 fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
+                fixture.Available = GetAvailableForFixture(fixture.Id);
             }
             foreach (var e in fixtures)
             {

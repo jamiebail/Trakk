@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using API.Helpers;
+using Newtonsoft.Json;
 using Trakk.Logic;
 using Trakk.Models;
 using Trakk.Viewmodels;
@@ -78,7 +79,33 @@ namespace Trakk.Controllers
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
             EventsListViewModel vm = new EventsListViewModel() { Events = await _getter.GetUserEvents(member.Id, false) };
             vm.Events = vm.Events.Where(x => x.Type != TrakkEnums.EventType.Social && x.Type != TrakkEnums.EventType.Training).ToList();
-            return PartialView("~/Views/Partials/UserFixturePartial.cshtml", vm.Events);
+            List<FixtureViewModel> fixtures = new List<FixtureViewModel>();
+            foreach (var e in vm.Events)
+            {
+                Fixture fixture = (Fixture) e;
+                if (fixture.End < DateTime.Now)
+                {
+                    fixture.State = TrakkEnums.FixtureState.Finished;
+                }
+                fixtures.Add(new FixtureViewModel() { HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, Fixture = fixture, Playing = fixture.Available, UserId = member.Id});
+            }
+            return PartialView("~/Views/Partials/UserFixturePartial.cshtml", fixtures);
+        } 
+        // GET: Fixtures
+        public async Task<PartialViewResult> UserFixtureDetails(int id)
+        {
+            TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
+            Fixture fixture = await _getter.GetFixture(id);
+            if (fixture.End < DateTime.Now)
+            {
+                fixture.State = TrakkEnums.FixtureState.Finished;
+            }
+            List<PlayerPositionViewModel> positions =
+                   JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
+
+            FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = fixture.Available, UserId = member.Id};
+            
+            return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
         }
 
         // GET: Fixtures

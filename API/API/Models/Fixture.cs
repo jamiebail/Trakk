@@ -35,5 +35,7 @@ namespace API.Models
 
         public string Comments { get; set; }
         public string Positions { get; set; }
+        [NotMapped]
+        public List<TeamMember> Available { get; set; }
     }
 }

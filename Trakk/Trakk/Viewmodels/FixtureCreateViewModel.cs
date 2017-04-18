@@ -32,4 +32,14 @@ namespace Trakk.Viewmodels
         public List<PlayerPositionViewModel> Positions { get; set; }
         public List<TeamMember> Members { get; set; }
     }
+
+    public class FixtureViewModel
+    {
+        public int UserId { get; set; }
+        public Team HomeTeam { get; set; }
+        public Team AwayTeam { get; set; }
+        public Fixture Fixture { get; set; }
+        public List<PlayerPositionViewModel> Positions { get; set; }
+        public List<TeamMember> Playing { get; set; } 
+    }
 }

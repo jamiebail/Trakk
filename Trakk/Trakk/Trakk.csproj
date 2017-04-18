@@ -606,6 +606,7 @@
     <Content Include="Views\Partials\TeamMembersPartial.cshtml" />
     <Content Include="Views\Fixtures\Edit.cshtml" />
     <Content Include="Views\Shared\BadRequestView.cshtml" />
+    <Content Include="Views\Partials\FixtureDetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

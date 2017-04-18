@@ -1,59 +1,71 @@
 ﻿@using Trakk.Models
-@model List<Event>
+@model List<Trakk.Viewmodels.FixtureViewModel>
 
 <p>
     @Html.ActionLink("Create New", "Create", "Fixtures")
+
 </p>
-<table>
+
 @foreach (var item in Model)
 {
-    Fixture fixture = (Fixture) item;
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.HomeId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.AwayId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Easting)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Northing)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.End)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Attending)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Invited)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => fixture.AttendanceState)
-        </td>
+    <div class="currentUser" id="@item.UserId"></div>
+    <div class="fixture-widget" id="@item.Fixture.Id">
+        <a href="@Url.Action("Edit", "Fixtures", new {id = item.Fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
+        <div class="col-xs-12">
+            <div class="homeTeam col-xs-5">
+                <h4 class="col-xs-12">@item.HomeTeam.Name</h4>
+            </div>
+            <h2 class="col-xs-2" style="text-align: center"> vs </h2>
+            <div class="awayTeam col-xs-5">
+                <h4 class="col-xs-12">@item.AwayTeam.Name</h4>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-time start-glyphicon"></span>
+                @Html.DisplayFor(model => item.Fixture.Start, new { htmlAttributes = new { @class = "form-control", placeholder = "Start Time" } })
+                @Html.ValidationMessageFor(model => item.Fixture.Start, "", new { @class = "text-danger" })
+            </div>
 
-    </tr>
-    <a href="@Url.Action("Edit", "Fixtures", new { id = fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-time end-glyphicon"></span>
+                @Html.DisplayFor(model => item.Fixture.End, new { htmlAttributes = new { @class = "form-control", placeholder = "End Time" } })
+                @Html.ValidationMessageFor(model => item.Fixture.End, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.DisplayFor(modelItem => item.Fixture.Location)
+
+
+            @Html.DisplayFor(modelItem => item.Fixture.Comments)
+
+        </div>
+
+        <div class="col-xs-4">
+            @Html.DisplayFor(modelItem => item.Fixture.Attending)
+
+
+            @Html.DisplayFor(modelItem => item.Fixture.Invited)
+            @Html.DisplayFor(modelItem => item.Fixture.AttendanceState)
+
+        </div>
+
+        <div class="clear"></div>
+        <div>
+            
+            <div id="mainBody">
+
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".pitchLayout").off('mousedown');
+        });
+
+    </script>
 }
 
-</table>
+

@@ -1,0 +1,101 @@
+﻿@using Trakk.Models
+@model Trakk.Viewmodels.FixtureViewModel
+
+        <div class="pitchFrame-static" id="@Model.Fixture.Id" oncontextmenu="return false;">
+            <img src="../../Images/footballPitchReal.png" />
+            @foreach (var position in Model.Positions)
+            {
+                if (Model.UserId == @position.PlayerId)
+                {
+                    <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static usersposition draggable">
+                        <input type="text" value="@position.PositionName" placeholder="Position">
+                        @if (position.PlayerId != 0)
+                        {
+                            <li class="user-widget-static" id="@position.PlayerId">
+                                <div class="image-static"></div>
+                                <span class="username-static">@position.PlayerName</span>
+                            </li>
+                        }
+                    </div>
+                }
+                else
+
+                {
+                    <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
+                        <input type="text" value="@position.PositionName" placeholder="Position">
+
+                        @if (position.PlayerId != 0)
+                        {
+                            <li class="user-widget-static" id="@position.PlayerId">
+                                <div class="image-static"></div>
+                                <span class="username-static">@position.PlayerName</span>
+                            </li>
+                        }
+                    </div>
+                }
+            }
+        </div>
+        <div class="team-member-widget-static">
+            @if (@Model.Playing.Count > 0)
+            {
+                <h4>Substitues</h4>
+                <a href="@Url.Action("Edit", "Fixtures", new {id = @Model.Fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
+                @Html.Partial("~/Views/Partials/TeamMembersPartial.cshtml", @Model.Playing)
+            }
+        </div>
+
+<div class="fixture-details-widget">
+<div class="currentUser" id="@Model.UserId"></div>
+
+        <div class="col-xs-12">
+            <div class="homeTeam col-xs-5">
+                <h2 class="col-xs-12">@Model.HomeTeam.Name</h2>
+            </div>
+            <h2 class="col-xs-2" style="text-align: center"> vs </h2>
+            <div class="awayTeam col-xs-5">
+                <h2 class="col-xs-12">@Model.AwayTeam.Name</h2>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-time start-glyphicon"></span>
+                @Html.DisplayFor(model => Model.Fixture.Start, new { htmlAttributes = new { @class = "form-control", placeholder = "Start Time" } })
+                @Html.ValidationMessageFor(model => Model.Fixture.Start, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-time end-glyphicon"></span>
+                @Html.DisplayFor(model => Model.Fixture.End, new { htmlAttributes = new { @class = "form-control", placeholder = "End Time" } })
+                @Html.ValidationMessageFor(model => Model.Fixture.End, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-map-marker map-glyphicon"></span>
+                @Html.DisplayFor(model => model.Fixture.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Location" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Location, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-comment comment-glyphicon"></span>
+                @Html.DisplayFor(model => model.Fixture.Comments, new { htmlAttributes = new { @class = "form-control", placeholder = "Comments" } })
+                @Html.ValidationMessageFor(model => model.Fixture.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            @Html.DisplayFor(modelItem => Model.Fixture.Attending)
+
+
+            @Html.DisplayFor(modelItem => Model.Fixture.Invited)
+            @Html.DisplayFor(modelItem => Model.Fixture.AttendanceState)
+
+        </div>
+
+        <div class="clear"></div>
+    <div>
+    </div>
+</div>
+
+
