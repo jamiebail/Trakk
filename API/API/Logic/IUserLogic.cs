@@ -21,5 +21,8 @@ namespace API.Logic
         EntityResponse UpdateUserRole(TeamRoles role);
         EntityResponse UpdateAvailability(PlayerEventAvailability availability);
         EntityResponse UpdateFixtureAvailability(PlayerFixtureAvailability availability);
+        TeamMembership GetUserMembership(int userId, int teamId);
+        EntityResponse AcceptTeamInvite(TeamMembership membership);
+        EntityResponse RejectTeamInvite(TeamMembership membership);
     }
 }

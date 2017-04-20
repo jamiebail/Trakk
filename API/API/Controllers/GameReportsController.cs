@@ -29,35 +29,35 @@ namespace API.Controllers
             return Json(_reportLogic.GetReport(id.Value), JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public ActionResult Post(GameReport report)
-        //{
-        //    if (report == null)
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        [HttpPost]
+        public ActionResult Post(GameReport report)
+        {
+            if (report == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        EntityResponse response = _fixtureLogic.CreateFixture(report);
+            if (ModelState.IsValid)
+            {
+                EntityResponse response = _reportLogic.CreateReport(report);
 
-        //        if (response.Success)
-        //        {
-        //            return Json(new { success = true, responseText = response.Message }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    else return null;
-        //}
+                if (response.Success)
+                {
+                    return Json(new { success = true, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else return null;
+        }
 
 
         [HttpPost]
-        public ActionResult Put(Fixture fixture)
+        public ActionResult Put(GameReport report)
         {
             if (ModelState.IsValid)
             {
-                EntityResponse response = _fixtureLogic.UpdateFixture(fixture);
+                EntityResponse response = _reportLogic.UpdateReport(report);
                 if (response.Success)
                     return Json(new { success = true, responseText = response.Message }, JsonRequestBehavior.AllowGet);
                 else

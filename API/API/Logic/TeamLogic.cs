@@ -53,10 +53,17 @@ namespace API.Logic
 
         public List<Team> GetTeamsByUserId(int id)
         {
-            List<TeamMembership> teamMemberships = _membershipRepository.FindBy(x => x.MemberId == id);
+            List<TeamMembership> teamMemberships = _membershipRepository.FindBy(x => x.MemberId == id && x.Accepted);
             List<Team> teams = teamMemberships.Select(membership => GetTeamById(membership.TeamId)).ToList();
             return teams;
         }
+
+        public List<Team> GetTeamInvitesByUserId(int id)
+        {
+            List<TeamMembership> teamMemberships = _membershipRepository.FindBy(x => x.MemberId == id && x.Accepted == false);
+            List<Team> teams = teamMemberships.Select(membership => GetTeamById(membership.TeamId)).ToList();
+            return teams;
+        } 
 
         public EntityResponse UpdateTeam(TeamReturnEditViewModel team)
         {

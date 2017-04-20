@@ -98,6 +98,8 @@ namespace Trakk.Controllers
             Fixture fixture = await _getter.GetFixture(new FixtureAvailabilityViewModel() {Id = id, UserId = member.Id});
             if (fixture.End < DateTime.Now)
             {
+                if(fixture.Result == null)
+                    fixture.Result = new GameReport();
                 fixture.State = TrakkEnums.FixtureState.Finished;
             }
             List<PlayerPositionViewModel> positions =

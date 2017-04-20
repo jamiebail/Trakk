@@ -19,6 +19,7 @@ namespace Trakk.Models
         public string Name { get; set; }
         [NotMapped]
         public List<Team> Teams { get; set; } 
+        public List<Team> Invites { get; set; } 
         public int Score { get ; set; }
         public int AccountId { get; set; }
 

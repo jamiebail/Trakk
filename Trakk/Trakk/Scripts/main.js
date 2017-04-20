@@ -1,12 +1,8 @@
 ﻿$(document).ready(function() {
 
 
-
     // Initialisers
     refreshFormationBar();
-
-
-
 
 
     $(".collapseEvents").on("click", function() {
@@ -48,7 +44,7 @@
                 }
 
 
-                $(".playing-status-button").click(function () {
+                $(".playing-status-button").click(function() {
                     if ($(this).hasClass("open")) {
                         $(this).siblings(".availability-update").fadeOut();
                         $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1 }, 200);
@@ -60,7 +56,7 @@
                     }
                 });
 
-                $(".availability-update .playing-status").click(function () {
+                $(".availability-update .playing-status").click(function() {
                     var containertype = $(this).closest(".event-container");
                     var button = $(this);
                     var id = containertype.attr("id");
@@ -73,7 +69,7 @@
                             dataType: "html",
                             data: { availability: attendance, eventId: id },
                             type: "POST",
-                            success: function (data) {
+                            success: function(data) {
                                 $(button).parent().parent().find(".playing-status-button").css("background-color", color);
                                 $(button).parent().parent().find(".playing-status-button").text(text);
                                 $(button).parent().parent().find(".playing-status-button").trigger('click');
@@ -85,7 +81,7 @@
                             dataType: "html",
                             data: { availability: attendance, eventId: id },
                             type: "POST",
-                            success: function (data) {
+                            success: function(data) {
                                 $(button).parent().parent().find(".playing-status-button").css("background-color", color);
                                 $(button).parent().parent().find(".playing-status-button").text(text);
                                 $(button).parent().parent().find(".playing-status-button").trigger('click');
@@ -98,10 +94,10 @@
     }
 
 
-    $(document).on('click', ".playing-status-button", function () {
+    $(document).on('click', ".playing-status-button", function() {
         if ($(this).hasClass("open")) {
             $(this).siblings(".availability-update").fadeOut();
-            $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1}, 200);
+            $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1 }, 200);
             $(this).toggleClass("open");
         } else {
             $(this).siblings(".availability-update").fadeIn();
@@ -110,10 +106,11 @@
         }
     });
 
-    $(document).on('click', ".fixture-widget", function () {
+    $(document).on('click', ".fixture-widget", function() {
         var id = $(this).attr("id");
-        $("#mainBody").load("Partials/UserFixtureDetails", { id }, function () {
+        $("#mainBody").load("Partials/UserFixtureDetails", { id }, function() {
             $(".pitchLocation-static input").prop('disabled', true);
+            initialiseAutocompletes();
         });
     });
 
@@ -121,9 +118,170 @@
         var id = $(this).attr("id");
         $("#mainBody").load("Partials/UserFixtureDetails", { id }, function() {
             $(".pitchLocation-static input").prop('disabled', true);
+            initialiseAutocompletes();
         });
 
     });
+
+    var data = [];
+    function initialiseAutocompletes() {
+        data = [];
+        $(".available-List li").each(function() {
+            var player = { value: $(this).attr("id"), label: $(this).text() };
+            data.push(player);
+        });
+
+    }
+
+
+    $(".collapsed-navbar li").click(function() {
+        if (!$(".main-toggle").hasClass("collapsed")) {
+            $(".navbar-toggle").trigger('click');
+        }
+    });
+
+    $(document).on('input', "#homeScore", function () {
+        var rows = $(this).val();
+        initialiseAutocompletes();
+        $(".goals-form ul").empty();
+        if (rows <= 20) {
+            var count = 0;
+            for (var i = 0; i < rows; i++) {
+                count++;
+                $(".goals-form ul").append("<li class=\"row\"><h5 class=\"col-md-2\">Goal " + count + "</h5><input class=\"col-md-5 form-control pname \" type=\"text\" placeholder=\"Player Name\"/><div class=\"match-list\"></div><input class=\"timeinput col-md-offset-1 col-md-4 form-control \" type=\"text\" placeholder=\"Minute\"/></li><hr style=\"clear:both\"/>");
+            }
+            $(".goals-form .pname").autocomplete({
+                source: data,
+                focus: function (event, ui) {
+                    // prevent autocomplete from updating the textbox
+                    event.preventDefault();
+                    // manually update the textbox
+                    $(this).val(ui.item.label);
+                },
+                select: function (event, ui) {
+                    // prevent autocomplete from updating the textbox
+                    event.preventDefault();
+                    // manually update the textbox and hidden field
+                    $(this).val(ui.item.label);
+                    $(this).attr('id', ui.item.value);
+                }
+            });
+        };
+    });
+
+    $(document).on('click', ".submit-report", function () {
+        $(".validation-error").removeClass("validation-error");
+        var validationfail = false;
+        var homescore = $("#homeScore").val();
+        var awayscore = $("#awayScore").val();
+        var fixtureid = $(".fixture-id").attr("id");
+        var teamid = $(".team").text();
+        var elements = [];
+        var goals = [];
+        var cards = [];
+        $(".goals-form .row").each(function () {
+            var id = $(this).children(".pname").attr("id");
+            var minute = $(this).children('.timeinput').val(); 
+            if (id == undefined) {
+                elements.push($(this));
+            }
+            if (minute === "") {
+                elements.push($(this));
+            }
+            if(id !== undefined && minute !== ""){
+                var goal = { ScorerId: id, Minute: minute }
+                goals.push(goal);
+            }
+        });
+
+        $(".cards-form .row").each(function () {
+            var colour = $(this).children().find(".selected-card").attr("id");
+            var id = $(this).children("input").attr("id");
+            if (id == undefined) {
+                elements.push($(this));
+            } if (colour == undefined) {
+                elements.push($(this));
+            } if (id !== undefined && colour !== undefined) {
+                var card = { CardColour: colour, PlayerId: id }
+                cards.push(card);
+            }
+
+        });
+
+        if (elements.length > 0) {
+            for (var i = 0; i < elements.length; i++) {
+                $(elements[i]).addClass("validation-error");
+            }
+        } else {
+            var reportIn = { TeamId: teamid, FixtureId: fixtureid ,HomeScore: homescore, AwayScore: awayscore, Goals: goals, Cards: cards }
+            $.ajax({
+                url: "/Fixtures/CreateReport",
+                dataType: "html",
+                data: reportIn,
+                type: "POST",
+                success: function (data) {
+                    alert(data.message);
+                }
+            });
+        }
+    });
+
+    function submitAcceptance(button, accepted) {
+        var id = $(button).parent().attr("id");
+       $.ajax({
+            url: "/Teams/SubmitInvite",
+            dataType: "json",
+            data: { teamId: id, accepted: accepted },
+            type: "POST",
+            success: function (data) {
+                alert(data.message);
+            }
+            });
+    }
+
+    $(document).on('click', '.accept-invite', function() {
+        submitAcceptance($(this), true);
+    });
+    $(document).on('click', '.decline-invite', function() {
+        submitAcceptance($(this), false);
+    });
+
+
+    $(document).on('input', ".cards-form > input", function () {
+        var rows = $(this).val();
+        initialiseAutocompletes();
+        $(".cards-form ul").empty();
+        if (rows <= 20) {
+            var count = 0;
+            for (var i = 0; i < rows; i++) {
+                count++;
+                $(".cards-form ul").append("<li class=\"row\"><h5 class=\"col-md-2\">Card " + count + "</h5><input class=\"col-md-5 form-control pname \" type=\"text\" placeholder=\"Player Name\"/><div class=\"cardframe\"><img id=\"Yellow\" src=\"/Images/yellow.png\"\> <img id=\"Red\" src=\"/Images/red.png\"\> <img id=\"Green\" src=\"/Images/green.png\"\></div> </li><hr style=\"clear:both\"/>");
+            }
+            $(".cards-form .pname").autocomplete({
+                source: data,
+                focus: function (event, ui) {
+                    // prevent autocomplete from updating the textbox
+                    event.preventDefault();
+                    // manually update the textbox
+                    $(this).val(ui.item.label);
+                },
+                select: function (event, ui) {
+                    // prevent autocomplete from updating the textbox
+                    event.preventDefault();
+                    // manually update the textbox and hidden field
+                    $(this).val(ui.item.label);
+                    $(this).attr('id', ui.item.value);
+                }
+            });
+        };
+    });
+
+
+    $(document).on('click', ".cardframe img", function () {
+        $(this).siblings().removeClass("selected-card");
+        $(this).toggleClass("selected-card");
+    });
+    
 
     $(document).on('click', ".event-container .availability-update .playing-status", function () {
         var containertype = $(this).closest(".event-container");
@@ -159,7 +317,7 @@
         }
     });
     
-    $(document).on('click', ".fixture-details-widget .playing-status", function () {
+    $(document).on('click', ".team-member-widget-static .playing-status", function () {
         var id = $(".pitchFrame-static").attr("id");
         var text = $(this).text();
         var color = $(this).css("background-color");
@@ -630,7 +788,6 @@
     $(".Box").contextmenu(function(e) {
 
     });
-
 
 
 

@@ -15,9 +15,10 @@ namespace Trakk.Models
     {
         public int Id { get; set; }
         public CardColour CardColour { get; set; }
+        public int PlayerId { get; set; }
         [ScriptIgnore]
-        public virtual TeamMember Player { get; set; }
-        public int FixtureId { get; set; }
+        public TeamMember Player { get; set; }
+        public int ReportId { get; set; }
         public TrakkEnums.Side Side { get; set; }
     }
 }

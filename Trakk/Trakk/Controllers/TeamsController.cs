@@ -126,6 +126,18 @@ namespace Trakk.Controllers
                 new EntityResponse() {Message = "You are not an admin for this team.", Success = false});
         }
 
+
+        public async Task<EntityResponse> SubmitInvite(int teamId, bool accepted)
+        {
+            if (teamId != 0)
+            {
+                TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
+                EntityResponse response = await _setter.CreateTeamMembership(member.Id, teamId, accepted);
+                return response;
+            }
+            return new EntityResponse() { Message = "You are not an admin for this team.", Success = false };
+        }
+
         // POST: Teams/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

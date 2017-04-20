@@ -1,9 +1,71 @@
 ﻿@model Trakk.Models.TeamMember
 
-<p>
-    @Html.ActionLink("Create New", "Create", "Teams")
-</p>
+<p class="create-team"><a href="@Url.Action("Create", "Teams")"><span class="glyphicon glyphicon-plus"></span></a></p>   
 
+    @foreach (var item in Model.Invites)
+    {
+        <div class="team-widget" id="@item.Id">
+            <div class="team-name col-md-4">
+                <h3>@item.Name</h3>
+                <h5>@item.Sport.Name</h5>
+
+            </div>
+            <button class="btn btn-success accept-invite col-md-offset-2 col-md-2">Accept Invite</button>
+            <button class="btn btn-danger decline-invite col-md-offset-1 col-md-2">Decline Invite</button>
+            <div class="clear"></div>
+            <div style="background-color: #a1de48; height: 10px; border: 1px solid #b5b5b5;"></div>
+            <div class="teamstats detailstats col-lg-12">
+                <div>
+                    <h5>Won</h5>
+                    <p>@item.Statistics.Won</p>
+                </div>
+                <div>
+                    <h5>Lost</h5>
+                    <p>@item.Statistics.Lost</p>
+                </div>
+                <div>
+                    <h5>Drawn</h5>
+                    <p>@item.Statistics.Drawn</p>
+                </div>
+                <div>
+                    <h5>Cards</h5>
+                    @if (@item.Statistics.Cards != null)
+                    {
+                        <p>@item.Statistics.Cards.Count</p>
+                    }
+                    else
+                    {
+                        <p>0</p>
+                    }
+                </div>
+                <div>
+                    <h5>Goals</h5>
+                    <p>@item.Statistics.Goals</p>
+                </div>
+                <div>
+                    <h5>Conceded</h5>
+                    <p>@item.Statistics.Conceded</p>
+                </div>
+                <div>
+                    <h5>Played</h5>
+                    <p>@item.Statistics.Played</p>
+                </div>
+                <div>
+                    <h5>Points</h5>
+                    <p>@item.Statistics.Points</p>
+                </div>
+                <div>
+                    <h5>Goals</h5>
+                    <p>@item.Position</p>
+                </div>
+
+
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+    }
 
     @foreach (var item in Model.Teams)
     {

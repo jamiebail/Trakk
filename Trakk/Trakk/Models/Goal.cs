@@ -12,7 +12,8 @@ namespace Trakk.Models
     {
         [Key]
         public int Id { get; set; }
-        public virtual TeamMember Scorer { get; set; }
+        public int ScorerId { get; set; }
+        public TeamMember Scorer { get; set; }
         public int Minute { get; set; }
         public TrakkEnums.Side Side { get; set; }
     }

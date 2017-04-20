@@ -7,10 +7,11 @@
 
 #mainBody {
     height: 65%;
-        background-color: white !important;
+        background-color: rgb(255, 255, 255) !important;
     border-radius: 10px;
+    border: 1px solid #d0d0d0;
     overflow: hidden;
-        box-shadow: 0 1px 5px rgba(111, 111, 111, 0.46);
+        box-shadow: 0 1px 5px rgba(34, 34, 34, 0.46);
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -156,7 +157,7 @@ img {
 }
 
 .availability-update {
-    background-color: #2980b9;
+
     height: 100%;
     padding-top: -0px;
     text-align: center;
@@ -167,11 +168,46 @@ img {
     text-align: center;
 }
 
+.fixture-details-widget .playing-status-button {
+    height: 40px;
+    line-height: 25px;
+    border: 1px solid #cbcbcb;
+    box-shadow: 0 1px 5px rgba(187, 187, 187, 0.46);
+    border-radius: 3px;
+}
+
 .playing-status-button {
     padding-top: 7px;
     height: 35px;    
     margin-bottom:-10px;
     border-top: 1px solid rgba(194, 194, 194, 0.75);
+}
+
+.team-member-widget-static .playing-status-button {
+    height: 60px; 
+    line-height: 45px;
+    margin-bottom: -29px;
+
+}
+.team-member-widget-static .playing-status-button .glyphicon{
+    float: right;
+    margin-top: 12px;
+    color: #7c7c7c;
+    position: absolute !important;
+    right: 10px;
+
+}
+
+.pitchFrame-static .glyphicon-pencil {
+    color: White !important;
+    position: absolute !important;
+    right: 10px;
+}
+
+
+.team-member-widget-static .attendance {
+    position: relative;
+        padding-top: 0 !important;
 }
 
 .availability-update div {
@@ -194,10 +230,52 @@ img {
 
 }
 
+.goals-form, .cards-form  {
+
+
+}
+
+.goals-form li, .cards-form li {
+    list-style: none;
+}
+
+.goals-form h4, .cards-form h4 {
+    float: left;
+}
+
+.goals-form input, .cards-form input {
+    margin: 0 10px 0 0px;
+}
+
+.cards-form img {
+    width: 20px;
+    margin-top: -10px;
+    margin-right: 5px;
+    border-radius: 6px;
+        box-shadow: 0 .5px 1px rgba(147, 147, 147, 0.46);
+}
+
+.selected-card {
+    transform: scale(1.5);
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.timeinput {
+    width: 70px;
+
+}
+
+.goals-form ul, .cards-form ul {
+    padding: 0;
+}
+
 .fixture-widget {
     border: 1px solid rgba(111, 111, 111, 0.46);
     border-radius: 5px;
     margin-bottom: 20px;
+    margin: 20px;
+          box-shadow:0 1px 5px rgba(90, 90, 90, 0.46);
+              background-color: white;
 }
 
 .fixture-widget .homeTeam {
@@ -275,6 +353,7 @@ img {
     margin-top: 35% !important;
     margin-left: 5%;
     border: none;
+    border: none;
     font-size: 12px ;
     text-align: center;
 }
@@ -294,9 +373,13 @@ img {
 
 
 .fixture-details-widget div {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     height: auto;
+    padding: 5px;
 }
+
+
 
 .saveButton {
     width: 60px;
@@ -329,6 +412,15 @@ textarea {
     background-color: #a1de48 !important;
 }
 
+.accept-invite, .decline-invite {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    	box-shadow: 0 1px 5px rgba(120, 120, 120, 0.46);
+}
+.playing-status-button .glyphicon {
+    float: right;
+}
+
 .createBox {
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 5px;
@@ -345,6 +437,19 @@ textarea {
     margin: 0;
 }
 
+.create-team .glyphicon{
+    font-size: 35px !important;
+    color: #a1de48;
+}
+
+.create-team {
+        margin-bottom: 25px !important;
+    background-color: white;
+    border: 1px solid #d7cdcd;
+        box-shadow: 0px 0px 7px 0px rgba(176, 176, 176, 0.75);
+    padding-bottom: 10px;
+}
+
 .team-widget {
     width: 100%;
     height: auto;
@@ -353,6 +458,9 @@ textarea {
     margin-bottom: 20px;
     box-shadow: 0px 0px 7px 0px rgba(208, 208, 208, 0.75);
     overflow: hidden;
+    background-color: white;
+    box-shadow: 0px 0px 7px 0px rgba(176, 176, 176, 0.75);
+    padding: 0px;
 }
 
 .teamstats > div{
@@ -386,25 +494,30 @@ textarea {
 .image, .image-static {
     border-radius: 25px;
     border: 1px solid rgb(213, 213, 213);
-    height: 50px !important;
-    width: 50px !important;
+    height: 40px !important;
+    width: 40px !important;
     display: block;
         background-color: white;
+        margin: 0 auto;
 }
 
 .user-widget, .user-widget-static {
     width: 50px;
     text-align: center;
     display: inline-block;
-    margin: 20px;
+    margin-top: 20px;
+}
+
+.delete-team {
+    position: absolute;
+    top: 0;
 }
 
 
-
 .user-widget-static {
-    position: absolute;
-    left: -10px;
-    top: 50px;
+    position: relative;
+    left: 0px;
+    top: 5px;
     box-shadow: 0 1px 5px #8f8f8f;
     background-color: rgba(255, 255, 255, 0.78);
     border-radius: 4px;
@@ -422,6 +535,7 @@ textarea {
 .user-list, .user-list-static {
     list-style: none;
     margin-top: 20px;
+    padding-left: 0;
     min-height: 100px;
     height: 100%;
     clear: both;
@@ -432,9 +546,16 @@ textarea {
    box-shadow:         inset 0 0 6px #b7b7b7;
 }
 
-.user-list .ui-draggable {
-
+.validation-error {
+    background-color: #ffeaea;
 }
+
+.user-list h4 {
+    margin-bottom: 0;
+    padding-top: 20px !important;
+}
+
+
 
 .teamstats {
     height: 100%;
@@ -761,6 +882,22 @@ margin: 0px -15px 0 -15px;
     border-right: 1px solid rgb(213, 213, 213);
 }
 
+.collapsed-navbar {
+    
+}
+
+.match-list li {
+    background-color: black;
+}
+
+.ui-autocomplete-input:hover {
+    background: #f5f5f5;
+}
+
+.form-control:hover {
+    background: #f5f5f5;
+}
+
 .cards {
     margin-top: -5px;
     border-bottom:  1px solid rgb(213, 213, 213);
@@ -785,6 +922,8 @@ margin: 0px -15px 0 -15px;
 }
 
 
+
+
 .comments h2{
     font-size: 16px;
     margin: 0;
@@ -799,7 +938,11 @@ margin: 0px -15px 0 -15px;
 .comments {
     padding:10px;
     height: 34%;
-        border-bottom: 1px solid rgb(213, 213, 213);
+    border-bottom: none;
+}
+
+.comments h3 {
+        font-size: 14px !important;
 }
 
 #event-carousel .event-container {
@@ -819,6 +962,11 @@ margin: 0px -15px 0 -15px;
     -moz-box-shadow:  0px 0px 13px 0px rgba(167, 167, 167, 0.75);
     box-shadow:  0px 0px 13px 0px rgba(167, 167, 167, 0.75);
     box-shadow: 0px 0px 13px 0px rgba(118, 118, 118, 0.75);
+}
+
+.fixture-details-widget .attendance {
+    position: relative;
+    height: auto;
 }
 
 .eventDate {
@@ -1001,6 +1149,9 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
           top: 110%;
           left: -10px !important;
       }
+      .lower {
+          padding: 5px
+      }
 }
 
 @media(max-width: 992px) {
@@ -1012,7 +1163,6 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
           font-size: 9px;
           margin: 0px;
               left: 0px;
-          top: 110%;
 
       }
     .teamstats {

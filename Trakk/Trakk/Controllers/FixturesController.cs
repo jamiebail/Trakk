@@ -219,6 +219,35 @@ namespace Trakk.Controllers
                 await _setter.UpdateFixtureAvailability(new PlayerFixtureAvailability() { Availability = availability, EventId = eventId, UserId = id });
                 return RedirectToAction("Index", "Home");
             }
+            return View("BadRequestView", new EntityResponse() { Message = "Model submitted invalid", Success = false });
+        }
+
+        public async Task<ActionResult> CreateReport(ReportViewModel reportIn)
+        {
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, reportIn.TeamId))
+            {
+                if (ModelState.IsValid)
+                {
+                    GameReport report = new GameReport() {AwayScore = reportIn.AwayScore, FixtureId = reportIn.FixtureId, HomeScore = reportIn.HomeScore, Cards = reportIn.Cards, Goals = reportIn.Goals};
+                    int id = _userLogic.GetPlayerId(User.Identity);
+                    await _setter.CreateReport(report);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
+        }
+        public async Task<ActionResult> UpdateReport(ReportViewModel reportIn)
+        {
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, reportIn.TeamId))
+            {
+                if (ModelState.IsValid)
+                {
+                    GameReport report = new GameReport() {AwayScore = reportIn.AwayScore, HomeScore = reportIn.HomeScore, Cards = reportIn.Cards, Goals = reportIn.Goals};
+                    int id = _userLogic.GetPlayerId(User.Identity);
+                    await _setter.UpdateReport(report);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
             return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
 

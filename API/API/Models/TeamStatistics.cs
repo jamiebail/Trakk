@@ -19,7 +19,8 @@ namespace API.Models
         public int Points { get; set; }
         public int Goals { get; set; }
         public int Conceded { get; set; }
-        public virtual ICollection<Card> Cards { get; set; }
+        [NotMapped]
+        public ICollection<Card> Cards { get; set; }
 
     }
 }

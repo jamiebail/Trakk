@@ -204,6 +204,10 @@
     <Compile Include="Migrations\201704110950479_usernames.Designer.cs">
       <DependentUpon>201704110950479_usernames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704191801269_goals.cs" />
+    <Compile Include="Migrations\201704191801269_goals.Designer.cs">
+      <DependentUpon>201704191801269_goals.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Logic\APISetter.cs" />
@@ -233,6 +237,7 @@
     <Compile Include="Viewmodels\FixtureCreateViewModel.cs" />
     <Compile Include="Viewmodels\HomeViewModel.cs" />
     <Compile Include="Viewmodels\PlayerPositionViewModel.cs" />
+    <Compile Include="Viewmodels\ReportViewModel.cs" />
     <Compile Include="Viewmodels\TeamCreateViewModel.cs" />
     <Compile Include="Viewmodels\TeamManageViewModel.cs" />
     <Compile Include="Viewmodels\UserViewModel.cs" />
@@ -608,6 +613,7 @@
     <Content Include="Views\Fixtures\Edit.cshtml" />
     <Content Include="Views\Shared\BadRequestView.cshtml" />
     <Content Include="Views\Partials\FixtureDetailsPartial.cshtml" />
+    <Content Include="Views\Partials\GameReportPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -626,6 +632,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704110950479_usernames.resx">
       <DependentUpon>201704110950479_usernames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191801269_goals.resx">
+      <DependentUpon>201704191801269_goals.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

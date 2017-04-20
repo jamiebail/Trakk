@@ -18,7 +18,9 @@ namespace API.Models
         [Required]
         public string Name { get; set; }
         [NotMapped]
-        public List<Team> Teams { get; set; } 
+        public List<Team> Teams { get; set; }
+        [NotMapped]
+        public List<Team> Invites { get; set; } 
         public int Score { get ; set; }
         public virtual Position Position { get; set; }
     }

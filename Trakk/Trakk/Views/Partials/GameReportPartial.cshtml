@@ -1,0 +1,19 @@
+﻿@model Trakk.Models.GameReport
+<div>
+    <p class="fixture-id" id="@Model.FixtureId"></p>
+    <h3>Submit Fixture Report</h3>
+    <div class="col-md-6">@Html.EditorFor(model => model.HomeScore, new {htmlAttributes = new {@class = "form-control", id = "homeScore", placeholder = "Home Team Score"}})</div>
+    <div class="col-md-6">@Html.EditorFor(model => model.AwayScore, new {htmlAttributes = new {@class = "form-control", id = "awayScore", placeholder = "Away Team Score"}})</div>
+    <div class="goals-form col-md-6">
+        <ul>
+
+        </ul>
+    </div>
+    <div class="cards-form col-md-6"><input class="form-control" type="text" placeholder="Number of cards"/><ul></ul>
+    </div>
+    <button class="clear btn btn-primary submit-report">Submit Report</button>
+</div>
+
+@section Scripts{
+
+}

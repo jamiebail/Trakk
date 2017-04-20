@@ -1,11 +1,14 @@
 ﻿@model Trakk.Models.Team
-    
+
 <div class="team-widget" id="@Model.Id">
-    <div class="team-name col-lg-12">
-        <h3>@Model.Name</h3>
-        <h5>@Model.Sport.Name</h5>
+    <div class="row">
+        <a class="col-xs-1 delete-team" href="@Url.Action("Delete", "Teams", new {id = Model.Id})"><span class="glyphicon glyphicon-stop"></span></a>
+        <div class="team-name col-xs-10">
+            <h3>@Model.Name</h3>
+            <h5>@Model.Sport.Name</h5>
+        </div>
+        <a class="col-xs-1" href="@Url.Action("Edit", "Teams", new { id = Model.Id })"><span class=" glyphicon glyphicon-pencil edit-team"></span></a>
     </div>
-    <a href="@Url.Action("Edit", "Teams", new { id = Model.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
     <div style="background-color: #a1de48; height: 10px; border: 1px solid #b5b5b5;"></div>
     <div class="teamstats detailstats col-lg-12">
         <div>
@@ -66,19 +69,19 @@
                     var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
                     if (role != null)
                     {
-                <li class="user-widget @role.Role">
-                    <div class="image"></div>
-                    @member.Name
-                    
-                </li>
+                        <li class="user-widget @role.Role">
+                            <div class="image"></div>
+                            @member.Name
+
+                        </li>
                     }
                 }
                 else
                 {
-            <li class="user-widget">
-                <div class="image"></div>
-                @member.Name
-            </li>
+                    <li class="user-widget">
+                        <div class="image"></div>
+                        @member.Name
+                    </li>
                 }
             }
         }

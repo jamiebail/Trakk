@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -20,8 +21,10 @@ namespace API.Models
         public int Id { get; set; }
         public CardColour CardColour { get; set; }
         [ScriptIgnore]
-        public virtual TeamMember Player { get; set; }
-        public int FixtureId { get; set; }
+        public int  PlayerId { get; set; }
+        [NotMapped]
+        public TeamMember Player { get; set; }
+        public int ReportId { get; set; }
         public TrakkEnums.Side Side { get; set; }
     }
 }

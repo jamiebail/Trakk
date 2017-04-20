@@ -39,7 +39,10 @@ namespace API.Controllers
             if (fixtureRequest == null)
                 return null;
             Fixture fixture = _fixtureLogic.GetFixture(fixtureRequest.Id);
-            fixture.AttendanceState = _fixtureLogic.GetFixtureAvailability(fixture.Id, fixtureRequest.UserId).Availability;
+            var attendance =
+                _fixtureLogic.GetFixtureAvailability(fixture.Id, fixtureRequest.UserId);
+            if (attendance != null)
+                fixture.AttendanceState = attendance.Availability;
             return Json(fixture, JsonRequestBehavior.AllowGet);
         }
 

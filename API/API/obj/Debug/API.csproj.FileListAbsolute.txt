@@ -194,3 +194,13 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.pdb
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.availbilitesupdate.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.csprojResolveAssemblyReference.cache
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.availbilitesupdate2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.goalupdate.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.movefromvirtual.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.movefromvirtual2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.movefromvirtual3.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.reportsupdate.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.reportsupdate2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.cardsmissing.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.cardsmissing2.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.reportfixturerelation.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.test123.resources

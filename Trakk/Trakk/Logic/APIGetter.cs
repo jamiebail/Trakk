@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Trakk.Models;
@@ -34,7 +35,8 @@ namespace Trakk.Logic
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = Uri;
-                var response = client.GetAsync("fixtures/GetWithAvailability/" + fixtureRequest).Result;
+                var content = new StringContent(JsonConvert.SerializeObject(fixtureRequest), Encoding.UTF8, "application/json");
+                var response = client.PostAsync("fixtures/GetWithAvailability/",  content).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 Fixture fixture = JsonConvert.DeserializeObject<Fixture>(textResult);
                 return fixture;

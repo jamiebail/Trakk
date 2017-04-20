@@ -15,8 +15,8 @@ namespace API.Logic
         private readonly IRepository<Team> _teamRepository = new Repository<Team>(); 
         private readonly IRepository<PlayerFixtureAvailability> _avilabilityRepository = new Repository<PlayerFixtureAvailability>(); 
         private readonly ITeamLogic _teamLogic = new TeamLogic();
-        private readonly IUserLogic _userLogic = new UserLogic();
         private readonly IReportLogic _reportLogic = new ReportLogic();
+        private readonly IUserLogic _userLogic = new UserLogic();
         public List<Fixture> GetFixtures()
         {
             return _fixtureRepository.GetAll();
@@ -30,6 +30,7 @@ namespace API.Logic
                 fixture.HomeTeam = _teamRepository.FindBy(x => x.Id == fixture.HomeId).FirstOrDefault();
                 fixture.AwayTeam = _teamRepository.FindBy(x => x.Id == fixture.AwayId).FirstOrDefault();
                 fixture.Available = GetAvailableForFixture(fixture.Id);
+                fixture.Result = _reportLogic.GetFixtureReport(fixture.Id);
                 return fixture;
             }
             else return null;
@@ -38,7 +39,15 @@ namespace API.Logic
 
         public List<Fixture> GetTeamFixtures(int id)
         {
-            return _fixtureRepository.FindBy(x => x.HomeId == id || x.AwayId == id);
+            List<Fixture> fixtures = _fixtureRepository.FindBy(x => x.HomeId == id || x.AwayId == id);
+            foreach (var fixture in fixtures)
+            {
+                fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
+                fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
+                fixture.Available = GetAvailableForFixture(fixture.Id);
+                fixture.Result = _reportLogic.GetFixtureReport(fixture.Id);
+            }
+            return fixtures;
         }
 
 
@@ -63,6 +72,7 @@ namespace API.Logic
                 fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
                 fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
                 fixture.Available = GetAvailableForFixture(fixture.Id);
+                fixture.Result = _reportLogic.GetFixtureReport(fixture.Id);
             }
             foreach (var e in fixtures)
             {
@@ -133,5 +143,7 @@ namespace API.Logic
         {
             return _avilabilityRepository.FindBy(x => x.EventId == fixtureId && x.UserId == userId).FirstOrDefault();
         }
+
+
     }
 }

@@ -46,6 +46,45 @@ namespace API.Logic
             }
         }
 
+        public EntityResponse AcceptTeamInvite(TeamMembership membership)
+        {
+            try
+            {
+                TeamMembership existingMembership =
+                    _membershipRepository.FindBy(x => x.TeamId == membership.TeamId && x.MemberId == membership.MemberId)
+                        .FirstOrDefault();
+                existingMembership.Accepted = true;
+                _membershipRepository.Update(membership);
+                _membershipRepository.Save();
+                return new EntityResponse(false, "team membership updating success: ");
+            }
+            catch (Exception e)
+            {
+                return new EntityResponse(false,"team membership updating failed: " + e.Message);
+            }
+        }
+        public EntityResponse RejectTeamInvite(TeamMembership membership)
+        {
+            try
+            {
+                TeamMembership existingMembership =
+                    _membershipRepository.FindBy(x => x.TeamId == membership.TeamId && x.MemberId == membership.MemberId)
+                        .FirstOrDefault();
+                _membershipRepository.Remove(existingMembership);
+                _membershipRepository.Save();
+                return new EntityResponse(false, "team membership updating success: ");
+            }
+            catch (Exception e)
+            {
+                return new EntityResponse(false,"team membership updating failed: " + e.Message);
+            }
+        }
+
+        public TeamMembership GetUserMembership(int userId, int teamId)
+        {
+            return _membershipRepository.FindBy(x => x.MemberId == userId && x.TeamId == teamId).FirstOrDefault();
+        }
+
         public EntityResponse SetUserRole(TeamRoles role)
         {
             try

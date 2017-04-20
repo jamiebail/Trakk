@@ -42,6 +42,7 @@ namespace API.Models
         public DbSet<Position> Positions { get; set; } 
         public DbSet<Event> Events { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<Card> Cards { get; set; }
         public DbSet<TeamEvent> TeamEvents { get; set; }
         public DbSet<PlayerEventAvailability> Availabilities { get; set; }
         public DbSet<PrivateEvent> PrivateEvents { get; set; }

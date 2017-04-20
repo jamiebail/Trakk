@@ -219,6 +219,7 @@
     <Compile Include="Controllers\FormationsController.cs" />
     <Compile Include="Controllers\GameReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembershipsController.cs" />
     <Compile Include="Controllers\SportsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -338,6 +339,46 @@
     <Compile Include="Migrations\201704172347214_availbilitesupdate2.Designer.cs">
       <DependentUpon>201704172347214_availbilitesupdate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704191803009_goalupdate.cs" />
+    <Compile Include="Migrations\201704191803009_goalupdate.Designer.cs">
+      <DependentUpon>201704191803009_goalupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704192025574_movefromvirtual.cs" />
+    <Compile Include="Migrations\201704192025574_movefromvirtual.Designer.cs">
+      <DependentUpon>201704192025574_movefromvirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704192037539_movefromvirtual2.cs" />
+    <Compile Include="Migrations\201704192037539_movefromvirtual2.Designer.cs">
+      <DependentUpon>201704192037539_movefromvirtual2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704192040277_movefromvirtual3.cs" />
+    <Compile Include="Migrations\201704192040277_movefromvirtual3.Designer.cs">
+      <DependentUpon>201704192040277_movefromvirtual3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704200933052_reportsupdate.cs" />
+    <Compile Include="Migrations\201704200933052_reportsupdate.Designer.cs">
+      <DependentUpon>201704200933052_reportsupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704200935380_reportsupdate2.cs" />
+    <Compile Include="Migrations\201704200935380_reportsupdate2.Designer.cs">
+      <DependentUpon>201704200935380_reportsupdate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704200937176_cardsmissing.cs" />
+    <Compile Include="Migrations\201704200937176_cardsmissing.Designer.cs">
+      <DependentUpon>201704200937176_cardsmissing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704200938097_cardsmissing2.cs" />
+    <Compile Include="Migrations\201704200938097_cardsmissing2.Designer.cs">
+      <DependentUpon>201704200938097_cardsmissing2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704201515206_reportfixturerelation.cs" />
+    <Compile Include="Migrations\201704201515206_reportfixturerelation.Designer.cs">
+      <DependentUpon>201704201515206_reportfixturerelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704202042567_test123.cs" />
+    <Compile Include="Migrations\201704202042567_test123.Designer.cs">
+      <DependentUpon>201704202042567_test123.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -450,6 +491,7 @@
     <Folder Include="Views\Events\" />
     <Folder Include="Views\Fixtures\" />
     <Folder Include="Views\Formations\" />
+    <Folder Include="Views\Memberships\" />
     <Folder Include="Views\Sports\" />
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +583,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704172347214_availbilitesupdate2.resx">
       <DependentUpon>201704172347214_availbilitesupdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191803009_goalupdate.resx">
+      <DependentUpon>201704191803009_goalupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704192025574_movefromvirtual.resx">
+      <DependentUpon>201704192025574_movefromvirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704192037539_movefromvirtual2.resx">
+      <DependentUpon>201704192037539_movefromvirtual2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704192040277_movefromvirtual3.resx">
+      <DependentUpon>201704192040277_movefromvirtual3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704200933052_reportsupdate.resx">
+      <DependentUpon>201704200933052_reportsupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704200935380_reportsupdate2.resx">
+      <DependentUpon>201704200935380_reportsupdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704200937176_cardsmissing.resx">
+      <DependentUpon>201704200937176_cardsmissing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704200938097_cardsmissing2.resx">
+      <DependentUpon>201704200938097_cardsmissing2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704201515206_reportfixturerelation.resx">
+      <DependentUpon>201704201515206_reportfixturerelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704202042567_test123.resx">
+      <DependentUpon>201704202042567_test123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

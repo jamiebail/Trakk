@@ -10,16 +10,16 @@
         @switch (Model.AttendanceState)
         {
             case TrakkEnums.UserAvailability.Accepted:
-                <div  class="playing-status-button col-xs-12 playing">Available</div>
+                <div  class="playing-status-button col-xs-12 playing">You are Available<span class="glyphicon glyphicon-ok-sign"></span></div>
                 break;
             case TrakkEnums.UserAvailability.Maybe:
                 <div id="@TrakkEnums.UserAvailability.Maybe" class="playing-status-button col-xs-12 maybe">Maybe</div>
                 break;
             case TrakkEnums.UserAvailability.Rejected:
-                <div class="playing-status-button col-xs-12 rejected">Unavailable</div>
+                <div class="playing-status-button col-xs-12 rejected">You can't play<span class="glyphicon glyphicon-remove-sign"></span></div>
                 break;
             default:
-                <div class="playing-status-button col-xs-12 undecided">Select Availability</div>
+                <div class="playing-status-button col-xs-12 undecided">Select Availability<span class="glyphicon glyphicon-info-sign"></span></div>
                 break;
         }
     </div>

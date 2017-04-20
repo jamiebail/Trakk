@@ -33,6 +33,7 @@ namespace API.Controllers
             {
                 TeamMember singleMember = _userLogic.GetUser(id.Value);
                 singleMember.Teams = _teamLogic.GetTeamsByUserId(id.Value);
+                singleMember.Invites = _teamLogic.GetTeamInvitesByUserId(id.Value);
                 
             
             return Json(singleMember, JsonRequestBehavior.AllowGet);

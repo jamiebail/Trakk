@@ -19,5 +19,6 @@ namespace API.Logic
         EntityResponse UpdateTeam(TeamReturnEditViewModel team);
         EntityResponse CreateTeam(Team team);
         List<Team> GetTeamsByUserId(int id);
+        List<Team> GetTeamInvitesByUserId(int id);
     }
 }

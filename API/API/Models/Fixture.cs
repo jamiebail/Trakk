@@ -22,7 +22,8 @@ namespace API.Models
         public int AwayId { get; set; }
         [NotMapped]
         public Team AwayTeam { get; set; }
-        public virtual GameReport Result { get; set; }
+        [NotMapped]
+        public GameReport Result { get; set; }
         public string Location { get; set; }
         public int Easting { get; set; }
         public int Northing { get; set; }

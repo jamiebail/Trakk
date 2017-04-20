@@ -32,6 +32,42 @@ namespace Trakk.Logic
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
             }
         }
+        public async Task<EntityResponse> CreateReport(GameReport report)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(report), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("GameReports/POST/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
+
+        public async Task<EntityResponse> CreateTeamMembership(int userId, int teamId, bool accepted)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(new {userId, teamId, accepted}), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("Memberships/TeamMembership/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+        public async Task<EntityResponse> UpdateReport(GameReport report)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var content = new StringContent(JsonConvert.SerializeObject(report), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("GameReports/PUT/", content);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
+
 
         public async Task<EntityResponse> UpdateUser(TeamMember user)
         {
