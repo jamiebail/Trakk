@@ -5,6 +5,7 @@ using System.Web;
 using API.Helpers;
 using API.Models;
 using API.Repositories;
+using API.ViewModels;
 
 namespace API.Logic
 {
@@ -15,6 +16,8 @@ namespace API.Logic
         readonly IRepository<Card> _cardRepository = new Repository<Card>();
         readonly IRepository<Goal> _goalRepository = new Repository<Goal>();
 
+        readonly ITeamLogic _teamLogic = new TeamLogic();
+        readonly IRepository<Fixture> _fixtureRepository = new Repository<Fixture>();
 
         public List<GameReport> GetAllReports()
         {
@@ -81,41 +84,38 @@ namespace API.Logic
                     else
                     {
                         card.ReportId = report.Id;
-                        card.Side = TrakkEnums.Side.Home;
                         _cardRepository.Add(card);
                     }
 
                 }
-                foreach (int c in allCards)
-                {
-                    _cardRepository.Remove(_cardRepository.FindBy(x => x.Id == c).FirstOrDefault());
-                }
+                //foreach (int c in allCards)
+                //{
+                //    _cardRepository.Remove(_cardRepository.FindBy(x => x.Id == c).FirstOrDefault());
+                //}
                 _cardRepository.Save();
 
                 List<int> allGoals = _goalRepository.FindBy(x => x.ReportId == report.Id).Select(x => x.Id).ToList();
                 foreach (var goal in report.Goals)
                 {
-                    
-                    Goal current = _goalRepository.FindBy(x => x.ScorerId == goal.ScorerId && x.ReportId == report.Id).FirstOrDefault();
-                    if (current != null)
-                    {
-                        goal.Id = current.Id;
-                        _goalRepository.Update(goal);
-                        allGoals.Remove(goal.Id);
-                    }
-                    else
-                    {
+
                         goal.ReportId = report.Id;
-                        goal.Side = TrakkEnums.Side.Home;
+       
                         _goalRepository.Add(goal);
-                    }
 
                 }
-                foreach (int g in allGoals)
-                {
-                    _goalRepository.Remove(_goalRepository.FindBy(x => x.Id == g).FirstOrDefault());
-                }
+                //foreach (int g in allGoals)
+                //{
+                //    _goalRepository.Remove(_goalRepository.FindBy(x => x.Id == g).FirstOrDefault());
+                //}
                 _goalRepository.Save();
+
+                Fixture fixture = _fixtureRepository.FindBy(x => x.Id == report.FixtureId).FirstOrDefault();
+                List<StatUpdateViewModel> statupdates = DetermineWinner(report);
+
+                statupdates[0].Id = fixture.HomeId;
+                statupdates[0].Id = fixture.AwayId;
+                _teamLogic.UpdateTeamStatistics(statupdates[0]);
+                _teamLogic.UpdateTeamStatistics(statupdates[1]);
                 return new EntityResponse(true, "Report created successfully");
             }
             catch (Exception e)
@@ -123,6 +123,37 @@ namespace API.Logic
                 return new EntityResponse(false, "Report creation failed" + e.Message);
             }
         }
+
+
+        public List<StatUpdateViewModel> DetermineWinner(GameReport report)
+        {
+            StatUpdateViewModel homeUpdate = new StatUpdateViewModel();
+            StatUpdateViewModel awayUpdate = new StatUpdateViewModel();
+            if (report.HomeScore > report.AwayScore)
+            {
+                homeUpdate.Result = TrakkEnums.Result.Win;
+                awayUpdate.Result = TrakkEnums.Result.Loss;
+            }
+            else if(report.HomeScore < report.AwayScore)
+            {
+                awayUpdate.Result = TrakkEnums.Result.Win;
+                homeUpdate.Result = TrakkEnums.Result.Loss;
+            }
+            else
+            {
+                awayUpdate.Result = TrakkEnums.Result.Draw;
+                homeUpdate.Result = TrakkEnums.Result.Draw;
+            }
+            homeUpdate.Conceded = report.AwayScore;
+            awayUpdate.Conceded = report.HomeScore;
+            awayUpdate.Goals = report.AwayScore;
+            homeUpdate.Goals = report.HomeScore;
+            homeUpdate.Id = report.FixtureId;
+            awayUpdate.Id = report.FixtureId;
+            return new List<StatUpdateViewModel>(){ homeUpdate, awayUpdate};
+        }
+
+
 
         public EntityResponse UpdateReport(GameReport report)
         {

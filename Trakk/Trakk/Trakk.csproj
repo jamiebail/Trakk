@@ -215,6 +215,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Fixture.cs" />
+    <Compile Include="Models\TeamFixtureSetup.cs" />
     <Compile Include="Viewmodels\EventRequest.cs" />
     <Compile Include="Viewmodels\FixtureAvailabilityViewModel.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -533,6 +534,7 @@
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

@@ -61,7 +61,7 @@ namespace Trakk.Controllers
             {
                 int id = _userLogic.GetPlayerId(User.Identity);
                 TeamMember member = await _getter.GetUser(id);
-                Sport sport = await _getter.GetSport(member.Teams[0].Sport.Id);
+                List<Team> teams = await _getter.GetAllTeams();
                 IEnumerable<SelectListItem> selectUserTeamsList =
                     from team in adminteams
                     select new SelectListItem
@@ -70,7 +70,7 @@ namespace Trakk.Controllers
                         Value = team.Id.ToString()
                     };
                 IEnumerable<SelectListItem> selectAllTeamsList =
-                    from team in sport.Teams
+                    from team in teams
                     select new SelectListItem
                     {
                         Text = team.Name,
@@ -130,21 +130,66 @@ namespace Trakk.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
             Fixture fixture = await _getter.GetFixture(id.Value);
-            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
-            {
-                fixture.HomeTeam = await _getter.GetTeam(fixture.HomeId);
-                fixture.AwayTeam = await _getter.GetTeam(fixture.AwayId);
-                List<PlayerPositionViewModel> positions =
-                    JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
 
-                FixtureEditViewModel editmodel = new FixtureEditViewModel()
+            int teamId = 0; 
+            foreach (var team in member.Teams)
+            {
+                if (team.Id == fixture.HomeId)
                 {
-                    Fixture = fixture,
-                    Positions = positions,
-                    Members = fixture.HomeTeam.Members
-                };
-                return View(editmodel);
+                    teamId = fixture.HomeId;
+                }
+                else if(team.Id == fixture.AwayId)
+                {
+                    teamId = fixture.AwayId;
+                }
+            }
+            if(teamId > 0) {
+                if (await _userLogic.CheckIfTeamAdmin(User.Identity, teamId))
+                {
+                    fixture.HomeTeam = await _getter.GetTeam(fixture.HomeId);
+                    fixture.AwayTeam = await _getter.GetTeam(fixture.AwayId);
+                    if (fixture.TeamSetups != null)
+                    {
+                        foreach (Team t in member.Teams)
+                        {
+                            foreach (var setup in fixture.TeamSetups)
+                            {
+                                if (t.Id == setup.TeamId)
+                                {
+                                    // We know the team
+                                    fixture.Positions = setup.Positions;
+                                    fixture.Comments = setup.Comments;
+                                }
+                            }
+                        }
+                    }
+                    List<PlayerPositionViewModel> positions = null;
+                    if (fixture.Positions != null)
+                    {
+
+                        positions = JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
+                    }
+                    FixtureEditViewModel editmodel = new FixtureEditViewModel()
+                    {
+                        Fixture = fixture,
+                        Positions = positions,
+                        Members = fixture.HomeTeam.Members
+                    };
+                    foreach (Team team in member.Teams)
+                    {
+                        if (team.Id == fixture.HomeId)
+                        {
+                            editmodel.Side = TrakkEnums.Side.Home;
+                        }
+                        else if (team.Id == fixture.AwayId)
+                        {
+                            editmodel.Side = TrakkEnums.Side.Away;
+                        }
+                    }
+                    return View(editmodel);
+                }
             }
 
             return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
@@ -155,15 +200,39 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(FixtureCreateReturnViewModel fixture)
         {
-            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
-            {
-                if (ModelState.IsValid)
+
+                TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
+                int teamId = 0;
+                foreach (Team t in member.Teams)
                 {
-                    EntityResponse reponse = await _setter.UpdateFixture(fixture);
-                    return RedirectToAction("Index", "Home");
+                    if (t.Id == fixture.HomeId)
+                    {
+                        fixture.Side = TrakkEnums.Side.Home;
+                        teamId = fixture.HomeId;
+                    }
+                    else if (t.Id == fixture.AwayId)
+                    {
+                        fixture.Side = TrakkEnums.Side.Away;
+                        teamId = fixture.AwayId;
+                    }
                 }
-            }
-            return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
+                if (teamId > 0)
+                {
+                    if (await _userLogic.CheckIfTeamAdmin(User.Identity, teamId))
+                    {
+                        if (ModelState.IsValid)
+                        {
+
+
+                            EntityResponse reponse = await _setter.UpdateFixture(fixture);
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    return View("BadRequestView",
+                        new EntityResponse() {Message = "You are not an admin for this team.", Success = false});
+                }
+                return View("BadRequestView", new EntityResponse() {Message = "Id of team not found", Success = false});
+  
         }
 
         [HttpPost]
@@ -238,8 +307,35 @@ namespace Trakk.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
+                    Fixture fixture = await _getter.GetFixture(reportIn.FixtureId);
+                    if (reportIn.TeamId == fixture.HomeId)
+                    {
+                        foreach (var card in reportIn.Cards)
+                        {
+                            card.Side = TrakkEnums.Side.Home;
+                        }
+                        foreach (var goal in reportIn.Goals)
+                        {
+                            goal.Side = TrakkEnums.Side.Home;
+                        }
+                    }
+                    else if (reportIn.TeamId == fixture.AwayId)
+                    {
+                        int score = reportIn.AwayScore;
+                        reportIn.AwayScore = reportIn.HomeScore;
+                        reportIn.HomeScore = score;
+                        foreach (var card in reportIn.Cards)
+                        {
+                            card.Side = TrakkEnums.Side.Away;
+                        }
+                        foreach (var goal in reportIn.Goals)
+                        {
+                            goal.Side = TrakkEnums.Side.Away;
+                        }
+                    }
                     GameReport report = new GameReport() {AwayScore = reportIn.AwayScore, FixtureId = reportIn.FixtureId, HomeScore = reportIn.HomeScore, Cards = reportIn.Cards, Goals = reportIn.Goals};
-                    int id = _userLogic.GetPlayerId(User.Identity);
+      
                     await _setter.CreateReport(report);
                     return RedirectToAction("Index", "Home");
                 }

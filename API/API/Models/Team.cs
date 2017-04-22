@@ -22,7 +22,9 @@ namespace API.Models
         public int SportId { get; set; }
         [NotMapped]
         public Sport Sport { get; set; }
-        public virtual TeamStatistics Statistics { get; set; }
+        public int  TeamStatistics { get; set; }
+        [NotMapped]
+        public TeamStatistics  Statistics { get; set; }
         public string FbFeed { get; set; }
         [NotMapped]
         public int Position { get; set; }

@@ -21,6 +21,10 @@
     background-color: rgba(255, 255, 255, 0.00)
 }
 
+#loadingDiv {
+    display: none;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -598,6 +602,11 @@ textarea {
     height: 100px;
 }
 
+.form {
+        background: rgb(255, 255, 255);
+        border-radius: px;
+}
+
 .social {
     background-color: #f7f7d9;
 }
@@ -756,6 +765,21 @@ textarea {
 margin: 0px -15px 0 -15px;
     padding: 20px;
     height: auto;
+
+}
+
+.homeoraway {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+        width: 300px;
+    margin: 0 auto;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.selected-side {
+    background-color: #6cc456 !important;
+    transform: scale(1.3)
 }
 
 .navbar-fixed-top {
@@ -1118,8 +1142,8 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
                 padding-top: 10px;
     }
     #event-carousel > div { width: 100%;}
-    #event-carousel > div:last-child { display: none !important;}
-    #event-carousel > div:first-child { display: none !important;}
+    /*#event-carousel > div:last-child { display: none !important;}
+    #event-carousel > div:first-child { display: none !important;}*/
             #event-carousel div .eventDate{ display: block !important;}
             .event-container{ margin-left: 0px;}
     #calendar {
@@ -1131,6 +1155,12 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
     .body-content {
             background: rgba(255, 255, 255, 0.55);
     }
+}
+
+
+.yourteam {
+    color: #17400a;
+
 }
 
 .fc-widget-header {

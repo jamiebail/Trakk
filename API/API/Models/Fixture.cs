@@ -34,5 +34,14 @@ namespace API.Models
         public TrakkEnums.FixtureState State { get; set; }
         [NotMapped]
         public List<TeamMember> Available { get; set; }
+        [NotMapped]
+        public List<TeamFixtureSetup> TeamSetups { get; set; }
+
+        public Fixture()
+        {
+            TeamSetups = new List<TeamFixtureSetup>();
+        }
     }
+
+
 }

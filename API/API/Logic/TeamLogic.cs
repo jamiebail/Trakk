@@ -34,6 +34,7 @@ namespace API.Logic
             {
                 team.Sport = _sportLogic.GetSportById(team.SportId);
                 team.Roles = _roleRepository.FindBy(x => x.TeamId == team.Id);
+                team.Statistics = _statisticsRepository.FindBy(x => x.Id == team.TeamStatistics).FirstOrDefault();
             }
             //if(team != null)
              //   team.Statistics = GetTeamStats(team.Id);
@@ -112,6 +113,10 @@ namespace API.Logic
         {
             try
             {
+                TeamStatistics stats = new TeamStatistics();
+                _statisticsRepository.Add(stats);
+                _statisticsRepository.Save();
+                team.TeamStatistics = stats.Id;
                 _teamRepository.Add(team);
                 _teamRepository.Save();
                 return new EntityResponse(true, team.Name + " created successfully.");
@@ -126,42 +131,44 @@ namespace API.Logic
         public EntityResponse UpdateTeamStatistics(StatUpdateViewModel update)
         {
             TeamStatistics teamStatistics = _statisticsRepository.FindBy(x => x.Id == update.Id).FirstOrDefault();
-            if(teamStatistics != null) { 
-                switch (update.Result)
-                {
-                    case (int)TrakkEnums.Result.Win:
-                        teamStatistics.Won++;
-                        teamStatistics.Points += (int) TrakkEnums.Points.Win;
-                        break;
-                    case (int)TrakkEnums.Result.Loss:
-                        teamStatistics.Lost++;
-                        teamStatistics.Points += (int)TrakkEnums.Points.Loss;
-                        break;
-                    case (int)TrakkEnums.Result.Draw:
-                        teamStatistics.Drawn++;
-                        teamStatistics.Points += (int)TrakkEnums.Points.Draw;
-                        break;
-                }
-
-                teamStatistics.Conceded += update.Conceded;
-                teamStatistics.Goals += update.Goals;
-                teamStatistics.Played++;
-
-            teamStatistics.Cards.ToList().AddRange(update.Cards);
-            try
-                {
-                    // Save statistics back to database
-                    _statisticsRepository.Update(teamStatistics);
-                    _statisticsRepository.Save();
-                    return new EntityResponse(true, "Update of team statistics successful.");
-                }
-                catch(Exception e)
-                {
-                    return new EntityResponse(false, "Updating of team statistics failed: " + e.Message);
-                }
+            if (teamStatistics == null)
+            {
+                teamStatistics = new TeamStatistics();
             }
-            return new EntityResponse(false, "No statistics found for provided team id." );
-        }
+
+            switch (update.Result)
+            {
+                case TrakkEnums.Result.Win:
+                    teamStatistics.Won++;
+                    teamStatistics.Points += (int) TrakkEnums.Points.Win;
+                    break;
+                case TrakkEnums.Result.Loss:
+                    teamStatistics.Lost++;
+                    teamStatistics.Points += (int)TrakkEnums.Points.Loss;
+                    break;
+                case TrakkEnums.Result.Draw:
+                    teamStatistics.Drawn++;
+                    teamStatistics.Points += (int)TrakkEnums.Points.Draw;
+                    break;
+            }
+
+            teamStatistics.Conceded += update.Conceded;
+            teamStatistics.Goals += update.Goals;
+            teamStatistics.Played++;
+
+            try
+            {
+                // Save statistics back to database
+                _statisticsRepository.Update(teamStatistics);
+                _statisticsRepository.Save();
+                return new EntityResponse(true, "Update of team statistics successful.");
+            }
+            catch(Exception e)
+            {
+                return new EntityResponse(false, "Updating of team statistics failed: " + e.Message);
+            }
+         }
+        
 
 
         public EntityResponse ArchiveTeam(Team Team)

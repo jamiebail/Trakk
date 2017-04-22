@@ -35,6 +35,7 @@ namespace Trakk.Viewmodels
         public Fixture Fixture { get; set; }
         public List<PlayerPositionViewModel> Positions { get; set; }
         public List<TeamMember> Members { get; set; }
+        public TrakkEnums.Side Side { get; set; }
     }
 
     public class FixtureViewModel
@@ -45,5 +46,6 @@ namespace Trakk.Viewmodels
         public Fixture Fixture { get; set; }
         public List<PlayerPositionViewModel> Positions { get; set; }
         public List<TeamMember> Playing { get; set; } 
+        public TrakkEnums.Side Side { get; set; }
     }
 }

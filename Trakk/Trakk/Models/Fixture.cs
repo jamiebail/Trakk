@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using API.Helpers;
+using API.Models;
 using Trakk.Models;
 using Newtonsoft.Json;
 
@@ -29,5 +30,6 @@ namespace Trakk.Models
         public TrakkEnums.FixtureState State { get; set; }
         public string Positions { get; set; }
         public List<TeamMember> Available { get; set; }
+        public List<TeamFixtureSetup> TeamSetups { get; set; }
     }
 }

@@ -10,4 +10,10 @@ namespace Trakk.Viewmodels
         public int Id { get; set; }
         public int UserId { get; set; }
     }
+
+    public class FixtureSetupModel
+    {
+        public int TeamId { get; set; }
+        public int FixtureId { get; set; }
+    }
 }

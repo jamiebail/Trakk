@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using API.Helpers;
+using API.Models;
 using Newtonsoft.Json;
 using Trakk.Logic;
 using Trakk.Models;
@@ -102,11 +103,40 @@ namespace Trakk.Controllers
                     fixture.Result = new GameReport();
                 fixture.State = TrakkEnums.FixtureState.Finished;
             }
-            List<PlayerPositionViewModel> positions =
-                   JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
-
-            FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = fixture.Available, UserId = member.Id};
-            
+            if (fixture.TeamSetups != null)
+            {
+                foreach (Team t in member.Teams)
+                {
+                    foreach (var setup in fixture.TeamSetups)
+                    {
+                        if (t.Id == setup.TeamId)
+                        {
+                            // We know the team
+                            fixture.Positions = setup.Positions;
+                            fixture.Comments = setup.Comments;
+                        }
+                    }
+                }
+            }
+            List<PlayerPositionViewModel> positions = null;
+            if (fixture.Positions != null)
+            {
+              positions = JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
+            }
+            TrakkEnums.Side side = 0;
+            foreach (Team team in member.Teams)
+            {
+                if (team.Id == fixture.HomeId)
+                {
+                    side = TrakkEnums.Side.Home;
+                }
+                else if (team.Id == fixture.AwayId)
+                {
+                    side = TrakkEnums.Side.Away;
+                }
+            }
+            FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = fixture.Available, UserId = member.Id, Side = side};
+            vm.Fixture.Result.FixtureId = vm.Fixture.Id;
             return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
         }
 

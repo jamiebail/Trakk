@@ -1,8 +1,7 @@
-﻿@model Trakk.Viewmodels.FixtureEditViewModel
+﻿@using API.Helpers
+@model Trakk.Viewmodels.FixtureEditViewModel
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+
 
     <div class="form-horizontal">
 
@@ -21,7 +20,7 @@
                 <div class="formation-widget"></div>
             </div>
         </div>
-        <div class="pitchFrame" id="@Model.Fixture.Id" oncontextmenu="return false;">
+        <div class="pitchFrame" data-fix="@Model.Fixture.Id" oncontextmenu="return false;">
 
             <div>
                 <div class="col-xs-4 editbutton"><span class="glyphicon glyphicon-pencil"></span></div>
@@ -31,8 +30,9 @@
                 </div>
             </div>
 
-            <img src="../../Images/footballPitchReal.png" />
-            @foreach (var position in Model.Positions)
+            <img src="../../Images/footballPitchReal.png"/>
+            @if(Model.Positions != null) { 
+            foreach (var position in Model.Positions)
             {
                 <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation draggable">
                     <input type="text" value="@position.PositionName" placeholder="Position">
@@ -46,70 +46,80 @@
                     }
                 </div>
             }
+            }
         </div>
         <div class="team-member-widget">
             @Html.Partial("~/Views/Partials/TeamMembersPartial.cshtml", Model.Members)
         </div>
         <div class="lower">
             <div id="mainBody">
-            </div>
-            <div id="loadingDiv">
-                <img src="~/Images/infinity.gif" />
-            </div>
-            <p hidden id="team-id"></p>
-            <div>
-                <div class="col-xs-5">
-                    <h2>@Model.Fixture.HomeTeam.Name</h2>
-                    <p hidden id="homeTeamEdit">@Model.Fixture.HomeId</p>
+
+                <div id="loadingDiv">
+                    <img src="~/Images/infinity.gif" />
                 </div>
-                <div class="col-xs-2">
-                    <h2>V</h2>
+                <p hidden id="team-id"></p>
+                <div>
+                    <div class="col-xs-5">
+                        <h2>@Model.Fixture.HomeTeam.Name</h2>
+                        @if (Model.Side == TrakkEnums.Side.Home)
+                        {
+                            <p hidden class="side" id="@TrakkEnums.Side.Home"></p>
+                        }
+                        else if (Model.Side == TrakkEnums.Side.Away)
+                        {
+                            <p hidden class="side" id="@TrakkEnums.Side.Away"></p>
+                        }
+                        <p hidden id="homeTeamEdit">@Model.Fixture.HomeId</p>
+                    </div>
+                    <div class="col-xs-2">
+                        <h2>V</h2>
+                    </div>
+                    <div class="col-xs-5">
+                        <h2 class="awayTeamFixture">@Model.Fixture.AwayTeam.Name</h2>
+                        <h2 hidden id="awayTeamEdit">@Model.Fixture.AwayId</h2>
+                    </div>
                 </div>
-                <div class="col-xs-5">
-                    <h2 class="awayTeamFixture">@Model.Fixture.AwayTeam.Name</h2>
-                    <h2 hidden id="awayTeamEdit">@Model.Fixture.AwayId</h2>
+
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        @Html.EditorFor(model => model.Fixture.Start, new {htmlAttributes = new {@class = "form-control", placeholder = "Start Time"}})
+                        @Html.ValidationMessageFor(model => model.Fixture.Start, "", new {@class = "text-danger"})
+                    </div>
+
+
+
+                    <div class="col-xs-6">
+                        @Html.EditorFor(model => model.Fixture.End, new {htmlAttributes = new {@class = "form-control", placeholder = "End Time"}})
+                        @Html.ValidationMessageFor(model => model.Fixture.End, "", new {@class = "text-danger"})
+                    </div>
+
+
+
+                    <div class="col-xs-6">
+                        @Html.EditorFor(model => model.Fixture.Location, new {htmlAttributes = new {@class = "form-control", placeholder = "Location"}})
+                        @Html.ValidationMessageFor(model => model.Fixture.Location, "", new {@class = "text-danger"})
+                    </div>
+
+
+
+                    <div class="col-xs-6">
+                        @Html.EditorFor(model => model.Fixture.Comments, new {htmlAttributes = new {@class = "form-control", placeholder = "Comments"}})
+                        @Html.ValidationMessageFor(model => model.Fixture.Comments, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <input type="submit" value="Update Fixture" id="editFixture" class="btn btn-success" />
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-xs-6">
-                    @Html.EditorFor(model => model.Fixture.Start, new { htmlAttributes = new { @class = "form-control", placeholder = "Start Time" } })
-                    @Html.ValidationMessageFor(model => model.Fixture.Start, "", new { @class = "text-danger" })
-                </div>
 
-
-
-                <div class="col-xs-6">
-                    @Html.EditorFor(model => model.Fixture.End, new { htmlAttributes = new { @class = "form-control", placeholder = "End Time" } })
-                    @Html.ValidationMessageFor(model => model.Fixture.End, "", new { @class = "text-danger" })
-                </div>
-
-
-
-                <div class="col-xs-6">
-                    @Html.EditorFor(model => model.Fixture.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Location" } })
-                    @Html.ValidationMessageFor(model => model.Fixture.Location, "", new { @class = "text-danger" })
-                </div>
-
-
-
-                <div class="col-xs-6">
-                    @Html.EditorFor(model => model.Fixture.Comments, new { htmlAttributes = new { @class = "form-control", placeholder = "Comments" } })
-                    @Html.ValidationMessageFor(model => model.Fixture.Comments, "", new { @class = "text-danger" })
-                </div>
             </div>
-        </div>
-
-        <div class="form-group">
 
         </div>
     </div>
 
-}
 
-<div class="col-md-12">
-    <input type="submit" value="Create" id="editFixture" class="btn btn-default"/>
-</div>
 
 
 @section Scripts {

@@ -28,6 +28,13 @@ namespace API.Logic
             Fixture fixture = _fixtureRepository.FindBy(x => x.Id == id).FirstOrDefault();
             if (fixture != null)
             {
+                var homeSetup = _setupRepository.FindBy(x => x.FixtureId == fixture.Id && x.TeamId == fixture.HomeId).FirstOrDefault();
+                var awaySetup = _setupRepository.FindBy(x => x.FixtureId == fixture.Id && x.TeamId == fixture.AwayId).FirstOrDefault();
+                if (homeSetup != null)
+                    fixture.TeamSetups.Add(homeSetup);
+                if (awaySetup != null)
+                    fixture.TeamSetups.Add(awaySetup);
+
                 fixture.HomeTeam = _teamRepository.FindBy(x => x.Id == fixture.HomeId).FirstOrDefault();
                 fixture.AwayTeam = _teamRepository.FindBy(x => x.Id == fixture.AwayId).FirstOrDefault();
                 fixture.Available = GetAvailableForFixture(fixture.Id);
@@ -36,6 +43,11 @@ namespace API.Logic
             }
             else return null;
             
+        }
+
+        public TeamFixtureSetup GetTeamSetup(int fixtureId, int teamId)
+        {
+            return _setupRepository.FindBy(x => x.FixtureId == fixtureId && x.TeamId == teamId).FirstOrDefault();
         }
 
         public List<Fixture> GetTeamFixtures(int id, DateTime? month)
@@ -48,6 +60,16 @@ namespace API.Logic
 
             foreach (var fixture in fixtures)
             {
+                fixture.TeamSetups = new List<TeamFixtureSetup>();
+                var homeSetup =
+                    _setupRepository.FindBy(x => x.FixtureId == fixture.Id && x.TeamId == fixture.HomeId).FirstOrDefault();
+                var awaySetup =
+                    _setupRepository.FindBy(x => x.FixtureId == fixture.Id && x.TeamId == fixture.AwayId).FirstOrDefault();
+                if(homeSetup != null)
+                    fixture.TeamSetups.Add(homeSetup);
+                if(awaySetup != null)
+                    fixture.TeamSetups.Add(awaySetup);
+
                 fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
                 fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
                 fixture.Available = GetAvailableForFixture(fixture.Id);
@@ -136,8 +158,6 @@ namespace API.Logic
                 {
                     fixture.State = TrakkEnums.FixtureState.Finished;
                 }
-                fixture.AwayId = fixtureIn.AwayId;
-                fixture.HomeId = fixtureIn.HomeId;
                 fixture.Start = fixtureIn.Start;
                 fixture.End = fixtureIn.End;
                 fixture.Location = fixtureIn.Location;

@@ -10,7 +10,7 @@ namespace API.ViewModels
     public class StatUpdateViewModel
     {
         public int Id { get; set; }
-        public int Result { get; set; }
+        public TrakkEnums.Result Result { get; set; }
         public int Goals { get; set; }
         public int Conceded { get; set; }
         public List<Card> Cards { get; set; }

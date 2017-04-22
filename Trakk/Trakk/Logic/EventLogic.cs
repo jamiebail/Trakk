@@ -43,7 +43,7 @@ namespace Trakk.Logic
                 {
                     primaries.Add(events[index - 1]);
                 }
-
+                if(index + 1 < events.Count)
                 primaries.Add(events[index + 1]);
                 if (index + 2 < events.Count)
                 {

@@ -95,7 +95,7 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<List<Team>> GetAllTeams(int id)
+        public async Task<List<Team>> GetAllTeams()
         {
             using (HttpClient client = new HttpClient())
             {

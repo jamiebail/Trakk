@@ -10,53 +10,56 @@
         <a class="col-xs-1" href="@Url.Action("Edit", "Teams", new { id = Model.Id })"><span class=" glyphicon glyphicon-pencil edit-team"></span></a>
     </div>
     <div style="background-color: #a1de48; height: 10px; border: 1px solid #b5b5b5;"></div>
-    <div class="teamstats detailstats col-lg-12">
-        <div>
-            <h5>Won</h5>
-            <p>@Model.Statistics.Won</p>
-        </div>
-        <div>
-            <h5>Lost</h5>
-            <p>@Model.Statistics.Lost</p>
-        </div>
-        <div>
-            <h5>Drawn</h5>
-            <p>@Model.Statistics.Drawn</p>
-        </div>
-        <div>
-            <h5>Cards</h5>
-            @if (@Model.Statistics.Cards != null)
-            {
-                <p>@Model.Statistics.Cards.Count</p>
-            }
-            else
-            {
-                <p>0</p>
-            }
-        </div>
-        <div>
-            <h5>Goals</h5>
-            <p>@Model.Statistics.Goals</p>
-        </div>
-        <div>
-            <h5>Conceded</h5>
-            <p>@Model.Statistics.Conceded</p>
-        </div>
-        <div>
-            <h5>Played</h5>
-            <p>@Model.Statistics.Played</p>
-        </div>
-        <div>
-            <h5>Points</h5>
-            <p>@Model.Statistics.Points</p>
-        </div>
-        <div>
-            <h5>Goals</h5>
-            <p>@Model.Position</p>
-        </div>
+    @if (Model.Statistics != null)
+    {
+        <div class="teamstats detailstats col-lg-12">
+            <div>
+                <h5>Won</h5>
+                <p>@Model.Statistics.Won</p>
+            </div>
+            <div>
+                <h5>Lost</h5>
+                <p>@Model.Statistics.Lost</p>
+            </div>
+            <div>
+                <h5>Drawn</h5>
+                <p>@Model.Statistics.Drawn</p>
+            </div>
+            <div>
+                <h5>Cards</h5>
+                @if (@Model.Statistics.Cards != null)
+                {
+                    <p>@Model.Statistics.Cards.Count</p>
+                }
+                else
+                {
+                    <p>0</p>
+                }
+            </div>
+            <div>
+                <h5>Goals</h5>
+                <p>@Model.Statistics.Goals</p>
+            </div>
+            <div>
+                <h5>Conceded</h5>
+                <p>@Model.Statistics.Conceded</p>
+            </div>
+            <div>
+                <h5>Played</h5>
+                <p>@Model.Statistics.Played</p>
+            </div>
+            <div>
+                <h5>Points</h5>
+                <p>@Model.Statistics.Points</p>
+            </div>
+            <div>
+                <h5>Goals</h5>
+                <p>@Model.Position</p>
+            </div>
 
 
-    </div>
+        </div>
+    }
     <div style="background-color: #a1de48; height: 10px; border: 1px solid #b5b5b5;"></div>
     <h4>Members</h4>
     <ul class="user-list col-lg-12">

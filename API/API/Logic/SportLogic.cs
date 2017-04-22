@@ -11,7 +11,7 @@ namespace API.Logic
     public class SportLogic : ISportLogic
     {
         private readonly IRepository<TeamMember> _userRepository = new Repository<TeamMember>();
-        private readonly IRepository<Team> _teamRepository = new Repository<Team>();
+        //private readonly IRepository<Team> _teamRepository = new Repository<Team>();
         private readonly IRepository<Sport> _sportRepository = new Repository<Sport>(); 
         private readonly IRepository<Position> _positionRepository = new Repository<Position>(); 
         public List<Sport> GetAllSports()
@@ -25,8 +25,9 @@ namespace API.Logic
 
         public List<Team> GetTeamsBySport(Sport sportIn)
         {
-           List<Team> teams = _teamRepository.FindBy(x => x.SportId == sportIn.Id);
-            return teams;
+            //List<Team> teams = _teamRepository.FindBy(x => x.SportId == sportIn.Id);
+            //return teams;
+            return null;
         }
 
         public Sport GetSportById(int id)

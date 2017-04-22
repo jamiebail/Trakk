@@ -384,6 +384,13 @@
     });
 
 
+    $(".homeoraway .btn").click(function () {
+        $(".selected-side").removeClass("selected-side");
+        $(".homeoraway").removeClass("validation-error");
+        $(this).addClass("selected-side");
+    });
+
+
     var currentMembers = [];
 
     $("#addMember").click(function() {
@@ -649,14 +656,14 @@
                         draggableOffset = draggable.offset(),
                         container = $(event.target),
                         containerOffset = container.offset();
-                    refreshFormationBar();
+
 
                     draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
 
                 }
             });
         });
-
+        refreshFormationBar();
         $(".user-widget").draggable({
             start: function () {
 
@@ -858,14 +865,18 @@
         }
     });
 
-    $("#submitFixture").click(function() {
+    $("#submitFixture").click(function () {
+        var validationArray = [];
         var homeid = $("#homeTeam").val();
         var awayid = $("#awayTeam").val();
         var start = $("#Fixture_Start").val();
         var end = $("#Fixture_End").val();
         var comments = $("#Fixture_Comments").val();
         var location = $("#Fixture_Location").val();
+        var side = $(".selected-side").attr("id");
         
+
+
         var playerpositions = [];
         $('.pitchLocation').each(function() { 
             var xcoord = parseInt($(this).css('left'));
@@ -875,22 +886,35 @@
             var xpercent = Math.round(xcoord / pitchframewidth * 100);
             var ypercent = Math.round(ycoord / pitchframeheight * 100);
             var positiontext = $(this).children("input").val();
-            var side = $(".selected-side").attr("id");
+
 
             var position = { index: $(this).index(), playerid: $(this).children("li").attr("id"), playername: $(this).children("li").children(".username").text(), positionname: positiontext, top: ypercent,left:  xpercent}
             playerpositions.push(position);
         });
-        var fixture = { usersTeam: homeid, opponents: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions), side: side }
 
-        $.ajax({
-            url: "/Fixtures/Create",
-            dataType: "json",
-            type: "POST",
-            data: fixture,
-            success: function (data) {
+        validationArray.push({ Value: homeid, Element: $("#homeTeam") });
+        validationArray.push({ Value: awayid, Element: $("#awayTeam") });
+        validationArray.push({ Value: start, Element: $("#Fixture_Start") });
+        validationArray.push({ Value: end, Element: $("#Fixture_End") });
+        validationArray.push({ Value: comments, Element: $("#Fixture_Comments") });
+        validationArray.push({ Value: location, Element: $("#Fixture_Location") });
+        validationArray.push({Value: side, Element: $(".homeoraway")});
 
-            }
-        });
+        if (checkValidation(validationArray)) {
+
+
+            var fixture = { UsersTeamId: homeid, OpponentsId: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions), side: side }
+
+            $.ajax({
+                url: "/Fixtures/Create",
+                dataType: "json",
+                type: "POST",
+                data: fixture,
+                success: function(data) {
+
+                }
+            });
+        }
     });
 
 
@@ -901,7 +925,7 @@
         var end = $("#Fixture_End").val();
         var comments = $("#Fixture_Comments").val();
         var location = $("#Fixture_Location").val();
-        var id = $(".pitchFrame").attr("id");
+        var id = $(".pitchFrame").attr("data-fix");
 
         var playerpositions = [];
         $('.pitchLocation').each(function () {

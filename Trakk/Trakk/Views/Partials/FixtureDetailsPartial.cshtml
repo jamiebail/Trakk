@@ -5,37 +5,48 @@
 <div class="pitchFrame-static" id="@Model.Fixture.Id" oncontextmenu="return false;">
     <a href="@Url.Action("Edit", "Fixtures", new {id = @Model.Fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
     <img src="../../Images/footballPitchReal.png"/>
-    <p hidden class="team">@Model.HomeTeam.Id</p>
-    @foreach (var position in Model.Positions)
+    @if (Model.Side == TrakkEnums.Side.Home)
     {
-        if (Model.UserId == @position.PlayerId)
-        {
-            <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static usersposition draggable">
-                <input type="text" value="@position.PositionName" placeholder="Position">
-                @if (position.PlayerId != 0)
-                {
-                    <li class="user-widget-static" id="@position.PlayerId">
-                        <div class="image-static"></div>
-                        <span class="username-static">@position.PlayerName</span>
-                    </li>
-                }
-            </div>
-        }
-        else
+        <p hidden class="team">@Model.HomeTeam.Id</p>
+    }
+    else
+    {
+        <p hidden class="team">@Model.AwayTeam.Id</p>
+    }
 
-        {
-            <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
-                <input type="text" value="@position.PositionName" placeholder="Position">
+    @if (Model.Positions != null)
+    {
+        foreach (var position in Model.Positions)
+         {
+             if (Model.UserId == @position.PlayerId)
+             {
+                 <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static usersposition draggable">
+                     <input type="text" value="@position.PositionName" placeholder="Position">
+                     @if (position.PlayerId != 0)
+                     {
+                         <li class="user-widget-static" id="@position.PlayerId">
+                             <div class="image-static"></div>
+                             <span class="username-static">@position.PlayerName</span>
+                         </li>
+                     }
+                 </div>
+             }
+             else
 
-                @if (position.PlayerId != 0)
-                {
-                    <li class="user-widget-static" id="@position.PlayerId">
-                        <div class="image-static"></div>
-                        <span class="username-static">@position.PlayerName</span>
-                    </li>
-                }
-            </div>
-        }
+             {
+                 <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
+                     <input type="text" value="@position.PositionName" placeholder="Position">
+
+                     @if (position.PlayerId != 0)
+                     {
+                         <li class="user-widget-static" id="@position.PlayerId">
+                             <div class="image-static"></div>
+                             <span class="username-static">@position.PlayerName</span>
+                         </li>
+                     }
+                 </div>
+             }
+         }
     }
 </div>
 <div class="clear"></div>
@@ -63,7 +74,14 @@
             {
                 <h1 class="col-xs-12">@Model.Fixture.Result.HomeScore</h1>
             }
-            <h3 class="col-xs-12">@Model.HomeTeam.Name</h3>
+            @if (Model.Side == TrakkEnums.Side.Home)
+            {
+                <h3 class="col-xs-12 yourteam">@Model.HomeTeam.Name</h3>
+            }
+            else
+            {
+                <h3 class="col-xs-12">@Model.HomeTeam.Name</h3>
+            }
 
         </div>
         <h2 class="col-xs-2" style="text-align: center"> vs </h2>
@@ -72,7 +90,15 @@
             {
                 <h1 class="col-xs-12">@Model.Fixture.Result.AwayScore</h1>
             }
-            <h3 class="col-xs-12">@Model.AwayTeam.Name</h3>
+            @if (Model.Side == TrakkEnums.Side.Away)
+            {
+                <h3 class="col-xs-12 yourteam">@Model.AwayTeam.Name</h3>
+            }
+            else
+            {
+                <h3 class="col-xs-12">@Model.AwayTeam.Name</h3>
+            }
+
         </div>
     </div>
 

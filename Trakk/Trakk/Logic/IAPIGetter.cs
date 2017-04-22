@@ -14,7 +14,7 @@ namespace Trakk.Logic
         Task<Fixture> GetFixture(FixtureAvailabilityViewModel fixtureRequest);
         Task<List<Fixture>> GetAllFixtures();
         Task<Team> GetTeam(int id);
-        Task<List<Team>> GetAllTeams(int id);
+        Task<List<Team>> GetAllTeams();
         Task<TeamMember> GetUser(int id);
         Task<List<Event>> GetUserEvents(int id, DateTime? month, bool primary);
         Task<List<TeamMember>> GetAllUsers();

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using API.Helpers;
 using API.Logic;
 using API.Models;
+using Trakk.Viewmodels;
 
 namespace API.Controllers
 {
@@ -13,6 +14,7 @@ namespace API.Controllers
     {
 
         private readonly FormationLogic _formationLogic = new FormationLogic();
+        private readonly IFixtureLogic _fixtureLogic = new FixtureLogic();
 
         [HttpPost]
         // GET: Formations/Create
@@ -28,6 +30,7 @@ namespace API.Controllers
                 return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
 
         // POST: Formations/Edit/5
         [HttpPost]
@@ -59,5 +62,6 @@ namespace API.Controllers
                 return Json(new { success = false, responseText = response.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }

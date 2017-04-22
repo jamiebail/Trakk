@@ -20,5 +20,6 @@ namespace API.Logic
         List<Fixture> GetUserFixtures(int id, DateTime? month);
         List<TeamMember> GetAvailableForFixture(int fixtureId);
         PlayerFixtureAvailability GetFixtureAvailability(int fixtureId, int userId);
+        TeamFixtureSetup GetTeamSetup(int fixtureId, int teamId);
     }
 }

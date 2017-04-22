@@ -204,3 +204,4 @@ C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.cardsmiss
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.cardsmissing2.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.reportfixturerelation.resources
 C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.teamfixturesetups.resources
+C:\Users\Jamie\Documents\GitHub\Trakk\API\API\obj\Debug\API.Migrations.statsteamupdate.resources
