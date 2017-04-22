@@ -49,5 +49,6 @@ namespace API.Models
         public DbSet<Formation> Formations { get; set; }
         public DbSet<PlayerFixtureAvailability> FixtureAvailabilities { get; set; }
         public DbSet<TeamRoles> TeamRoles { get; set; }
+        public DbSet<TeamFixtureSetup> FixtureSetups { get; set; }
     }
 }

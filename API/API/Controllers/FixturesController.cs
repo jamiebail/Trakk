@@ -46,11 +46,11 @@ namespace API.Controllers
             return Json(fixture, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Member(int? id)
+        public ActionResult Member(int? id, DateTime? month)
         {
             if (id == null)
                 return null;
-            return Json(_fixtureLogic.GetUserFixtures(id.Value), JsonRequestBehavior.AllowGet);
+            return Json(_fixtureLogic.GetUserFixtures(id.Value, month), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -77,7 +77,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public ActionResult Put(Fixture fixture)
+        public ActionResult Put(FixtureCreateReturnViewModel fixture)
         {
             if (ModelState.IsValid)
             {

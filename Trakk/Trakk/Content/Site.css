@@ -421,6 +421,10 @@ textarea {
     float: right;
 }
 
+.event-users .glyphicon-remove {
+    display: none !important;
+}
+
 .createBox {
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 5px;
@@ -585,11 +589,13 @@ textarea {
 }
 
 .event-widget {
-    padding: 20px;
+    padding: 10px;
     border: 1px solid rgb(213, 213, 213);
     box-shadow: 0px 0px 7px 0px rgba(217, 217, 217, 0.75);
-    margin:15px;
+    background-color: white !important;
     border-radius: 5px;
+    margin-top: 50px;
+    height: 100px;
 }
 
 .social {
@@ -619,8 +625,7 @@ textarea {
 
 .event-widget-dropdown {
     border: 1px solid rgb(213, 213, 213);
-    margin: 20px;
-    margin-top: -15px;
+
 }
 
 .searchBox .btn {

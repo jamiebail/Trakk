@@ -29,12 +29,19 @@ namespace API.Controllers
             return Json(_eventLogic.GetEvent(id.Value), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Member(int? id)
+        public ActionResult Member(int? id, DateTime? month)
         {
             if (id == null)
                 return null;
 
-            return Json(_eventLogic.GetUserEvents(id.Value).OrderBy(x => x.Start), JsonRequestBehavior.AllowGet);
+            return Json(_eventLogic.GetUserEvents(id.Value, month).OrderBy(x => x.Start), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult MemberMonth(int? id, DateTime month)
+        {
+            if (id == null)
+                return null;
+
+            return Json(_eventLogic.GetUserEvents(id.Value, month ).OrderBy(x => x.Start), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

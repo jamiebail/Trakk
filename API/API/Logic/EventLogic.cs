@@ -18,14 +18,14 @@ namespace API.Logic
         private readonly IRepository<PrivateEvent> _privateEventRepository = new Repository<PrivateEvent>(); 
         private readonly ITeamLogic _teamLogic = new TeamLogic();
          
-        public List<Event> GetUserEvents(int userId)
+        public List<Event> GetUserEvents(int userId, DateTime? month)
         {
             List<Event> userEvents = new List<Event>();
             TeamMember user = _teamMemberRepository.FindBy(x => x.Id == userId).FirstOrDefault();
             user.Teams = _teamLogic.GetTeamsByUserId(userId);
             foreach (var team in user.Teams)
             {
-                userEvents.AddRange(GetTeamEvents(team.Id));
+                userEvents.AddRange(GetTeamEvents(team.Id, month));
             }
             List<PrivateEvent> privateEvent = _privateEventRepository.FindBy(x => x.UserId == user.Id);
             foreach (var pevent in privateEvent)
@@ -44,12 +44,19 @@ namespace API.Logic
             return userEvents;
         }
 
-        public List<Event> GetTeamEvents(int teamId)
+        public List<Event> GetTeamEvents(int teamId, DateTime? month)
         {
+            
             List<TeamEvent> teamEvents = _teamEventRepository.FindBy(x => x.TeamId == teamId);
             List<Event> events = new List<Event>();
-            foreach(var teamEvent in teamEvents)
-                events.AddRange(_eventRepository.FindBy(x => x.Id == teamEvent.EventId));
+            foreach (var teamEvent in teamEvents)
+            {
+                if (month != null)
+                    events.AddRange(_eventRepository.FindBy(x => x.Id == teamEvent.EventId && x.Start.Month == month.Value.Month && x.Start.Year == month.Value.Year));
+                else
+                    events.AddRange(_eventRepository.FindBy(x => x.Id == teamEvent.EventId));
+            }
+          
             return events;
         }
 

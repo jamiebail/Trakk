@@ -215,6 +215,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Fixture.cs" />
+    <Compile Include="Viewmodels\EventRequest.cs" />
     <Compile Include="Viewmodels\FixtureAvailabilityViewModel.cs" />
     <Compile Include="Models\Formation.cs" />
     <Compile Include="Models\GameReport.cs" />
@@ -508,6 +509,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\footballPitchReal.png" />
     <Content Include="Images\green.png" />
+    <Content Include="Images\infinity.gif" />
     <Content Include="Images\light_honeycomb.png" />
     <Content Include="Images\light_honeycomb_%402X.png" />
     <Content Include="Images\red.png" />

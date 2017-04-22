@@ -12,8 +12,8 @@ namespace API.Logic
 {
     interface IEventLogic
     {
-        List<Event> GetUserEvents(int userId);
-        List<Event> GetTeamEvents(int teamId);
+        List<Event> GetUserEvents(int userId, DateTime? month);
+        List<Event> GetTeamEvents(int teamId, DateTime? month);
         Event GetEvent(int eventId);
         EntityResponse CreateEvent(EventReturnCreateViewModel newEvent);
         EntityResponse UpdateEvent(EventReturnEditViewModel eventUpdate);

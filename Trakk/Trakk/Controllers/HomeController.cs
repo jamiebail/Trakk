@@ -45,7 +45,7 @@ namespace Trakk.Controllers
                 if(member != null)
                     if (member.Id != 0)
                     {
-                        hvm.Events = await _getter.GetUserEvents(member.Id, true);
+                        hvm.Events = await _getter.GetUserEvents(member.Id, null,true);
                     }
             }
             return View(hvm);

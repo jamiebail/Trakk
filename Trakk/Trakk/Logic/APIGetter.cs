@@ -43,6 +43,21 @@ namespace Trakk.Logic
             }
         }
 
+        public async Task<List<Fixture>> GetUserFixtures(int id)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("fixtures/Member/" + id).Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                List<Fixture> fixtures = JsonConvert.DeserializeObject<List<Fixture>>(textResult);
+                return fixtures;
+            }
+        }
+
+
+
         public async Task<List<Fixture>> GetAllFixtures()
         {
 
@@ -104,20 +119,38 @@ namespace Trakk.Logic
             }
         }
 
-        public async Task<List<Event>> GetUserEvents(int id, bool primary)
+        public async Task<List<Event>> GetUserEvents(int id, DateTime? month, bool primary)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = Uri;
-                var response = client.GetAsync("/fixtures/member/" + id).Result;
+                EventRequest request = new EventRequest() {Id = id, Month = month};
+                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                var response = client.PostAsync("/fixtures/member/", content).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 List<Event> events = new List<Event>();
                 events.AddRange(JsonConvert.DeserializeObject<List<Fixture>>(textResult));
-                response = client.GetAsync("/events/member/" + id).Result;
+
+                var eventRequest = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                response = client.PostAsync("/events/member/", eventRequest).Result;
                 textResult = await response.Content.ReadAsStringAsync();
                 events.AddRange(JsonConvert.DeserializeObject<List<Event>>(textResult));
                 if (primary)
                     events = _eventLogic.GetPrimaryEvents(events);
+                return events;
+            }
+        }
+
+
+        public async Task<List<Event>> GetUserOtherEvents(int id, bool primary)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = client.GetAsync("/events/member/" + id).Result;
+                string textResult = await response.Content.ReadAsStringAsync();
+                List<Event> events = new List<Event>();
+                events.AddRange(JsonConvert.DeserializeObject<List<Event>>(textResult));
                 return events;
             }
         }

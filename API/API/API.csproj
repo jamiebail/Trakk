@@ -375,9 +375,9 @@
     <Compile Include="Migrations\201704201515206_reportfixturerelation.Designer.cs">
       <DependentUpon>201704201515206_reportfixturerelation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704202042567_test123.cs" />
-    <Compile Include="Migrations\201704202042567_test123.Designer.cs">
-      <DependentUpon>201704202042567_test123.cs</DependentUpon>
+    <Compile Include="Migrations\201704212300145_team-fixture-setups.cs" />
+    <Compile Include="Migrations\201704212300145_team-fixture-setups.Designer.cs">
+      <DependentUpon>201704212300145_team-fixture-setups.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
@@ -407,6 +407,7 @@
     <Compile Include="Models\PrivateEvent.cs" />
     <Compile Include="Models\Sport.cs" />
     <Compile Include="Models\TeamEvent.cs" />
+    <Compile Include="Models\TeamFixtureSetup.cs" />
     <Compile Include="Models\TeamMembership.cs" />
     <Compile Include="Models\TeamRoles.cs" />
     <Compile Include="Models\TeamStatistics.cs" />
@@ -611,8 +612,8 @@
     <EmbeddedResource Include="Migrations\201704201515206_reportfixturerelation.resx">
       <DependentUpon>201704201515206_reportfixturerelation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704202042567_test123.resx">
-      <DependentUpon>201704202042567_test123.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704212300145_team-fixture-setups.resx">
+      <DependentUpon>201704212300145_team-fixture-setups.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -94,11 +94,21 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> Create( FixtureCreateReturnViewModel fixture)
         {
-            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.HomeId))
+            if (await _userLogic.CheckIfTeamAdmin(User.Identity, fixture.UsersTeamId))
             {
                 if (ModelState.IsValid)
                 {
-                    EntityResponse response = await _setter.CreateFixture(fixture);
+                    if (fixture.Side == TrakkEnums.Side.Home)
+                    {
+                        fixture.HomeId = fixture.UsersTeamId;
+                        fixture.AwayId = fixture.OpponentsId;
+                    }
+                    else
+                    {
+                        fixture.HomeId = fixture.UsersTeamId;
+                        fixture.AwayId = fixture.OpponentsId;
+                    }
+                EntityResponse response = await _setter.CreateFixture(fixture);
                     return RedirectToAction("Index", "Home");
                 }
                 else

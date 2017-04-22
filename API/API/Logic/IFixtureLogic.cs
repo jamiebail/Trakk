@@ -13,11 +13,11 @@ namespace API.Logic
     {
         List<Fixture> GetFixtures();
         Fixture GetFixture(int id);
-        List<Fixture> GetTeamFixtures(int id);
+        List<Fixture> GetTeamFixtures(int id, DateTime? month);
         EntityResponse CreateFixture(FixtureCreateReturnViewModel fixture);
-        EntityResponse UpdateFixture(Fixture fixture);
+        EntityResponse UpdateFixture(FixtureCreateReturnViewModel fixture);
         EntityResponse DeleteFixture(int id);
-        List<Fixture> GetUserFixtures(int id);
+        List<Fixture> GetUserFixtures(int id, DateTime? month);
         List<TeamMember> GetAvailableForFixture(int fixtureId);
         PlayerFixtureAvailability GetFixtureAvailability(int fixtureId, int userId);
     }

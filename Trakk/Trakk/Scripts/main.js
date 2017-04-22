@@ -226,6 +226,22 @@
         }
     });
 
+
+
+    function checkValidation(elementList) {
+        $(".validation-error").removeClass("validation-error");
+        if (elementList.length > 0) {
+            var success = true;
+            for (var i = 0; i < elementList.length; i++) {
+                if (elementList[i].Value == undefined || elementList[i].Value === "") {
+                    $(elementList[i].Element).addClass("validation-error");
+                    success = false;
+                }
+            }
+            return success;
+        }
+    }
+
     function submitAcceptance(button, accepted) {
         var id = $(button).parent().attr("id");
        $.ajax({
@@ -449,17 +465,23 @@
         });
         var userid =  $(".userid").text();
         players.push({ UserId: userid, role: 2 });
-        var team = { TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), Roles: players }
+        var teamName = $("#teamName").val();
+        if (teamName === "")
+            $("#teamName").addClass("validation-error");
+        else {
+            var team = { TeamName: teamName, SportId: $("#teamSport").val(), Roles: players }
 
-        $.ajax({
-            url: "/Teams/Create",
-            dataType: "json",
-            type: "POST",
-            data: team,
-            success: function(data) {
+            $.ajax({
+                url: "/Teams/Create",
+                dataType: "json",
+                type: "POST",
+                data: team,
+                success: function(data) {
 
-            }
-        });
+                }
+
+            });
+        }
     });
 
     $(document).on('click', ".pitchFrame div", function(e) {
@@ -795,7 +817,8 @@
         $(this).parent().remove();
     });
 
-    $(document).on('click', '#submitEvent', function() {
+    $(document).on('click', '#submitEvent', function () {
+        var validationArray = [];
         var id = $("#selectedTeam").val();
         var users = $(".selected .id").map(function() { return $(this).text(); }).get();
         var type = $("#Event_Type").val();
@@ -805,23 +828,34 @@
         var comments = $("#Event_Comments").val();
         var location = $("#Event_Location").val();
 
+        validationArray.push({Value: id, Element: $("#selectedTeam")});
+        validationArray.push({ Value: type, Element: $("#Event_Type") });
+        validationArray.push({ Value: start, Element: $("#Event_Start") });
+        validationArray.push({Value: end, Element: $("#Event_End")});
+        validationArray.push({Value: title, Element: $("#Event_Title")});
+        validationArray.push({Value: comments, Element: $("#Event_Comments")});
+        validationArray.push({Value: location, Element: $("#Event_Location")});
 
-        //validation here
-        var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
-        var token = $('input[name="__RequestVerificationToken"]').val();
+        if (checkValidation(validationArray)) {
+            var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
+            var token = $('input[name="__RequestVerificationToken"]').val();
 
-        var headers = {};
+            var headers = {};
 
-        headers['__RequestVerificationToken'] = token;
+            headers['__RequestVerificationToken'] = token;
 
-        $.ajax({
-            url: "/Events/Create",
-            dataType: "json",
-            type: "POST",
-            data: newEvent,
-            success: function(data) {
-            }
-        });
+            $.ajax({
+                url: "/Events/Create",
+                dataType: "json",
+                type: "POST",
+                data: newEvent,
+                success: function (data) {
+                    if (data.Success) {
+                        $("#mainBody").load("Partials/UserEventList");
+                    }
+                }
+            });
+        }
     });
 
     $("#submitFixture").click(function() {
@@ -841,11 +875,12 @@
             var xpercent = Math.round(xcoord / pitchframewidth * 100);
             var ypercent = Math.round(ycoord / pitchframeheight * 100);
             var positiontext = $(this).children("input").val();
+            var side = $(".selected-side").attr("id");
 
             var position = { index: $(this).index(), playerid: $(this).children("li").attr("id"), playername: $(this).children("li").children(".username").text(), positionname: positiontext, top: ypercent,left:  xpercent}
             playerpositions.push(position);
         });
-        var fixture = { homeId: homeid, awayId: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions) }
+        var fixture = { usersTeam: homeid, opponents: awayid, start: start, end: end, comments: comments, location: location, positions: JSON.stringify(playerpositions), side: side }
 
         $.ajax({
             url: "/Fixtures/Create",

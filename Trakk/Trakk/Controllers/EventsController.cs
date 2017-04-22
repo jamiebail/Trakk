@@ -85,8 +85,8 @@ namespace Trakk.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _setter.CreateEvent(newEvent);
-                    return RedirectToAction("Index", "Home");
+                    EntityResponse reponse = await _setter.CreateEvent(newEvent);
+                    return Json(reponse);
                 }
             }
             return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });

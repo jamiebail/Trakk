@@ -9,5 +9,6 @@ namespace Trakk.Viewmodels
     public class EventsListViewModel
     {
         public List<Event> Events { get; set; }
+        public List<Fixture> Fixtures { get; set; } 
     }
 }

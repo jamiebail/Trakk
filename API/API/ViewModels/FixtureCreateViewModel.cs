@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using API.Helpers;
 using API.Models;
 
 namespace API.Viewmodels
@@ -24,5 +25,6 @@ namespace API.Viewmodels
         public string Comments { get; set; }
         public string Positions { get; set; }
         public string Location { get; set; }
+        public TrakkEnums.Side Side { get; set; }
     }
 }

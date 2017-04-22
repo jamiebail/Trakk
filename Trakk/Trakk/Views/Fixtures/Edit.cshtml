@@ -50,8 +50,12 @@
         <div class="team-member-widget">
             @Html.Partial("~/Views/Partials/TeamMembersPartial.cshtml", Model.Members)
         </div>
-        <div id="mainBody">
-
+        <div class="lower">
+            <div id="mainBody">
+            </div>
+            <div id="loadingDiv">
+                <img src="~/Images/infinity.gif" />
+            </div>
             <p hidden id="team-id"></p>
             <div>
                 <div class="col-xs-5">

@@ -36,7 +36,7 @@ namespace Trakk.Controllers
         [HttpPost]
         public async Task<ActionResult> UserCalendarEvents()
         {
-            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), false);
+            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), DateTime.Now,false);
             Fixture fixture;
             foreach(var e in events)
                 if (e.Type != TrakkEnums.EventType.Social && e.Type != TrakkEnums.EventType.Training)
@@ -68,7 +68,7 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserEventList()
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            EventsListViewModel vm = new EventsListViewModel(){ Events = await _getter.GetUserEvents(member.Id, false)};
+            EventsListViewModel vm = new EventsListViewModel(){ Events = await _getter.GetUserOtherEvents(member.Id, false)};
             vm.Events = vm.Events.Where(x => x.Type == TrakkEnums.EventType.Social || x.Type == TrakkEnums.EventType.Training).ToList();
             return PartialView("~/Views/Partials/UserEventsPartial.cshtml", vm);
         }
@@ -77,11 +77,11 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserFixtureList()
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
-            EventsListViewModel vm = new EventsListViewModel() { Events = await _getter.GetUserEvents(member.Id, false) };
-            vm.Events = vm.Events.Where(x => x.Type != TrakkEnums.EventType.Social && x.Type != TrakkEnums.EventType.Training).ToList();
+            EventsListViewModel vm = new EventsListViewModel() { Fixtures = await _getter.GetUserFixtures(member.Id) };
             List<FixtureViewModel> fixtures = new List<FixtureViewModel>();
-            foreach (var e in vm.Events)
+            foreach (var e in vm.Fixtures)
             {
+                // Run checks on fixtures before view generation to apply changes in state.
                 Fixture fixture = (Fixture) e;
                 if (fixture.End < DateTime.Now)
                 {
@@ -134,7 +134,7 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> UserDayEvents(string date)
         {
             DateTime selectedDate = Convert.ToDateTime(date).Date;
-            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), false);
+            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), DateTime.Now,false);
             events = events.Where(x => x.Start.Date == selectedDate).ToList();
             return PartialView("EventPartial", events);
         }
