@@ -383,6 +383,10 @@
     <Compile Include="Migrations\201704222123178_statsteamupdate.Designer.cs">
       <DependentUpon>201704222123178_statsteamupdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704231211515_fixtureavailabilitiesupdate.cs" />
+    <Compile Include="Migrations\201704231211515_fixtureavailabilitiesupdate.Designer.cs">
+      <DependentUpon>201704231211515_fixtureavailabilitiesupdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -621,6 +625,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704222123178_statsteamupdate.resx">
       <DependentUpon>201704222123178_statsteamupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704231211515_fixtureavailabilitiesupdate.resx">
+      <DependentUpon>201704231211515_fixtureavailabilitiesupdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

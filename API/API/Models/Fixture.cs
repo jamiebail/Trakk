@@ -35,6 +35,8 @@ namespace API.Models
         [NotMapped]
         public List<TeamMember> Available { get; set; }
         [NotMapped]
+        public List<PlayerFixtureAvailability> Availabilities { get; set; }
+        [NotMapped]
         public List<TeamFixtureSetup> TeamSetups { get; set; }
 
         public Fixture()

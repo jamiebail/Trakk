@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.Text;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using API.Helpers;
 using Trakk.Models;
 
 namespace Trakk.Logic
@@ -16,5 +17,6 @@ namespace Trakk.Logic
         Task<List<TeamMember>> GetAllUsers();
         Task<bool> CheckIfTeamAdmin(IIdentity identityIn, int teamId);
         Task<List<Team>> CheckIfTeamAdminAny(IIdentity identityIn);
+        TrakkEnums.Side CheckTeamSide(TeamMember member, Fixture fixture);
     }
 }

@@ -14,6 +14,7 @@ namespace API.Models
         public TrakkEnums.UserAvailability Availability { get; set; }
         public int UserId { get; set; }
         public int EventId { get; set; }
+        public int TeamId { get; set; }
 
     }
 }

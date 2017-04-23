@@ -197,6 +197,7 @@ namespace API.Logic
                 if (currentAvailability != null)
                 {
                     currentAvailability.Availability = availability.Availability;
+                    currentAvailability.TeamId = availability.TeamId;
                     _fixtureAvailabilityRepository.Update(currentAvailability);
                     response = new EntityResponse(true, " availability update success");
                 }

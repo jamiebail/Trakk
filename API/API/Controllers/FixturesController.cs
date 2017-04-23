@@ -115,7 +115,8 @@ namespace API.Controllers
                 {
                     Availability = availabilityIn.Availability,
                     EventId = availabilityIn.EventId,
-                    UserId = availabilityIn.UserId
+                    UserId = availabilityIn.UserId,
+                    TeamId = availabilityIn.TeamId
                 };
 
                 EntityResponse response = _userLogic.UpdateFixtureAvailability(availability);

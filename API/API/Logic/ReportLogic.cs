@@ -111,11 +111,14 @@ namespace API.Logic
 
                 Fixture fixture = _fixtureRepository.FindBy(x => x.Id == report.FixtureId).FirstOrDefault();
                 List<StatUpdateViewModel> statupdates = DetermineWinner(report);
+                if (entity == null)
+                {
+                    statupdates[0].Id = fixture.HomeId;
+                    statupdates[1].Id = fixture.AwayId;
+                    _teamLogic.UpdateTeamStatistics(statupdates[0]);
+                    _teamLogic.UpdateTeamStatistics(statupdates[1]);
+                }
 
-                statupdates[0].Id = fixture.HomeId;
-                statupdates[0].Id = fixture.AwayId;
-                _teamLogic.UpdateTeamStatistics(statupdates[0]);
-                _teamLogic.UpdateTeamStatistics(statupdates[1]);
                 return new EntityResponse(true, "Report created successfully");
             }
             catch (Exception e)

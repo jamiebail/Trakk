@@ -38,6 +38,7 @@ namespace API.Logic
                 fixture.HomeTeam = _teamRepository.FindBy(x => x.Id == fixture.HomeId).FirstOrDefault();
                 fixture.AwayTeam = _teamRepository.FindBy(x => x.Id == fixture.AwayId).FirstOrDefault();
                 fixture.Available = GetAvailableForFixture(fixture.Id);
+                fixture.Availabilities = _avilabilityRepository.FindBy(x => x.EventId == fixture.Id);
                 fixture.Result = _reportLogic.GetFixtureReport(fixture.Id);
                 return fixture;
             }
@@ -73,6 +74,7 @@ namespace API.Logic
                 fixture.HomeTeam = _teamLogic.GetTeamById(fixture.HomeId);
                 fixture.AwayTeam = _teamLogic.GetTeamById(fixture.AwayId);
                 fixture.Available = GetAvailableForFixture(fixture.Id);
+                fixture.Availabilities = _avilabilityRepository.FindBy(x => x.EventId == fixture.Id);
                 fixture.Result = _reportLogic.GetFixtureReport(fixture.Id);
             }
             return fixtures;

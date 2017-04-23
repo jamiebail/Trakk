@@ -294,8 +294,21 @@ namespace Trakk.Controllers
         {
             if (ModelState.IsValid)
             {
-                int id = _userLogic.GetPlayerId(User.Identity);
-                await _setter.UpdateFixtureAvailability(new PlayerFixtureAvailability() { Availability = availability, EventId = eventId, UserId = id });
+                TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
+                Fixture fixture = await _getter.GetFixture(eventId);
+                TrakkEnums.Side side = _userLogic.CheckTeamSide(member, fixture);
+                int teamId = 0;
+
+                if (side == TrakkEnums.Side.Home)
+                {
+                    teamId = fixture.HomeId;
+                }
+                if(side == TrakkEnums.Side.Away)
+                {
+                    teamId = fixture.AwayId;
+                }
+              
+                await _setter.UpdateFixtureAvailability(new PlayerFixtureAvailability() { Availability = availability, EventId = eventId, UserId = member.Id, TeamId = teamId});
                 return RedirectToAction("Index", "Home");
             }
             return View("BadRequestView", new EntityResponse() { Message = "Model submitted invalid", Success = false });

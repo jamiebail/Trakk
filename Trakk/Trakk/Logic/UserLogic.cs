@@ -45,6 +45,22 @@ namespace Trakk.Logic
             return false;
         }
 
+        public TrakkEnums.Side CheckTeamSide(TeamMember member, Fixture fixture)
+        {
+            foreach (Team team in member.Teams)
+            {
+                if (team.Id == fixture.HomeId)
+                {
+                    return TrakkEnums.Side.Home;
+                }
+                if (team.Id == fixture.AwayId)
+                {
+                    return TrakkEnums.Side.Away;
+                }
+            }
+            return 0;
+        }
+
         public async Task<List<Team>> CheckIfTeamAdminAny(IIdentity identityIn)
         {
             if (identityIn.IsAuthenticated)

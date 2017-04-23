@@ -80,15 +80,27 @@ namespace Trakk.Controllers
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
             EventsListViewModel vm = new EventsListViewModel() { Fixtures = await _getter.GetUserFixtures(member.Id) };
             List<FixtureViewModel> fixtures = new List<FixtureViewModel>();
+            List<TeamMember> teamAvailable = new List<TeamMember>();
             foreach (var e in vm.Fixtures)
             {
                 // Run checks on fixtures before view generation to apply changes in state.
                 Fixture fixture = (Fixture) e;
+
+                if (_userLogic.CheckTeamSide(member, fixture) == TrakkEnums.Side.Home)
+                {
+                    var availabilities = fixture.Availabilities.Where(x => x.TeamId == fixture.HomeId);
+                    teamAvailable = availabilities.Select(availability => fixture.Available.Find(x => x.Id == availability.UserId)).ToList();
+                }
+                else if(_userLogic.CheckTeamSide(member, fixture) == TrakkEnums.Side.Away)
+                {
+                    var availabilities = fixture.Availabilities.Where(x => x.TeamId == fixture.AwayId);
+                    teamAvailable = availabilities.Select(availability => fixture.Available.Find(x => x.Id == availability.UserId)).ToList();
+                }
                 if (fixture.End < DateTime.Now)
                 {
                     fixture.State = TrakkEnums.FixtureState.Finished;
                 }
-                fixtures.Add(new FixtureViewModel() { HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, Fixture = fixture, Playing = fixture.Available, UserId = member.Id});
+                fixtures.Add(new FixtureViewModel() { HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, Fixture = fixture, Playing = teamAvailable, UserId = member.Id});
             }
             return PartialView("~/Views/Partials/UserFixturePartial.cshtml", fixtures);
         } 
@@ -124,18 +136,24 @@ namespace Trakk.Controllers
               positions = JsonConvert.DeserializeObject<List<PlayerPositionViewModel>>(fixture.Positions);
             }
             TrakkEnums.Side side = 0;
+            List<TeamMember> teamAvailable = new List<TeamMember>();
             foreach (Team team in member.Teams)
             {
                 if (team.Id == fixture.HomeId)
                 {
                     side = TrakkEnums.Side.Home;
+                    var availabilities = fixture.Availabilities.Where(x => x.TeamId == team.Id && x.Availability == TrakkEnums.UserAvailability.Accepted);
+                  teamAvailable = availabilities.Select(availability => fixture.Available.Find(x => x.Id == availability.UserId)).ToList();
                 }
                 else if (team.Id == fixture.AwayId)
                 {
                     side = TrakkEnums.Side.Away;
+                    var availabilities = fixture.Availabilities.Where(x => x.TeamId == team.Id && x.Availability == TrakkEnums.UserAvailability.Accepted);
+                    teamAvailable = availabilities.Select(availability => fixture.Available.Find(x => x.Id == availability.UserId)).ToList();
                 }
             }
-            FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = fixture.Available, UserId = member.Id, Side = side};
+ 
+            FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = teamAvailable, UserId = member.Id, Side = side};
             vm.Fixture.Result.FixtureId = vm.Fixture.Id;
             return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
         }

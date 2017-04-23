@@ -30,6 +30,7 @@ namespace Trakk.Models
         public TrakkEnums.FixtureState State { get; set; }
         public string Positions { get; set; }
         public List<TeamMember> Available { get; set; }
+        public List<PlayerFixtureAvailability> Availabilities { get; set; }
         public List<TeamFixtureSetup> TeamSetups { get; set; }
     }
 }
