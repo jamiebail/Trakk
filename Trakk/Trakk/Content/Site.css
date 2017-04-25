@@ -1,7 +1,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url(../Images/light_honeycomb.png);
+    background-image: url(../Images/Sports.png);
     background-attachment: fixed;
 }
 
@@ -498,6 +498,13 @@ textarea {
     box-shadow: 0px 0px 7px 0px rgba(239, 239, 239, 0.75);
 }
 
+.image img {
+    width: 100%;
+    border-radius: 20px;
+    height: auto;
+    max-height: 40px
+}
+
 
 .image, .image-static {
     border-radius: 25px;
@@ -543,6 +550,7 @@ textarea {
 .user-list, .user-list-static {
     list-style: none;
     margin-top: 20px;
+    padding-bottom: 20px;
     padding-left: 0;
     min-height: 100px;
     height: 100%;
@@ -592,14 +600,20 @@ textarea {
     width: 280px;
 }
 
+.tea
+
+.widget-container {
+    
+}
+
 .event-widget {
-    padding: 10px;
+
     border: 1px solid rgb(213, 213, 213);
-    box-shadow: 0px 0px 7px 0px rgba(217, 217, 217, 0.75);
-    background-color: white !important;
+    box-shadow: 0px 3px 3px 3px rgba(217, 217, 217, 0.75);
+
     border-radius: 5px;
-    margin-top: 50px;
-    height: 100px;
+    margin-top: 20px;
+    height:200px;
 }
 
 .form {
@@ -762,7 +776,7 @@ textarea {
 }
 
 .lower {
-margin: 0px -15px 0 -15px;
+margin: -10px -15px 0 -15px;
     padding: 20px;
     height: auto;
 
@@ -1188,6 +1202,18 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
       }
       .lower {
           padding: 5px
+      }
+
+      .widget-container {
+          padding-left: 0;
+          padding-right: 0;
+      }
+      .event-widget {
+          border-radius: 0;
+          padding: 0;
+      }
+      .widget-container .social {
+          background-color: black; 
       }
 }
 

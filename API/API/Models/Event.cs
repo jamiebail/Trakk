@@ -16,6 +16,8 @@ namespace API.Models
         public string Comments { get; set; }
         public string Title { get; set; }
         public int Attending { get; set; }
+        [NotMapped]
+        public List<TeamMember> Available { get; set; }
         public int Invited { get; set; }
         public TrakkEnums.EventType Type { get; set; }
         [NotMapped]
@@ -23,6 +25,10 @@ namespace API.Models
         [NotMapped]
         public List<TeamMember> Members { get; set; }
         [NotMapped]
+        public List<PlayerEventAvailability> Availabilities { get; set; }
+        [NotMapped]
         public int TeamId { get; set; }
+        [NotMapped]
+        public Team Team { get; set; }
     }
 }

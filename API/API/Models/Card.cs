@@ -22,9 +22,11 @@ namespace API.Models
         public CardColour CardColour { get; set; }
         [ScriptIgnore]
         public int  PlayerId { get; set; }
-        [NotMapped]
+        [ForeignKey("PlayerId")]
         public TeamMember Player { get; set; }
         public int ReportId { get; set; }
+        [ForeignKey("ReportId")]
+        public GameReport Report { get; set; }
         public TrakkEnums.Side Side { get; set; }
     }
 }

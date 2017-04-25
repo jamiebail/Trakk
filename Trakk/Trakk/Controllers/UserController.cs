@@ -27,6 +27,17 @@ namespace Trakk.Controllers
             _userLogic = new UserLogic();
         }
 
+        public FileContentResult Photo(string userId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.Id == userId);
+            if (user != null)
+            {
+                return new FileContentResult(user.ProfilePicture, "image/jpeg");
+            }
+            return null;
+        }
+
         // GET: User
         public ActionResult Index()
         {

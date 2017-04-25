@@ -26,6 +26,7 @@ namespace Trakk.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int MemberId { get; set; }
+        public byte[] ProfilePicture { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

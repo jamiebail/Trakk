@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data.Entity.Migrations;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -94,6 +97,21 @@ namespace Trakk.Controllers
             }
         }
 
+        public void AddPhoto(HttpPostedFileBase photo)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            string id = User.Identity.GetUserId();
+            ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == id);
+            if (user != null)
+            {
+                byte[] image = new byte[photo.ContentLength];
+                photo.InputStream.Read(image, 0, Convert.ToInt32(photo.ContentLength));
+                user.ProfilePicture = image;
+                db.Users.AddOrUpdate(user);
+                db.SaveChanges();
+            }
+        }
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -165,7 +183,11 @@ namespace Trakk.Controllers
                 if (response.Success)
                 {
                     user.MemberId = response.IdReturn;
+                    byte[] image = new byte[model.Photo.ContentLength];
+                    model.Photo.InputStream.Read(image, 0, Convert.ToInt32(model.Photo.ContentLength));
+                    user.ProfilePicture = image;
                     var result = await UserManager.CreateAsync(user, model.Password);
+
                     if (result.Succeeded)
                     {
 
@@ -439,9 +461,11 @@ namespace Trakk.Controllers
             base.Dispose(disposing);
         }
 
-        #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
+
+
+#region Helpers
+// Used for XSRF protection when adding external logins
+private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
         {

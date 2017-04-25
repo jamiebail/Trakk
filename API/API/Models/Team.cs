@@ -20,10 +20,10 @@ namespace API.Models
         [NotMapped]
         public List<TeamMember> Members { get; set; }
         public int SportId { get; set; }
-        [NotMapped]
+        [ForeignKey("SportId")]
         public Sport Sport { get; set; }
         public int  TeamStatistics { get; set; }
-        [NotMapped]
+        [ForeignKey("TeamStatistics")]
         public TeamStatistics  Statistics { get; set; }
         public string FbFeed { get; set; }
         [NotMapped]

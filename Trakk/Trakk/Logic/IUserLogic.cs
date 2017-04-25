@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -18,5 +19,6 @@ namespace Trakk.Logic
         Task<bool> CheckIfTeamAdmin(IIdentity identityIn, int teamId);
         Task<List<Team>> CheckIfTeamAdminAny(IIdentity identityIn);
         TrakkEnums.Side CheckTeamSide(TeamMember member, Fixture fixture);
+        byte[] GetUserImage(int userId);
     }
 }

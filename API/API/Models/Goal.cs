@@ -13,10 +13,12 @@ namespace API.Models
         [Key]
         public int Id { get; set; }
         public int ScorerId { get; set; }
-        [NotMapped]
+        [ForeignKey("ScorerId")]
         public TeamMember Scorer { get; set; }
         public int Minute { get; set; }
         public TrakkEnums.Side Side { get; set; }
         public int ReportId { get; set; }
+        [ForeignKey("ReportId")]
+        public GameReport Report { get; set; }
     }
 }

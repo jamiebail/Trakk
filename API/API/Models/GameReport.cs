@@ -19,5 +19,7 @@ namespace API.Models
         [NotMapped]
         public List<Goal> Goals { get; set; }  
         public int FixtureId { get; set; }
+        [ForeignKey("FixtureId")]
+        public Fixture Fixture { get; set; }
     }
 }

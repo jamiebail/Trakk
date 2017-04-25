@@ -2,46 +2,47 @@
 @model Trakk.Viewmodels.EventsListViewModel
 
 <p class="createevent">
-    <a><span class="glyphicon glyphicon-plus"></span></a>
+
+    <a style="cursor: pointer">
+        <span style="cursor: pointer" class="glyphicon glyphicon-plus"></span>
+        <p>Create Event</p>
+    </a>
 </p>
 
 @foreach (var item in Model.Events)
 {
     if (item.Type == TrakkEnums.EventType.Social)
     {
-        <div class="col-md-6">
+        <div class="col-md-6 widget-container">
             <div class="event-widget social col-xs-12">
-                <a href="@Url.Action("Edit", "Events", new {id = item.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
+                @*<a href="@Url.Action("Edit", "Events", new {id = item.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>*@
                 <div class="event-date col-xs-3">
-                    <div class="col-xs-6">
-                        <h4>@Html.DisplayFor(modelItem => item.Start.DayOfWeek)</h4>
-                    </div>
-                    <h4>@Html.DisplayFor(modelItem => item.Start.TimeOfDay)</h4>
-
-                    <h4>@Html.DisplayFor(modelItem => item.End.TimeOfDay)</h4>
+                        @Html.DisplayFor(modelItem => item.Type)
                 </div>
                 <div class="event-text col-xs-6">
                     <h4> @Html.DisplayFor(modelItem => item.Title)</h4>
                     <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
                 </div>
-                <div class="event-type col-xs-3">
-                    @Html.DisplayFor(modelItem => item.Type)
+                <div class="col-xs-3">
+                    <h4>@Html.DisplayFor(modelItem => item.Start.DayOfWeek)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.Start.TimeOfDay)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.End.TimeOfDay)</h4>
                 </div>
                 <div class="clear"></div>
-
+                <div class="col-xs-12">
+                    @Html.DisplayFor(modelItem => item.Comments)
+                    @Html.DisplayFor(modelItem => item.Attending)
+                    @Html.DisplayFor(modelItem => item.Invited)
+                    @Html.DisplayFor(modelItem => item.AttendanceState)
+                </div>
 
             </div>
-            <div class="event-widget-dropdown col-xs-12">
-                @Html.DisplayFor(modelItem => item.Comments)
-                @Html.DisplayFor(modelItem => item.Attending)
-                @Html.DisplayFor(modelItem => item.Invited)
-                @Html.DisplayFor(modelItem => item.AttendanceState)
-            </div>
+
         </div>
     }
     else if (item.Type == TrakkEnums.EventType.Training)
     {
-        <div class="col-md-6">
+        <div class="col-md-6 widget-container">
             <div class="event-widget training col-xs-12 ">
                 <div class="event-date col-xs-3">
                     <div class="col-xs-6">
@@ -60,14 +61,14 @@
                 </div>
                 <div class="clear"></div>
 
+                <div class="col-xs-12">
+                    @Html.DisplayFor(modelItem => item.Comments)
+                    @Html.DisplayFor(modelItem => item.Attending)
+                    @Html.DisplayFor(modelItem => item.Invited)
+                    @Html.DisplayFor(modelItem => item.AttendanceState)
+                </div>
             </div>
 
-            <div class="event-widget-dropdown col-xs-12">
-                @Html.DisplayFor(modelItem => item.Comments)
-                @Html.DisplayFor(modelItem => item.Attending)
-                @Html.DisplayFor(modelItem => item.Invited)
-                @Html.DisplayFor(modelItem => item.AttendanceState)
-            </div>
         </div>
 
 

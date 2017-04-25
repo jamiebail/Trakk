@@ -204,9 +204,9 @@
     <Compile Include="Migrations\201704110950479_usernames.Designer.cs">
       <DependentUpon>201704110950479_usernames.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704191801269_goals.cs" />
-    <Compile Include="Migrations\201704191801269_goals.Designer.cs">
-      <DependentUpon>201704191801269_goals.cs</DependentUpon>
+    <Compile Include="Migrations\201704242333217_user-profile-images.cs" />
+    <Compile Include="Migrations\201704242333217_user-profile-images.Designer.cs">
+      <DependentUpon>201704242333217_user-profile-images.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -508,6 +508,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\food.png" />
     <Content Include="Images\footballPitchReal.png" />
     <Content Include="Images\green.png" />
     <Content Include="Images\infinity.gif" />
@@ -516,13 +517,15 @@
     <Content Include="Images\red.png" />
     <Content Include="Images\reticular_tissue.png" />
     <Content Include="Images\soccer-ball.png" />
+    <Content Include="Images\Sports.png" />
     <Content Include="Images\tweed.png" />
+    <Content Include="Images\user.png" />
     <Content Include="Images\yellow.png" />
     <Content Include="Scripts\Canvas.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\fullcalendar.min.js" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -637,8 +640,8 @@
     <EmbeddedResource Include="Migrations\201704110950479_usernames.resx">
       <DependentUpon>201704110950479_usernames.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704191801269_goals.resx">
-      <DependentUpon>201704191801269_goals.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704242333217_user-profile-images.resx">
+      <DependentUpon>201704242333217_user-profile-images.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

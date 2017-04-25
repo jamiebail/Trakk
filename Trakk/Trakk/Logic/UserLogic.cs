@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -94,5 +97,17 @@ namespace Trakk.Logic
             return await _getter.GetAllUsers();
         }
 
+        public byte[] GetUserImage(int userId)
+        {
+            ApplicationUser user = new ApplicationDbContext().Users.FirstOrDefault(x => x.MemberId == userId);
+            if (user != null)
+            {
+                if (user.ProfilePicture != null)
+                {
+                    return user.ProfilePicture;
+                }
+            }
+            return null;
+        }
     }
 }

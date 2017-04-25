@@ -152,7 +152,10 @@ namespace Trakk.Controllers
                     teamAvailable = availabilities.Select(availability => fixture.Available.Find(x => x.Id == availability.UserId)).ToList();
                 }
             }
- 
+            foreach (var memb in teamAvailable)
+            {
+                memb.Photo = _userLogic.GetUserImage(member.Id);
+            }
             FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = teamAvailable, UserId = member.Id, Side = side};
             vm.Fixture.Result.FixtureId = vm.Fixture.Id;
             return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
@@ -198,12 +201,17 @@ namespace Trakk.Controllers
         public async Task<JsonResult> GetTeamMembers(int id)
         {
             Team team = await _getter.GetTeam(id);
+
             return Json(team.Members, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<PartialViewResult> TeamMembersPartial(int id)
         {
             Team team = await _getter.GetTeam(id);
+            foreach (var member in team.Members)
+            {
+                member.Photo = _userLogic.GetUserImage(member.Id);
+            }
             return PartialView("~/Views/Partials/TeamMembersPartial.cshtml", team.Members);
         }
 

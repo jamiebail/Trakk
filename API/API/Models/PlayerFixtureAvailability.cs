@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using API.Helpers;
@@ -16,5 +17,13 @@ namespace API.Models
         public int EventId { get; set; }
         public int TeamId { get; set; }
 
+        [ForeignKey("EventId")]
+        public Fixture Fixture { get; set; }
+
+        [ForeignKey("UserId")]
+        public TeamMember User { get; set; }
+
+        [ForeignKey("TeamId")]
+        public Team Team { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using Newtonsoft.Json;
 
 namespace Trakk.Models
@@ -92,6 +93,9 @@ namespace Trakk.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public HttpPostedFileBase Photo { get; set; } 
+
     }
 
     public class ResetPasswordViewModel

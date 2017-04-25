@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -27,7 +28,7 @@ namespace Trakk.Models
         {
             return Equals(obj as TeamMember);
         }
-
+        public byte[] Photo { get; set; }
         public bool Equals(TeamMember obj)
         {
             return obj != null && obj.Id == this.Id;

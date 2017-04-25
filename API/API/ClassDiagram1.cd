@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="API.Models.Event">
+    <Position X="30" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAACAAAEABAAIAAABCAAAAAAAAEQAEAABAICA=</HashCode>
+      <FileName>Models\Event.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Team" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Members" />
+      <Property Name="Availabilities" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.Team">
+    <Position X="33.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAEAAAAkACAACAQAAgAAAAEAAACEAAAAAAA=</HashCode>
+      <FileName>Models\Team.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sport" />
+      <Property Name="Statistics" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Members" />
+      <Property Name="Roles" />
+      <Property Name="Formations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.Card">
+    <Position X="43" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAQIABBA=</HashCode>
+      <FileName>Models\Card.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Models.Fixture">
+    <Position X="36.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAICAIAEACAAAIABAAIAAARAAAAAAAAAABAABABhAAA=</HashCode>
+      <FileName>Models\Fixture.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="HomeTeam" />
+      <Property Name="AwayTeam" />
+      <Property Name="Result" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Available" />
+      <Property Name="Availabilities" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.Formation">
+    <Position X="35.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\Formation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Models.GameReport">
+    <Position X="40.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAIAAAAAAAAIAAAAAAAABAAAQAAAIAA=</HashCode>
+      <FileName>Models\GameReport.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cards" />
+      <Property Name="Goals" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.Goal">
+    <Position X="43" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAgAAAABAAAAAAAAACAAAAAAAAIABAA=</HashCode>
+      <FileName>Models\Goal.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Scorer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.PlayerEventAvailability">
+    <Position X="27" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAgAAAAAAAAAAABAAgAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PlayerEventAvailability.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Event" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="API.Models.PlayerFixtureAvailability">
+    <Position X="40.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAgAAAAAAAAAAABAAgCAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\PlayerFixtureAvailability.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Fixture" />
+      <Property Name="Team" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="API.Models.Position">
+    <Position X="33.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAAAAAAAAAACAQAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Models\Position.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sport" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.PrivateEvent">
+    <Position X="27.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAgAAAAAAAAAAAAAAgCAgAIAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\PrivateEvent.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Team" />
+      <Property Name="Member" />
+      <Property Name="Event" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.Sport">
+    <Position X="36" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Sport.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Teams" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.TeamFixtureSetup">
+    <Position X="38.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAgAAAAAAACAAAAAAAAFAAAAAAAIAA=</HashCode>
+      <FileName>Models\TeamFixtureSetup.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Team" />
+      <Property Name="Fixture" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.TeamMember">
+    <Position X="33.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAAAggAAAAAAQAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TeamMember.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Position" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Teams" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.TeamMembership">
+    <Position X="31" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADQAAAAAAAAAAAAAAAAQACAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\TeamMembership.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Team" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.TeamRoles">
+    <Position X="30.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAEAAAAAgCAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\TeamRoles.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Team" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Models.TeamStatistics">
+    <Position X="41" Y="6" Width="1.5" />
+    <AssociationLine Name="Cards" Type="API.Models.Card" ManuallyRouted="true">
+      <Path>
+        <Point X="42.5" Y="7.225" />
+        <Point X="43.75" Y="7.225" />
+        <Point X="43.75" Y="9.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIKAACAAAAAgAAAAAAAAAAIAAAQAAAAAAAAAQAAIAA=</HashCode>
+      <FileName>Models\TeamStatistics.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cards" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="API.Models.TeamEvent">
+    <Position X="27.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAgAAAAAAAAAAAAAAACAgAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Models\TeamEvent.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Event" />
+      <Property Name="Team" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="API.Controllers.EventsController">
+    <Position X="11.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQBAAAAAAAAACAEIEABAMAAAIQAAAAg=</HashCode>
+      <FileName>Controllers\EventsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.FixturesController">
+    <Position X="3.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAEAAAAAQBAAAAAAAAACAEIEABAIAAAAQAAAAg=</HashCode>
+      <FileName>Controllers\FixturesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.FormationsController">
+    <Position X="9.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAEAAAAAIgAAAAAAAAg=</HashCode>
+      <FileName>Controllers\FormationsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.GameReportsController">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAABAAAAAAAAACAEAEABAIAAAAQAAAAg=</HashCode>
+      <FileName>Controllers\GameReportsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.HomeController">
+    <Position X="3.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.MembershipsController">
+    <Position X="5.75" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\MembershipsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.SportsController">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAEABAAAAAAQAAAAg=</HashCode>
+      <FileName>Controllers\SportsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.TeamsController">
+    <Position X="10" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAEABAAgAAAQAAAAg=</HashCode>
+      <FileName>Controllers\TeamsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.UsersController">
+    <Position X="7.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAEABAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\UsersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="API.Controllers.ValuesController">
+    <Position X="11.75" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\ValuesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

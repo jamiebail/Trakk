@@ -338,14 +338,17 @@ namespace Trakk.Controllers
                         int score = reportIn.AwayScore;
                         reportIn.AwayScore = reportIn.HomeScore;
                         reportIn.HomeScore = score;
-                        foreach (var card in reportIn.Cards)
-                        {
-                            card.Side = TrakkEnums.Side.Away;
-                        }
-                        foreach (var goal in reportIn.Goals)
-                        {
-                            goal.Side = TrakkEnums.Side.Away;
-                        }
+
+                        if(reportIn.Cards != null)
+                            foreach (var card in reportIn.Cards)
+                            {
+                                card.Side = TrakkEnums.Side.Away;
+                            }
+                        if(reportIn.Goals != null)
+                            foreach (var goal in reportIn.Goals)
+                            {
+                                goal.Side = TrakkEnums.Side.Away;
+                            }
                     }
                     GameReport report = new GameReport() {AwayScore = reportIn.AwayScore, FixtureId = reportIn.FixtureId, HomeScore = reportIn.HomeScore, Cards = reportIn.Cards, Goals = reportIn.Goals};
       

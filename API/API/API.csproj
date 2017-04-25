@@ -387,6 +387,54 @@
     <Compile Include="Migrations\201704231211515_fixtureavailabilitiesupdate.Designer.cs">
       <DependentUpon>201704231211515_fixtureavailabilitiesupdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704241146270_independetnasso.cs" />
+    <Compile Include="Migrations\201704241146270_independetnasso.Designer.cs">
+      <DependentUpon>201704241146270_independetnasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241154379_independetnasso3.cs" />
+    <Compile Include="Migrations\201704241154379_independetnasso3.Designer.cs">
+      <DependentUpon>201704241154379_independetnasso3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241201276_team-association.cs" />
+    <Compile Include="Migrations\201704241201276_team-association.Designer.cs">
+      <DependentUpon>201704241201276_team-association.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241215219_privateeventasso.cs" />
+    <Compile Include="Migrations\201704241215219_privateeventasso.Designer.cs">
+      <DependentUpon>201704241215219_privateeventasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241221555_teamroleasso.cs" />
+    <Compile Include="Migrations\201704241221555_teamroleasso.Designer.cs">
+      <DependentUpon>201704241221555_teamroleasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241229256_teammembershipasso.cs" />
+    <Compile Include="Migrations\201704241229256_teammembershipasso.Designer.cs">
+      <DependentUpon>201704241229256_teammembershipasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241248561_temafixturesetupasso.cs" />
+    <Compile Include="Migrations\201704241248561_temafixturesetupasso.Designer.cs">
+      <DependentUpon>201704241248561_temafixturesetupasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241252419_teameventasso.cs" />
+    <Compile Include="Migrations\201704241252419_teameventasso.Designer.cs">
+      <DependentUpon>201704241252419_teameventasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241300144_positionasso.cs" />
+    <Compile Include="Migrations\201704241300144_positionasso.Designer.cs">
+      <DependentUpon>201704241300144_positionasso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241653388_finalassociations.cs" />
+    <Compile Include="Migrations\201704241653388_finalassociations.Designer.cs">
+      <DependentUpon>201704241653388_finalassociations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704242304486_user-images.cs" />
+    <Compile Include="Migrations\201704242304486_user-images.Designer.cs">
+      <DependentUpon>201704242304486_user-images.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704242335186_picsupdate.cs" />
+    <Compile Include="Migrations\201704242335186_picsupdate.Designer.cs">
+      <DependentUpon>201704242335186_picsupdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Formation.cs" />
@@ -462,6 +510,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -628,6 +677,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704231211515_fixtureavailabilitiesupdate.resx">
       <DependentUpon>201704231211515_fixtureavailabilitiesupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241146270_independetnasso.resx">
+      <DependentUpon>201704241146270_independetnasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241154379_independetnasso3.resx">
+      <DependentUpon>201704241154379_independetnasso3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241201276_team-association.resx">
+      <DependentUpon>201704241201276_team-association.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241215219_privateeventasso.resx">
+      <DependentUpon>201704241215219_privateeventasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241221555_teamroleasso.resx">
+      <DependentUpon>201704241221555_teamroleasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241229256_teammembershipasso.resx">
+      <DependentUpon>201704241229256_teammembershipasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241248561_temafixturesetupasso.resx">
+      <DependentUpon>201704241248561_temafixturesetupasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241252419_teameventasso.resx">
+      <DependentUpon>201704241252419_teameventasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241300144_positionasso.resx">
+      <DependentUpon>201704241300144_positionasso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241653388_finalassociations.resx">
+      <DependentUpon>201704241653388_finalassociations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704242304486_user-images.resx">
+      <DependentUpon>201704242304486_user-images.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704242335186_picsupdate.resx">
+      <DependentUpon>201704242335186_picsupdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
