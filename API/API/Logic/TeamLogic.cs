@@ -96,8 +96,15 @@ namespace API.Logic
                         role.Id = currentRole.Id;
                         _userLogic.UpdateUserRole(role);
                     }
-
-                    _userLogic.SetUserTeam(role.UserId, team.TeamId);
+                    if (memberships.FirstOrDefault(x => x.MemberId == role.UserId) != null)
+                    {
+                        _userLogic.SetUserTeam(role.UserId, team.TeamId, true);
+                    }
+                    else
+                    {
+                        _userLogic.SetUserTeam(role.UserId, team.TeamId, false);
+                    }
+                    
                 }
                 _teamRepository.Update(editTeam);
                 _teamRepository.Save();

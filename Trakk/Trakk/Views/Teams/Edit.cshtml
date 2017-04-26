@@ -1,12 +1,12 @@
 ﻿
 @model Trakk.Viewmodels.TeamCreateViewModel
 
-<input type ="submit" value="Edit Team" id="editTeam" class="btn btn-default col-lg-12 createteam" />
+
 
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal" id="@Model.Team.Id">
-            <h4>Create a Team</h4>
+            <h4>Edit a Team</h4>
 
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -36,7 +36,7 @@
                     @foreach (var member in Model.Users)
                     {
                         var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
-                        
+
                         <li class="col-xs-6 user-widget @role.Role">
                             <span class="glyphicon glyphicon-remove removeMember"></span>
                             <div class="image"></div><span hidden class="id">@member.Id</span><span class="name">@member.Name</span>
@@ -44,9 +44,10 @@
                     }
                 </ul>
             </div>
+            <div class="clear"></div>
         </div>
     
-
+<input type="submit" value="Edit Team" id="editTeam" class="btn btn-default col-lg-12 createteam" />
     <div>
         @Html.ActionLink("Back to List", "Index")
     </div>

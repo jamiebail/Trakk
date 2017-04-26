@@ -223,5 +223,16 @@ namespace Trakk.Logic
                 return JsonConvert.DeserializeObject<EntityResponse>(textResult);
             }
         }
+
+        public async Task<EntityResponse> DeleteFixture(int id)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = Uri;
+                var response = await client.GetAsync("fixtures/Delete/" + id);
+                string textResult = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EntityResponse>(textResult);
+            }
+        }
     }
 }

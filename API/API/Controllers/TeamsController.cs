@@ -60,7 +60,7 @@ namespace API.Controllers
                 {
                     foreach (var member in team.Roles)
                     {
-                        _userLogic.SetUserTeam(member.UserId, teamId);
+                        _userLogic.SetUserTeam(member.UserId, teamId, false);
                     }
                     foreach(var role in team.Roles)
                     {

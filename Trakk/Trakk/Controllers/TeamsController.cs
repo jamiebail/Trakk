@@ -149,7 +149,7 @@ namespace Trakk.Controllers
                 if (ModelState.IsValid)
                 {
                     EntityResponse response = await _setter.UpdateTeam(team);
-                    return RedirectToAction("Index", "Home");
+                    return Json(response, JsonRequestBehavior.AllowGet);
                 }
             }
             return View("BadRequestView",

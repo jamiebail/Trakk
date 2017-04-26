@@ -13,7 +13,8 @@ namespace Trakk
                        // "~/Scripts/jquery.mobile-{version}.js",
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/jquery.cookie.js",
-                        "~/Scripts/jquery.datetimepicker.js"));
+                        "~/Scripts/jquery.datetimepicker.js",
+                        "~/Scripts/moment.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -28,14 +29,14 @@ namespace Trakk
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/calendar").Include(
-                      "~/Scripts/moment.min.js",
+                      
                       "~/Scripts/fullcalendar.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/fullcalendar.css",
-                      "~/Content/jquery.datetimepicker.css"));
+                      "~/Content/fullcalendar.css"
+                      /*"~/Content/jquery.datetimepicker.css"*/));
         }
     }
 }

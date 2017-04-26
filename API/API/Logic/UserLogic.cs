@@ -28,9 +28,9 @@ namespace API.Logic
           return  _userRepository.FindBy(x => x.Id == id).FirstOrDefault();
         }
 
-        public EntityResponse SetUserTeam(int userId, int teamId)
+        public EntityResponse SetUserTeam(int userId, int teamId, bool accepted)
         {
-            TeamMembership membership = new TeamMembership(){ MemberId = userId,TeamId = teamId, Accepted = false};
+            TeamMembership membership = new TeamMembership(){ MemberId = userId,TeamId = teamId, Accepted = accepted};
             try
             {
                 TeamMembership existingMembership =

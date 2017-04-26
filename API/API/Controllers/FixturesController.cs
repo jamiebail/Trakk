@@ -93,18 +93,15 @@ namespace API.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Team team = _teamLogic.GetTeamById(id.Value);
-            if (team == null)
-            {
-                return Json(new { success = false, responseText = "The team record for that id doesn't exist" }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(team, JsonRequestBehavior.AllowGet);
+            _fixtureLogic.DeleteFixture(id);
+            return Json(new { success = true, responseText = "The fixture model provided has been deleted" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CreateAvailability(AvailabilityViewModel availabilityIn)

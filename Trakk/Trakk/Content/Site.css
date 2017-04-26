@@ -809,7 +809,7 @@ max-height:100%;
 margin: -10px -15px 0 -15px;
     padding: 20px;
     height: auto;
-
+    text-align: center;
 }
 
 .homeoraway {
@@ -1207,6 +1207,24 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
 .yourteam {
     color: #17400a;
 
+}
+
+.deleteFixture {
+    
+}
+
+.danger-zone {
+    padding: 20px;
+    display: inline-block;
+    margin: 0 auto;
+    background-color: rgba(34, 34, 34, 0.46);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.danger-button {
+    text-align: center;
+    display: block;
 }
 
 .fc-widget-header {

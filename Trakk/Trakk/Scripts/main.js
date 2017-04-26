@@ -170,6 +170,10 @@
     });
 
     $(document).on('click', ".submit-report", function () {
+        swal({
+            title: "Submitting..",
+            imageUrl: "/Images/infinity.gif"
+        });
         $(".validation-error").removeClass("validation-error");
         var validationfail = false;
         var homescore = $("#homeScore").val();
@@ -220,7 +224,8 @@
                 data: reportIn,
                 type: "POST",
                 success: function (data) {
-                    alert(data.message);
+                    swal("Success!", "Game report successfully submitted!", "success");
+                    document.location.href = "/";
                 }
             });
         }
@@ -371,6 +376,7 @@
 
     $(document).on('click', ".createevent a", function() {
         $("#mainBody").load("Events/Create");
+        $(".datetimepicker").flatpickr({ enableTime: true, altInput: true });
     });
 
 
@@ -441,15 +447,26 @@
             }
         });
         var team = {  TeamId: teamid, TeamName: $("#teamName").val(), SportId: $("#teamSport").val(), Roles: players }
+        swal({
+            title: "Are you sure?",
+            text: "Your changes will be reflected immediately",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2980b9",
+            confirmButtonText: "Yes, update it!",
+            closeOnConfirm: false
+        }, function() {
+            $.ajax({
+                url: "/Teams/Edit",
+                dataType: "json",
+                type: "POST",
+                data: team,
+                success: function(data) {
+                    swal("Updated!", "Your team has been updated.", "success");
+                    document.location.href = "/";
+                }
 
-        $.ajax({
-            url: "/Teams/Edit",
-            dataType: "json",
-            type: "POST",
-            data: team,
-            success: function (data) {
-
-            }
+            });
         });
     });
 
@@ -591,13 +608,7 @@
         });
         var name = $("#formation-name").val();
         var fixtureid = $("#fixture-id").text();
-        var teamid; 
-        if ($("#homeTeam").length === 0) {
-            teamid =
-            $("#homeTeamEdit").text();
-        } else {
-           teamid = $("#homeTeam").val();
-        }
+        var teamid = returnSideId();
 
         var id = $(".pitchFrame").attr("id");
 
@@ -693,18 +704,34 @@
        
     });
 
-
+    function returnSideId() {
+        var teamId = 0;
+        if ($(".side").length > 0) {
+            if ($(".side").attr("id") === "Home") {
+                if ($("#homeTeamEdit") != null) {
+                    teamId = $("#homeTeamEdit").text();
+                }
+            } else if ($(".side").attr("id") === "Away") {
+                if ($("#awayTeamEdit") != null) {
+                    teamId = $("#awayTeamEdit").text();
+                }
+            }
+        } else {
+            if ($("#homeTeam").length === 0) {
+                teamId = $("#homeTeamEdit").text();
+            } else {
+                teamId = $("#homeTeam").val();
+            }
+        }
+        return teamId;
+    }
 
     function refreshFormationBar() {
-        var teamid;
-        if ($("#homeTeam").length === 0) {
-            teamid =$("#homeTeamEdit").text();
-        } else {
-            teamid = $("#homeTeam").val();
-        }
-        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamid, second: false }, function () {
+
+        var teamId = returnSideId();
+        $(".formations-bar").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: false }, function () {
             if ($(".formations-bar").children().length === 4) {
-                $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamid, second: true });
+                $(".formations-bar-second").load("/Fixtures/GetTeamFormations", { teamId: teamId, second: true });
             }
         });
     }
@@ -714,12 +741,7 @@
     $(document).on('click', '.formation-widget', function() {
         $(".selected").removeClass("selected");
         $(this).children(".formation-circle").addClass("selected");
-        var teamid;
-        if ($("#homeTeam").length === 0) {
-            teamid = $("#homeTeamEdit").text();
-        } else {
-            teamid = $("#homeTeam").val();
-        }
+        var teamid = returnSideId();
         var id = $(this).attr('id');
         $.ajax({
             url: "/Fixtures/GetFormation",
@@ -871,6 +893,7 @@
                 data: newEvent,
                 success: function (data) {
                     if (data.Success) {
+                        document.location.href = "/";
                         $("#mainBody").load("Partials/UserEventList");
                     }
                 }
@@ -879,6 +902,10 @@
     });
 
     $("#submitFixture").click(function () {
+        swal({
+            title: "Submitting..",
+            imageUrl: "/Images/infinity.gif"
+        });
         var validationArray = [];
         var homeid = $("#homeTeam").val();
         var awayid = $("#awayTeam").val();
@@ -925,6 +952,7 @@
                 data: fixture,
                 success: function(data) {
 
+                    { swal("Success!", "The Fixture has been created.", "success"); document.location.href = "/"; }
                 }
             });
         }
@@ -932,6 +960,11 @@
 
 
     $("#editFixture").click(function () {
+        swal({
+            title: "Submitting..",
+            imageUrl: "/Images/infinity.gif"
+        });
+
         var homeid = $("#homeTeamEdit").text();
         var awayid = $("#awayTeamEdit").text();
         var start = $("#Fixture_Start").val();
@@ -961,7 +994,7 @@
             type: "POST",
             data: fixture,
             success: function (data) {
-
+                { swal("Success!", "The Fixture has been updated.", "success"); document.location.href = "/"; }
             }
         });
     });
@@ -1066,6 +1099,36 @@
             }
         }));
     });
+
+
+    $(".deleteFixture").click(function () {
+        var fixtureId = $(".pitchFrame").attr("data-fix");
+        swal({
+            title: "Are you sure?",
+            text: "This will delete the fixture for both teams, however you will retain associated formations.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },function () {
+            $.ajax({
+                url: "/Fixtures/DeleteFixture",
+                dataType: "json",
+                type: "GET",
+                data: { fixtureId : fixtureId },
+                success: function (data) { swal("Deleted!", "The Fixture has been deleted.", "success"); document.location.href = "/"; }
+
+            });
+
+    });
+       
+    });
+
+
+    $(".datetimepicker").flatpickr({ enableTime: true, altInput: true });
+
+
 
     $(".teamsButton").click(function() {
         $("#mainBody").load("Teams/Index");

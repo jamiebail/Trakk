@@ -108,11 +108,11 @@ namespace Trakk.Controllers
                     }
                     else
                     {
-                        fixture.HomeId = fixture.UsersTeamId;
-                        fixture.AwayId = fixture.OpponentsId;
+                        fixture.HomeId = fixture.OpponentsId;
+                        fixture.AwayId = fixture.UsersTeamId;
                     }
                 EntityResponse response = await _setter.CreateFixture(fixture);
-                    return RedirectToAction("Index", "Home");
+                    return Json(response, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -195,9 +195,12 @@ namespace Trakk.Controllers
                     {
                         memb.Photo = _userLogic.GetUserImage(memb.Id);
                     }
-                    foreach (var position in editmodel.Positions)
+                    if (editmodel.Positions != null)
                     {
-                        position.Profile = _userLogic.GetUserImage(position.PlayerId);
+                        foreach (var position in editmodel.Positions)
+                        {
+                            position.Profile = _userLogic.GetUserImage(position.PlayerId);
+                        }
                     }
                     fixture.HomeTeam.Sport.Pitch = _interfaceLogic.GetPitch(fixture.HomeTeam.Sport.Id);
                     return View(editmodel);
@@ -237,7 +240,7 @@ namespace Trakk.Controllers
 
 
                             EntityResponse reponse = await _setter.UpdateFixture(fixture);
-                            return RedirectToAction("Index", "Home");
+                            return Json(reponse, JsonRequestBehavior.AllowGet);
                         }
                     }
                     return View("BadRequestView",
@@ -392,6 +395,34 @@ namespace Trakk.Controllers
                 //db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public async Task<ActionResult> DeleteFixture(int? fixtureId)
+        {
+            if (fixtureId != null)
+            {
+                Fixture fixture = await _getter.GetFixture(fixtureId.Value);
+                if (fixture != null)
+                {
+                    TrakkEnums.Side side =
+                        _userLogic.CheckTeamSide(await _getter.GetUser(_userLogic.GetPlayerId(User.Identity)), fixture);
+                    var teamId = 0;
+                    if (side == TrakkEnums.Side.Home)
+                        teamId = fixture.HomeId;
+                    else
+                        teamId = fixture.AwayId;
+                    if (await _userLogic.CheckIfTeamAdmin(User.Identity, teamId))
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            EntityResponse response = await _setter.DeleteFixture(fixtureId.Value);
+                            return Json(response, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+                return View("BadRequestView", new EntityResponse() {Message = "You are not an admin for this team.", Success = false});
+            }
+             return View("BadRequestView", new EntityResponse() { Message = "Model submitted invalid", Success = false });
         }
     }
 }

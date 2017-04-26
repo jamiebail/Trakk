@@ -30,5 +30,6 @@ namespace Trakk.Logic
         Task<EntityResponse> CreateReport(GameReport report);
         Task<EntityResponse> UpdateReport(GameReport report);
         Task<EntityResponse> CreateTeamMembership(int userId, int teamId, bool accepted);
+        Task<EntityResponse> DeleteFixture(int id);
     }
 }

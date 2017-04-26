@@ -80,6 +80,7 @@ namespace Trakk.Controllers
         {
             TeamMember member = await _getter.GetUser(_userLogic.GetPlayerId(User.Identity));
             EventsListViewModel vm = new EventsListViewModel() { Fixtures = await _getter.GetUserFixtures(member.Id) };
+
             List<FixtureViewModel> fixtures = new List<FixtureViewModel>();
             List<TeamMember> teamAvailable = new List<TeamMember>();
             foreach (var e in vm.Fixtures)
@@ -166,7 +167,11 @@ namespace Trakk.Controllers
             }
             fixture.HomeTeam.Sport.Pitch = interfaceLogic.GetPitch(fixture.HomeTeam.Sport.Id);
             FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = teamAvailable, UserId = member.Id, Side = side};
-            vm.Fixture.Result.FixtureId = vm.Fixture.Id;
+            if (vm.Fixture.Result != null)
+            {
+                vm.Fixture.Result.FixtureId = vm.Fixture.Id;
+            }
+           
             return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
         }
 

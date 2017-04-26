@@ -199,6 +199,11 @@ namespace API.Logic
         public EntityResponse DeleteFixture(int id)
         {
             _fixtureRepository.Remove(_fixtureRepository.FindBy(x => x.Id == id).FirstOrDefault());
+            var availabilities = _avilabilityRepository.FindBy(x => x.EventId == id);
+            foreach (var availabiltiy in availabilities)
+            {
+                _avilabilityRepository.Remove(availabiltiy);
+            }
             return new EntityResponse(true, "Fixture deleted successfully");
         }
 

@@ -16,7 +16,7 @@ namespace API.Logic
         EntityResponse DeleteUser(TeamMember user);
         EntityResponse UpdateUser(TeamMember user);
         EntityResponse CreateUser(TeamMember user);
-        EntityResponse SetUserTeam(int userId, int teamId);
+        EntityResponse SetUserTeam(int userId, int teamId, bool accepted);
         EntityResponse SetUserRole(TeamRoles role);
         EntityResponse UpdateUserRole(TeamRoles role);
         EntityResponse UpdateAvailability(PlayerEventAvailability availability);

@@ -247,9 +247,12 @@
         </div>
     <hr class="clear"/>
         @if (Model.Fixture.State == TrakkEnums.FixtureState.Finished)
+        {
+            if (Model.Fixture.Result != null)
             {
-            <div>@Html.Partial("/Views/Partials/GameREportPartial.cshtml", @Model.Fixture.Result)</div>
-                <ul hidden class="available-List">
+                <div>@Html.Partial("/Views/Partials/GameREportPartial.cshtml", @Model.Fixture.Result)</div>
+            }
+            <ul hidden class="available-List">
                     @foreach (var player in @Model.Playing)
                     {
                         <li id="@player.Id">@player.Name</li>

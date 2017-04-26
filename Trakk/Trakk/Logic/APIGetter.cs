@@ -25,6 +25,8 @@ namespace Trakk.Logic
                 var response = client.GetAsync("fixtures/GET/" + id).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 Fixture fixture = JsonConvert.DeserializeObject<Fixture>(textResult);
+                fixture.Start = fixture.Start.Value.ToLocalTime();
+                fixture.End = fixture.End.Value.ToLocalTime();
                 return fixture;
             }
         }
@@ -39,6 +41,8 @@ namespace Trakk.Logic
                 var response = client.PostAsync("fixtures/GetWithAvailability/",  content).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 Fixture fixture = JsonConvert.DeserializeObject<Fixture>(textResult);
+                fixture.Start = fixture.Start.Value.ToLocalTime();
+                fixture.End = fixture.End.Value.ToLocalTime();
                 return fixture;
             }
         }
@@ -52,6 +56,11 @@ namespace Trakk.Logic
                 var response = client.GetAsync("fixtures/Member/" + id).Result;
                 string textResult = await response.Content.ReadAsStringAsync();
                 List<Fixture> fixtures = JsonConvert.DeserializeObject<List<Fixture>>(textResult);
+                foreach (var fix in fixtures)
+                {
+                    fix.Start = fix.Start.Value.ToLocalTime();
+                    fix.End = fix.End.Value.ToLocalTime();
+                }
                 return fixtures;
             }
         }
@@ -137,6 +146,12 @@ namespace Trakk.Logic
                 events.AddRange(JsonConvert.DeserializeObject<List<Event>>(textResult));
                 if (primary)
                     events = _eventLogic.GetPrimaryEvents(events);
+                if(events != null)
+                    foreach (var fix in events)
+                    {
+                        fix.Start = fix.Start.Value.ToLocalTime();
+                        fix.End = fix.End.Value.ToLocalTime();
+                    }
                 return events;
             }
         }
@@ -151,6 +166,11 @@ namespace Trakk.Logic
                 string textResult = await response.Content.ReadAsStringAsync();
                 List<Event> events = new List<Event>();
                 events.AddRange(JsonConvert.DeserializeObject<List<Event>>(textResult));
+                foreach (var fix in events)
+                {
+                    fix.Start = fix.Start.Value.ToLocalTime();
+                    fix.End = fix.End.Value.ToLocalTime();
+                }
                 return events;
             }
         }
