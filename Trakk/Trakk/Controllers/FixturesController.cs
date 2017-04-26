@@ -22,6 +22,7 @@ namespace Trakk.Controllers
         public IAPIGetter _getter;
         public IAPISetter _setter;
         public IUserLogic _userLogic;
+        public InterfaceLogic _interfaceLogic { get; set; }
         public FixturesController(IAPIGetter getter, IAPISetter setter, IUserLogic userLogic)
         {
             _getter = getter;
@@ -34,6 +35,7 @@ namespace Trakk.Controllers
             _getter = new APIGetter();
             _setter = new APISetter();
             _userLogic = new UserLogic();
+            _interfaceLogic = new InterfaceLogic();
         }
 
 
@@ -81,6 +83,7 @@ namespace Trakk.Controllers
                     UserTeams = selectUserTeamsList,
                     AllTeams = selectAllTeamsList
                 };
+                vm.Fixture = new Fixture();
                 return View(vm);
             }
 
@@ -188,6 +191,15 @@ namespace Trakk.Controllers
                             editmodel.Side = TrakkEnums.Side.Away;
                         }
                     }
+                    foreach (var memb in editmodel.Members)
+                    {
+                        memb.Photo = _userLogic.GetUserImage(memb.Id);
+                    }
+                    foreach (var position in editmodel.Positions)
+                    {
+                        position.Profile = _userLogic.GetUserImage(position.PlayerId);
+                    }
+                    fixture.HomeTeam.Sport.Pitch = _interfaceLogic.GetPitch(fixture.HomeTeam.Sport.Id);
                     return View(editmodel);
                 }
             }

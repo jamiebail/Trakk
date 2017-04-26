@@ -97,7 +97,7 @@ namespace Trakk.Controllers
             }
         }
 
-        public void AddPhoto(HttpPostedFileBase photo)
+        public ActionResult AddPhoto(HttpPostedFileBase photo)
         {
             ApplicationDbContext db = new ApplicationDbContext();
             string id = User.Identity.GetUserId();
@@ -109,7 +109,9 @@ namespace Trakk.Controllers
                 user.ProfilePicture = image;
                 db.Users.AddOrUpdate(user);
                 db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
+            return null;
         }
 
         //

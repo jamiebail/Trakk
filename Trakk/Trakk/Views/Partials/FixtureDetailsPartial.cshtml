@@ -4,7 +4,11 @@
 
 <div class="pitchFrame-static" id="@Model.Fixture.Id" oncontextmenu="return false;">
     <a href="@Url.Action("Edit", "Fixtures", new {id = @Model.Fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
-    <img src="../../Images/footballPitchReal.png"/>
+
+
+    <img class="pitch-image" src="@Model.HomeTeam.Sport.Pitch.Path"/>
+
+
     @if (Model.Side == TrakkEnums.Side.Home)
     {
         <p hidden class="team">@Model.HomeTeam.Id</p>
@@ -17,35 +21,54 @@
     @if (Model.Positions != null)
     {
         foreach (var position in Model.Positions)
-         {
-             if (Model.UserId == @position.PlayerId)
-             {
-                 <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static usersposition draggable">
-                     <input type="text" value="@position.PositionName" placeholder="Position">
-                     @if (position.PlayerId != 0)
-                     {
-                         <li class="user-widget-static" id="@position.PlayerId">
-                             <div class="image-static"></div>
-                             <span class="username-static">@position.PlayerName</span>
-                         </li>
-                     }
-                 </div>
-             }
-             else
+        {
+            if (Model.Positions != null)
+            {
 
-             {
-                 <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
-                     <input type="text" value="@position.PositionName" placeholder="Position">
+                if (@position.Profile != null)
+                {
+                    string imageBase64 = Convert.ToBase64String(position.Profile);
+                    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 
-                     @if (position.PlayerId != 0)
-                     {
-                         <li class="user-widget-static" id="@position.PlayerId">
-                             <div class="image-static"></div>
-                             <span class="username-static">@position.PlayerName</span>
-                         </li>
-                     }
-                 </div>
-             }
+                    <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
+
+                        @if (position.PlayerId != 0)
+                        {
+
+                            <li class="user-widget-static" id="@position.PlayerId">
+
+                                <div class="image-static">
+                                    <img src="@imageSrc" />
+                                </div>
+                                <span class="username-static">@position.PlayerName</span>
+                            </li>
+
+                        }
+                        <input type="text" value="@position.PositionName" placeholder="Position">
+
+                    </div>
+
+                }
+                else
+                {
+                        <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation-static draggable">
+
+                            @if (position.PlayerId != 0)
+                            {
+                                    <li class="user-widget-static" id="@position.PlayerId">
+                                        <div class="image-static">
+                                            <img src="~/Images/user.png" />
+                                        </div>
+                                        <span class="username-static">@position.PlayerName</span>
+                                    </li>
+                   
+                                    }
+                                    <input type="text" value="@position.PositionName" placeholder="Position">
+
+                                </div>
+                            }
+                
+            }
          }
     }
 </div>

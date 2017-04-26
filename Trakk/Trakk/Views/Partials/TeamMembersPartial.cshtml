@@ -5,9 +5,9 @@
     {
         if (member.Photo != null)
         {
-        
-        string imageBase64 = Convert.ToBase64String(member.Photo);
-        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+            string imageBase64 = Convert.ToBase64String(member.Photo);
+            string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 
         <li class="user-widget" id="@member.Id">
             <div class="image"><img src="@imageSrc"/>

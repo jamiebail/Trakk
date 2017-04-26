@@ -14,5 +14,6 @@ namespace Trakk.Models
         public string Name { get; set; }
         [NotMapped]
         public List<Team> Teams { get; set; }
+        public SportPitchModel Pitch { get; set; }
     }
 }

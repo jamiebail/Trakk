@@ -27,8 +27,7 @@
                         <span class="glyphicon glyphicon-plus"></span>
                     </div>
                 </div>
-
-                <img src="../../Images/footballPitchReal.png" />
+                <img class="pitch-image"/>
 
             </div>
             <div class="team-member-widget"></div>
@@ -103,7 +102,7 @@
 
                         <div class="col-md-6">
                             <span class="glyphicon glyphicon-time start-glyphicon"></span>
-                            @Html.EditorFor(model => model.Fixture.Start, new {htmlAttributes = new {@class = "form-control", placeholder = "Start Time"}})
+                            @Html.EditorFor(model => model.Fixture.Start, new {htmlAttributes = new {@class = "form-control datetimepicker", placeholder = "Start Time", type="text"}})
                             @Html.ValidationMessageFor(model => model.Fixture.Start, "", new {@class = "text-danger"})
                         </div>
 
@@ -135,3 +134,8 @@
 
         </div>
     </div>
+
+@section Scripts{
+    <script>    jQuery('.datetimepicker').datetimepicker();
+</script>
+}

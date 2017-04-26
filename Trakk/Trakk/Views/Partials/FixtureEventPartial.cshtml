@@ -9,7 +9,7 @@
 
         <div id="@Model.Id" class="fixture-container event-container">
             <div class="score row">
-                <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length - 6)</div>
+                <div class="eventDate">@Model.Start.Value.ToLongDateString() | @Model.Start.Value.TimeOfDay.Hours:@Model.Start.Value.TimeOfDay.ToString().Remove(@Model.Start.Value.TimeOfDay.ToString().Length - 6)</div>
                 <div class="homeTeam col-xs-5">
                     <h4 class="col-xs-12">@Model.HomeTeam.Name</h4>
                 </div>
@@ -29,7 +29,7 @@
     {
         <div id="@Model.Id" class="fixture-container event-container col-xs-3">
             <div class="score row">
-                <div class="eventDate">@Model.Start.ToLongDateString() | @Model.Start.TimeOfDay.Hours:@Model.Start.TimeOfDay.ToString().Remove(@Model.Start.TimeOfDay.ToString().Length - 6)</div>
+                <div class="eventDate">@Model.Start.Value.ToLongDateString() | @Model.Start.Value.TimeOfDay.Hours:@Model.Start.Value.TimeOfDay.ToString().Remove(@Model.Start.Value.TimeOfDay.ToString().Length - 6)</div>
                 <div class="homeTeam col-xs-5">
                     <h4 class="col-xs-9">@Model.HomeTeam.Name</h4>
                     <h2 class="col-xs-2">@Model.Result.HomeScore</h2>

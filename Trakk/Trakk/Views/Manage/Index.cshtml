@@ -8,7 +8,7 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Change your account settings</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>Password:</dt>
         <dd>
@@ -81,18 +81,49 @@
                 }*@
         </dd>
         <dd>
-         @using (Html.BeginForm("AddPhoto", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" })) { 
-            <legend>Upload a Photo</legend>
-            <div class="form-group">
-                <input name="Photo" id="Photo" type="file"/>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Update Photo"/>
+            @using (Html.BeginForm("AddPhoto", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data"}))
+            {
+                <legend>Upload a Photo</legend>
+                <div class="form-group">
+                    <input name="Photo" id="Photo" type="file"/>
                 </div>
-            </div>
+                <img class="photo-box"/>
+
+    
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-default" value="Update Photo"/>
+                    </div>
+                </div>
             }
         </dd>
     </dl>
 </div>
+
+@section Scripts{
+    <script>
+
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.photo-box').empty();
+                    $('.photo-box').attr('src', e.target.result);
+                    
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Photo").change(function () {
+            readURL(this);
+
+        });
+
+
+    </script>
+}

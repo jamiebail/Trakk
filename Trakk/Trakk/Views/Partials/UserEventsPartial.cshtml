@@ -24,9 +24,9 @@
                     <h5>@Html.DisplayFor(modelItem => item.Location)</h5>
                 </div>
                 <div class="col-xs-3">
-                    <h4>@Html.DisplayFor(modelItem => item.Start.DayOfWeek)</h4>
-                    <h4>@Html.DisplayFor(modelItem => item.Start.TimeOfDay)</h4>
-                    <h4>@Html.DisplayFor(modelItem => item.End.TimeOfDay)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.Start.Value.DayOfWeek)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.Start.Value.TimeOfDay)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.End.Value.TimeOfDay)</h4>
                 </div>
                 <div class="clear"></div>
                 <div class="col-xs-12">
@@ -46,11 +46,11 @@
             <div class="event-widget training col-xs-12 ">
                 <div class="event-date col-xs-3">
                     <div class="col-xs-6">
-                        <h4>@Html.DisplayFor(modelItem => item.Start.DayOfWeek)</h4>
+                        <h4>@Html.DisplayFor(modelItem => item.Start.Value.DayOfWeek)</h4>
                     </div>
-                    <h4>@Html.DisplayFor(modelItem => item.Start.TimeOfDay)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.Start.Value.TimeOfDay)</h4>
 
-                    <h4>@Html.DisplayFor(modelItem => item.End.TimeOfDay)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.End.Value.TimeOfDay)</h4>
                 </div>
                 <div class="event-text col-xs-6">
                     <h4> @Html.DisplayFor(modelItem => item.Title)</h4>

@@ -194,6 +194,7 @@
     <Compile Include="Logic\IAPISetter.cs" />
     <Compile Include="Logic\IAPIGetter.cs" />
     <Compile Include="Logic\IEventLogic.cs" />
+    <Compile Include="Logic\InterfaceLogic.cs" />
     <Compile Include="Logic\IUserLogic.cs" />
     <Compile Include="Logic\UserLogic.cs" />
     <Compile Include="Migrations\201611021529240_Accounts.cs" />
@@ -208,6 +209,10 @@
     <Compile Include="Migrations\201704242333217_user-profile-images.Designer.cs">
       <DependentUpon>201704242333217_user-profile-images.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704251042043_sport-pitches.cs" />
+    <Compile Include="Migrations\201704251042043_sport-pitches.Designer.cs">
+      <DependentUpon>201704251042043_sport-pitches.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Logic\APISetter.cs" />
@@ -215,6 +220,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Fixture.cs" />
+    <Compile Include="Models\SportPitchModel.cs" />
     <Compile Include="Models\TeamFixtureSetup.cs" />
     <Compile Include="Viewmodels\EventRequest.cs" />
     <Compile Include="Viewmodels\FixtureAvailabilityViewModel.cs" />
@@ -449,6 +455,8 @@
     <Content Include="Content\images\icons-svg\user-white.svg" />
     <Content Include="Content\images\icons-svg\video-black.svg" />
     <Content Include="Content\images\icons-svg\video-white.svg" />
+    <Content Include="Content\Jcrop.gif" />
+    <Content Include="Content\jquery.Jcrop.css" />
     <Content Include="Content\jquery.mobile-1.4.5.css" />
     <Content Include="Content\jquery.mobile-1.4.5.min.css" />
     <Content Include="Content\jquery.mobile.external-png-1.4.5.css" />
@@ -504,10 +512,15 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\americanfootball-pitch.png" />
+    <Content Include="Images\badminton-pitch.png" />
+    <Content Include="Images\basketball-court.png" />
+    <Content Include="Images\cricket-field.svg" />
     <Content Include="Images\food.png" />
     <Content Include="Images\footballPitchReal.png" />
     <Content Include="Images\green.png" />
@@ -516,6 +529,7 @@
     <Content Include="Images\light_honeycomb_%402X.png" />
     <Content Include="Images\red.png" />
     <Content Include="Images\reticular_tissue.png" />
+    <Content Include="Images\rugby-pitch.png" />
     <Content Include="Images\soccer-ball.png" />
     <Content Include="Images\Sports.png" />
     <Content Include="Images\tweed.png" />
@@ -530,6 +544,8 @@
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
+    <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.map" />
@@ -642,6 +658,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704242333217_user-profile-images.resx">
       <DependentUpon>201704242333217_user-profile-images.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704251042043_sport-pitches.resx">
+      <DependentUpon>201704251042043_sport-pitches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

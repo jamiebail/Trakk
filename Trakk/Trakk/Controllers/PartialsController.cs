@@ -18,6 +18,7 @@ namespace Trakk.Controllers
     {
         public IAPIGetter _getter;
         public IUserLogic _userLogic;
+        public InterfaceLogic interfaceLogic = new InterfaceLogic();
         public PartialsController(IAPIGetter getterIn, IUserLogic uLogicIn)
         {
             _getter = getterIn;
@@ -154,8 +155,16 @@ namespace Trakk.Controllers
             }
             foreach (var memb in teamAvailable)
             {
-                memb.Photo = _userLogic.GetUserImage(member.Id);
+                memb.Photo = _userLogic.GetUserImage(memb.Id);
             }
+            if (positions != null)
+            {
+                foreach (var position in positions)
+                {
+                    position.Profile = _userLogic.GetUserImage(position.PlayerId);
+                }
+            }
+            fixture.HomeTeam.Sport.Pitch = interfaceLogic.GetPitch(fixture.HomeTeam.Sport.Id);
             FixtureViewModel vm = new FixtureViewModel(){ HomeTeam = fixture.HomeTeam, AwayTeam = await _getter.GetTeam(fixture.AwayId), Fixture = fixture, Positions = positions, Playing = teamAvailable, UserId = member.Id, Side = side};
             vm.Fixture.Result.FixtureId = vm.Fixture.Id;
             return PartialView("~/Views/Partials/FixtureDetailsPartial.cshtml", vm);
@@ -186,7 +195,7 @@ namespace Trakk.Controllers
         {
             DateTime selectedDate = Convert.ToDateTime(date).Date;
             List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), DateTime.Now,false);
-            events = events.Where(x => x.Start.Date == selectedDate).ToList();
+            events = events.Where(x => x.Start.Value.Date == selectedDate).ToList();
             return PartialView("EventPartial", events);
         }
 
@@ -215,6 +224,15 @@ namespace Trakk.Controllers
             return PartialView("~/Views/Partials/TeamMembersPartial.cshtml", team.Members);
         }
 
+        public async Task<JsonResult> GetTeamPitch(int id)
+        {
+            Team team = await _getter.GetTeam(id);
+            if (team != null)
+            {
+                return Json(interfaceLogic.GetPitch(team.Sport.Id).Path, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
 
     }
 }

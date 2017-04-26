@@ -41,5 +41,6 @@ namespace Trakk.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<SportPitchModel> PitchModels { get; set; }
     }
 }

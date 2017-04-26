@@ -13,5 +13,6 @@ namespace Trakk.Viewmodels
         public string PositionName { get; set; }
         public int Top { get; set; }
         public int Left { get; set; }
+        public byte[] Profile { get; set; }
     }
 }

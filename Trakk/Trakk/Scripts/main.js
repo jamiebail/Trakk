@@ -565,13 +565,14 @@
                         container = $(event.target),
                         containerOffset = container.offset();
 
-                    $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+                    $('.user-widget', event.target).prependTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
-                    draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                    draggable.prependTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
                 }
             });
         }
     });
+
 
 
     $(".saveButton").click(function() {
@@ -648,6 +649,17 @@
         var teamId = $(this).val();
         $(".formation-widget").remove();
         $(".pitchLocation").remove();
+        $.ajax({
+            url: "/Partials/GetTeamPitch",
+            dataType: "json",
+            data: {
+                id: teamId
+            },
+            success: function (data) {
+                $(".pitch-image").attr("src", data);
+
+            }
+        });
         $(".team-member-widget").load("/Partials/TeamMembersPartial", { id: teamId }, function() {
             $(".user-list").droppable({
                 hoverClass: 'drop-hover',
@@ -662,6 +674,7 @@
 
                 }
             });
+    
         });
         refreshFormationBar();
         $(".user-widget").draggable({
@@ -756,9 +769,9 @@
                                 container = $(event.target),
                                 containerOffset = container.offset();
 
-                            $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
+                            $('.user-widget', event.target).prependTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
-                            draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                            draggable.prependTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
                         }
                     });
                 }
@@ -1036,6 +1049,7 @@
 
                     }
                 }
+              
             }
         });
     });

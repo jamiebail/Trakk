@@ -5,7 +5,8 @@
 
     <div class="form-horizontal">
 
-        <hr />
+        <hr/>
+
         <div class="toolBar row">
             <div class="formations-bar col-xs-5">
                 <div class="formation-widget"></div>
@@ -20,36 +21,67 @@
                 <div class="formation-widget"></div>
             </div>
         </div>
-        <div class="pitchFrame" data-fix="@Model.Fixture.Id" oncontextmenu="return false;">
+        <div id="formation-interface">
+            <div class="pitchFrame" data-fix="@Model.Fixture.Id" oncontextmenu="return false;">
 
-            <div>
-                <div class="col-xs-4 editbutton"><span class="glyphicon glyphicon-pencil"></span></div>
-                <div class="col-xs-4">@Html.TextBox("formation-name", null, new { placeholder = "Formation Name" })</div>
-                <div class="col-xs-4 plusbutton">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <div>
+                    <div class="col-xs-4 editbutton"><span class="glyphicon glyphicon-pencil"></span></div>
+                    <div class="col-xs-4">@Html.TextBox("formation-name", null, new { placeholder = "Formation Name" })</div>
+                    <div class="col-xs-4 plusbutton">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </div>
                 </div>
-            </div>
 
-            <img src="../../Images/footballPitchReal.png"/>
-            @if(Model.Positions != null) { 
-            foreach (var position in Model.Positions)
+                <img class="pitch-image" src="@Model.Fixture.HomeTeam.Sport.Pitch.Path" />
+                @if (Model.Positions != null)
             {
-                <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation draggable">
-                    <input type="text" value="@position.PositionName" placeholder="Position">
-
-                    @if (position.PlayerId != 0)
+                foreach (var position in Model.Positions)
+                {
+                    if (@position.Profile != null)
                     {
-                        <li class="user-widget" id="@position.PlayerId">
-                            <div class="image"></div>
-                            <span class="username">@position.PlayerName</span>
-                        </li>
+                        string imageBase64 = Convert.ToBase64String(position.Profile);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                            <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation draggable">
+
+                                @if (position.PlayerId != 0)
+                                {
+                                    <li class="user-widget" id="@position.PlayerId">
+                                        <div class="image">
+                                            <img src="@imageSrc" />
+                                        </div>
+                                        <span class="username">@position.PlayerName</span>
+                                    </li>
+                                }
+                                <input type="text" value="@position.PositionName" placeholder="Position">
+                            </div>
+
+
+                        }
+                        else
+                        {
+                            <div style="position: absolute; top: @position.Top%; left: @position.Left%;" id="@position.PlayerId" class="pitchLocation draggable">
+
+                                @if (position.PlayerId != 0)
+                                {
+                                    <li class="user-widget" id="@position.PlayerId">
+                                        <div class="image">
+                                            <img src="~/Images/user.png" />
+                                        </div>
+                                        <span class="username">@position.PlayerName</span>
+                                    </li>
+
+                                }
+                                <input type="text" value="@position.PositionName" placeholder="Position">
+
+                            </div>
+                        }
                     }
-                </div>
-            }
-            }
-        </div>
-        <div class="team-member-widget">
-            @Html.Partial("~/Views/Partials/TeamMembersPartial.cshtml", Model.Members)
+                }
+            </div>
+            <div class="team-member-widget">
+                @Html.Partial("~/Views/Partials/TeamMembersPartial.cshtml", Model.Members)
+            </div>
         </div>
         <div class="lower">
             <div id="mainBody">
@@ -123,6 +155,7 @@
 
 
 @section Scripts {
+    @Scripts.Render("~/Scripts/jqery.ui.touch-punch.min.js")
     <script>
         $(document).ready(function() {
 
@@ -160,9 +193,13 @@
 
                 $('.user-widget', event.target).appendTo(droppableParent).css({ opacity: 0 }).animate({ opacity: 1 }, 200);
 
-                draggable.appendTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
+                draggable.prependTo(container).css({ left: draggableOffset.left - containerOffset.left, top: draggableOffset.top - containerOffset.top }).animate({ left: 0, top: 0 }, 200);
             }
         });
         });
+
+
+
+
     </script>
 }
