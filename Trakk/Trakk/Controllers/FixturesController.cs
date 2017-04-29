@@ -177,18 +177,19 @@ namespace Trakk.Controllers
                     FixtureEditViewModel editmodel = new FixtureEditViewModel()
                     {
                         Fixture = fixture,
-                        Positions = positions,
-                        Members = fixture.HomeTeam.Members
+                        Positions = positions
                     };
                     foreach (Team team in member.Teams)
                     {
                         if (team.Id == fixture.HomeId)
                         {
                             editmodel.Side = TrakkEnums.Side.Home;
+                            editmodel.Members = fixture.HomeTeam.Members;
                         }
                         else if (team.Id == fixture.AwayId)
                         {
                             editmodel.Side = TrakkEnums.Side.Away;
+                            editmodel.Members = fixture.AwayTeam.Members;
                         }
                     }
                     foreach (var memb in editmodel.Members)
@@ -339,13 +340,19 @@ namespace Trakk.Controllers
                     Fixture fixture = await _getter.GetFixture(reportIn.FixtureId);
                     if (reportIn.TeamId == fixture.HomeId)
                     {
-                        foreach (var card in reportIn.Cards)
+                        if (reportIn.Cards != null)
                         {
-                            card.Side = TrakkEnums.Side.Home;
+                            foreach (var card in reportIn.Cards)
+                            {
+                                card.Side = TrakkEnums.Side.Home;
+                            }
                         }
-                        foreach (var goal in reportIn.Goals)
+                        if (reportIn.Goals != null)
                         {
-                            goal.Side = TrakkEnums.Side.Home;
+                            foreach (var goal in reportIn.Goals)
+                            {
+                                goal.Side = TrakkEnums.Side.Home;
+                            }
                         }
                     }
                     else if (reportIn.TeamId == fixture.AwayId)
