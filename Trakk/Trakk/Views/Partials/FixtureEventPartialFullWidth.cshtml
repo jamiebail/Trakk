@@ -1,0 +1,129 @@
+﻿@using API.Helpers
+@using Trakk.Models
+@model Trakk.Models.Fixture
+
+
+
+    @if (Model.Result == null)
+    {
+        <div id="@Model.Id" class="fixture-container event-container">
+            <div class="score row">
+                
+                <div class="eventDate">@Model.Start.Value.ToLongDateString() | @Model.Start.Value.ToString("HH:mm")</div>
+                <div class="homeTeam col-xs-5">
+                    <h4 class="col-xs-12">@Model.HomeTeam.Name</h4>
+                </div>
+                <h2 class="col-xs-2" style="text-align: center"> vs </h2>
+                <div class="awayTeam col-xs-5">
+                    <h4 class="col-xs-12">@Model.AwayTeam.Name</h4>
+                </div>
+            </div>
+            <div class="social-location">@Model.Location</div>
+            <div class="social-comments">@Model.Comments</div>
+            <div class="attendance">
+                @Html.Partial("/Views/Partials/AttendancePartial.cshtml", Model)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="@Model.Id" class="fixture-container event-container col-xs-12">
+            <div class="score row">
+                <div class="eventDate">@Model.Start.Value.ToLongDateString() | @Model.Start.Value.ToString("HH:mm")</div>
+                <div class="homeTeam col-xs-5">
+                    <h4 class="col-xs-9">@Model.HomeTeam.Name</h4>
+                    <h2 class="col-xs-2">@Model.Result.HomeScore</h2>
+                </div>
+                <h2 class="col-xs-2" style="text-align: center"> - </h2>
+                <div class="awayTeam col-xs-5">
+                    <h2 class="col-xs-2">@Model.Result.AwayScore</h2>
+                    <h4 class="col-xs-9">@Model.AwayTeam.Name</h4>
+                </div>
+            </div>
+            <div class="stats row">
+                <div class="goals">
+                    <div class="homeGoals col-xs-6">
+                        @foreach (var goal in Model.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Home))
+                        {
+                            <img src="~/Images/soccer-ball.png"/>
+                            <h4>@goal.Scorer.Name</h4>
+                            <h5>@goal.Minute'</h5>
+                        }
+                    </div>
+                    <div class="awayGoals col-xs-6">
+                        @foreach (var goal in Model.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Away))
+                        {
+                            <img src="~/Images/soccer-ball.png"/>
+                            <h4>@goal.Scorer.Name</h4>
+                            <h5>@goal.Minute'</h5>
+                        }
+                    </div>
+                </div>
+                <div class="cards row">
+                    <div class="homeCards col-xs-6">
+                        @foreach (var card in Model.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Home))
+                        {
+                            switch (card.CardColour)
+                            {
+                                case CardColour.Yellow:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/yellow.png"/>
+                                    break;
+                                case CardColour.Red:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/red.png"/>
+                                    break;
+                                case CardColour.TwoYellow:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/yellow.png"/>
+                                    <img src="~/Images/red.png"/>
+                                    break;
+                                case CardColour.Green:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/green.png"/>
+                                    break;
+                            }
+
+                        }
+                    </div>
+                    <div class="awayCards col-xs-6">
+                        @foreach (var card in Model.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Away))
+                        {
+                            switch (card.CardColour)
+                            {
+                                case CardColour.Yellow:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/yellow.png"/>
+                                    break;
+                                case CardColour.Red:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/red.png"/>
+                                    break;
+                                case CardColour.TwoYellow:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/yellow.png"/>
+                                    <img src="~/Images/red.png"/>
+                                    break;
+                                case CardColour.Green:
+                                    <h4>@card.Player.Name</h4>
+                                    <img src="~/Images/green.png"/>
+                                    break;
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="comments">
+                <h2>Comments</h2>
+                <h3>@Model.Comments</h3>
+            </div>
+            <div class="attendance">
+
+                @Html.Partial("/Views/Partials/AttendancePartial.cshtml", Model)
+            </div>
+        </div>
+    
+}
+                
+

@@ -13,8 +13,8 @@ namespace Trakk
                        // "~/Scripts/jquery.mobile-{version}.js",
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/jquery.cookie.js",
-                        "~/Scripts/jquery.datetimepicker.js",
-                        "~/Scripts/moment.min.js"));
+                        "~/Scripts/jquery.datetimepicker.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

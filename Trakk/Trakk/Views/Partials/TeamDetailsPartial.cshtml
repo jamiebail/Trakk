@@ -72,22 +72,59 @@
                     var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
                     if (role != null)
                     {
-                        <li class="user-widget @role.Role">
-                            <div class="image"></div>
-                            @member.Name
+                        if (member.Photo != null)
+                        {
 
-                        </li>
+                            string imageBase64 = Convert.ToBase64String(member.Photo);
+                            string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                            <li class="user-widget @role.Role" id="@member.Id">
+                                <div class="image">
+                                    <img src="@imageSrc" />
+                                </div>
+                                <span class="username">@member.Name</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="user-widget @role.Role" id="@member.Id">
+                                <div class="image">
+                                    <img src="~/Images/user.png" />
+                                </div>
+                                <span class="username">@member.Name</span>
+                            </li>
+                        }
                     }
+
+                }
+            }
+            else
+            {
+                if (member.Photo != null)
+                {
+
+                    string imageBase64 = Convert.ToBase64String(member.Photo);
+                    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                    <li class="user-widget" id="@member.Id">
+                        <div class="image">
+                            <img src="@imageSrc" />
+                        </div>
+                        <span class="username">@member.Name</span>
+                    </li>
                 }
                 else
                 {
-                    <li class="user-widget">
-                        <div class="image"></div>
-                        @member.Name
+                    <li class="user-widget" id="@member.Id">
+                        <div class="image">
+                            <img src="~/Images/user.png" />
+                        </div>
+                        <span class="username">@member.Name</span>
                     </li>
                 }
             }
         }
+        
     </ul>
 
     <div class="clear"></div>

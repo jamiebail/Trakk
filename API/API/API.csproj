@@ -227,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\APIFilter.cs" />
     <Compile Include="Helpers\EntityResponse.cs" />
     <Compile Include="Logic\EventLogic.cs" />
     <Compile Include="Logic\FormationLogic.cs" />

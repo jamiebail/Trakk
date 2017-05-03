@@ -1,53 +1,120 @@
 ﻿
 @model Trakk.Viewmodels.TeamCreateViewModel
 
+<div style="height: auto; margin-top: 20px" id="mainBody">
 
+    @Html.AntiForgeryToken()
 
-        @Html.AntiForgeryToken()
+    <div class="form-horizontal" id="@Model.Team.Id">
+        <h4>Edit a Team</h4>
 
-        <div class="form-horizontal" id="@Model.Team.Id">
-            <h4>Edit a Team</h4>
-
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-lg-12">
-                    @Html.EditorFor(model => model.Team.Name, new { htmlAttributes = new { @class = "form-control", id = "teamName", placeholder = "Team Name" } })
-                    @Html.ValidationMessageFor(model => model.Team.Name, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-lg-12">
-                    @Html.DropDownListFor(model => model.Sports, new SelectList(Model.Sports, "Value", "Text"), new { id = "teamSport" })
-                </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-lg-6">
+                <h4>Team Name</h4>
+                @Html.EditorFor(model => model.Team.Name, new { htmlAttributes = new { @class = "form-control", id = "teamName", placeholder = "Team Name" } })
+                @Html.ValidationMessageFor(model => model.Team.Name, "", new { @class = "text-danger" })
             </div>
-
-
-            <div class="searchBox col-lg-4">
-                <input placeholder="Search a name" class="col-lg-12" id="nameBox">
-                <ul class="selected-user-list col-lg-12">
-                </ul>
-                 <button id="addMember" class="btn btn-default col-lg-12">Add Team Member</button>
-
+            <h4>Sport</h4>
+            <div class="col-lg-6">
+                @Html.DropDownListFor(model => model.Sports, new SelectList(Model.Sports, "Value", "Text"), new { id = "teamSport" })
             </div>
-            <div class="col-lg-8">
-                <div class="teamrosterheader col-lg-12">Your Team</div>
-                <button id="makeCaptain">Captain</button>
-                <button id="makeCommittee">Committee</button>
-                <ul class="selected-users col-lg-8">
-                    @foreach (var member in Model.Users)
-                    {
-                        var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
+        </div>
 
-                        <li class="col-xs-6 user-widget @role.Role">
+
+        <div class="searchBox col-lg-4">
+            <input placeholder="Search a name" class="col-lg-12" id="nameBox">
+            <ul class="selected-user-list col-lg-12"></ul>
+            <button id="addMember" class="btn btn-default col-lg-12">Add Team Member</button>
+
+        </div>
+        <div class="col-lg-8">
+            <div class="teamrosterheader col-lg-12">Your Team</div>
+            <div class="row">
+                <a class="btn btn-warning col-xs-6" id="makeCaptain">Captain</a>
+                <a class="btn btn-info col-xs-6" id="makeCommittee">Committee</a>
+            </div>
+            <ul class="selected-users col-lg-8">
+                @foreach (var member in Model.Users)
+                {
+                    var role = Model.Roles.Where(x => x.UserId == member.Id).FirstOrDefault();
+
+                    @*<li class="col-xs-6 user-widget @role.Role">
                             <span class="glyphicon glyphicon-remove removeMember"></span>
                             <div class="image"></div><span hidden class="id">@member.Id</span><span class="name">@member.Name</span>
+                        </li>*@
+                if (member != null)
+                {
+                    if (role != null)
+                    {
+                        if (member.Photo != null)
+                        {
+
+                            string imageBase64 = Convert.ToBase64String(member.Photo);
+                            string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                            <li class="user-widget @role.Role col-xs-4" id="@member.Id">
+                                <span class="glyphicon glyphicon-remove removeMember"></span>
+                                <div class="image">
+                                    <img src="@imageSrc"/>
+                                </div>
+                                <span hidden class="id">@member.Id</span>
+                                <span class="username">@member.Name</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="user-widget @role.Role col-xs-4" id="@member.Id">
+                                <span class="glyphicon glyphicon-remove removeMember"></span>
+                                <div class="image">
+                                    <img src="~/Images/user.png"/>
+                                </div>
+                                <span hidden class="id">@member.Id</span>
+                                <span class="username">@member.Name</span>
+                            </li>
+                        }
+                    }
+
+                }
+
+                else
+                {
+                    if (member.Photo != null)
+                    {
+
+                        string imageBase64 = Convert.ToBase64String(member.Photo);
+                        string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                        <li class="user-widget col-xs-4" id="@member.Id">
+                            <span class="glyphicon glyphicon-remove removeMember"></span>
+                            <div class="image">
+                                <img src="@imageSrc"/>
+                            </div>
+                            <span hidden class="id">@member.Id</span>
+                            <span class="username">@member.Name</span>
                         </li>
                     }
-                </ul>
-            </div>
-            <div class="clear"></div>
+                    else
+                    {
+                        <li class="user-widget col-xs-4" id="@member.Id">
+                            <span class="glyphicon glyphicon-remove removeMember"></span>
+                            <div class="image">
+                                <img src="~/Images/user.png"/>
+                            </div>
+                            <span hidden class="id">@member.Id</span>
+                            <span class="username">@member.Name</span>
+                        </li>
+                        }
+                    }
+                }
+            </ul>
         </div>
-    
-<input type="submit" value="Edit Team" id="editTeam" class="btn btn-default col-lg-12 createteam" />
+        <div class="clear"></div>
+    </div>
+
+    <input type="submit" value="Edit Team" id="editTeam" class="btn btn-success  createteam" />
     <div>
         @Html.ActionLink("Back to List", "Index")
     </div>
+</div>

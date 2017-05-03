@@ -7,11 +7,20 @@
 
     $(".collapseEvents").on("click", function() {
         if ($(this).hasClass("collapsed")) {
+            $("#event-carousel").css("display", "block");
             $("#event-carousel").slideDown();
             $(".emptycarousel").slideDown();
         } else {
-            $("#event-carousel").slideUp();
-            $(".emptycarousel").slideUp();
+            if ($("#event-carousel").css("display") === "none") {
+                $("#event-carousel").css("display", "block");
+                $("#event-carousel").slideDown();
+            }
+            else {
+                $("#event-carousel").slideUp();
+                $(".emptycarousel").slideUp();
+            }
+           
+     
         }
         $(this).children("span").toggleClass("flipped");
         $(this).toggleClass("collapsed");
@@ -420,12 +429,11 @@
 
 
     $("#makeCaptain").click(function () {
-        $(".selected-users .selected").addClass("Captain").removeClass("selected");
-
+            $(".selected-users .selected").toggleClass("Captain").removeClass("selected");      
     });
 
     $("#makeCommittee").click(function () {
-        $(".selected-users .selected").addClass("Committee").removeClass("selected");
+        $(".selected-users .selected").toggleClass("Committee").removeClass("selected");
     });
 
     $("#editTeam").click(function () {
@@ -840,7 +848,7 @@
                 $(".clicked").removeClass("clicked");
                 $(this).children("input").fadeIn();
             } else {
-                $(this).children("input").hide();
+
                 $(this).addClass("clicked").append("<span class=\"glyphicon glyphicon-trash\"></span>");
             }
 
@@ -860,9 +868,10 @@
     });
 
     $(document).on('click', '#submitEvent', function () {
+
         var validationArray = [];
         var id = $("#selectedTeam").val();
-        var users = $(".selected .id").map(function() { return $(this).text(); }).get();
+        var users = $(".selected").map(function() { return $(this).attr("id"); }).get();
         var type = $("#Event_Type").val();
         var start = $("#Event_Start").val();
         var end = $("#Event_End").val();
@@ -879,6 +888,10 @@
         validationArray.push({Value: location, Element: $("#Event_Location")});
 
         if (checkValidation(validationArray)) {
+            swal({
+                title: "Submitting..",
+                imageUrl: "/Images/infinity.gif"
+            });
             var newEvent = { TeamId: id, Type: type, Title: title, Start: start, End: end, Location: location, UserIds: users, Comments: comments }
             var token = $('input[name="__RequestVerificationToken"]').val();
 
@@ -893,8 +906,14 @@
                 data: newEvent,
                 success: function (data) {
                     if (data.Success) {
+                        {
+                            swal("Success!", "The event has been created.", "success");
+                            document.location.href = "/";
+                        }
                         document.location.href = "/";
                         $("#mainBody").load("Partials/UserEventList");
+                    } else {
+                        { swal("Failed!", data.message, "error"); }
                     }
                 }
             });
@@ -1064,27 +1083,37 @@
         });
     });
 
-    $(document).on('change', '#selectedTeam', function() {
+    $(document).on('change', '#selectedTeam', function () {
+        var teamId = $("#selectedTeam").val();
         $(".selected-users").empty();
-        $.ajax({
-            url: "/Partials/GetTeamMembers",
-            dataType: "json",
-            data: {
-                id: $(this).val()
-            },
-            success: function(data) {
-                matchedMembers = data;
-                $(".selected-user-list").empty();
-                if (matchedMembers.length > 0) {
-                    for (var i = 0; i < matchedMembers.length; i++) {
-                        //$(".selected-users").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
-                        $(".selected-users").append("<li class=\" col-xs-6 user-widget\"><div class=\"image\"></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"glyphicon glyphicon-remove removeMember\"></span></li>");
+        $(".selected-users").load("/Partials/TeamMembersPartial", { id: teamId });
+        //$.ajax({
+        //    url: "/Partials/GetTeamMembers",
+        //    dataType: "json",
+        //    data: {
+        //        id: $(this).val()
+        //    },
+        //    success: function(data) {
+        //        matchedMembers = data;
+        //        $(".selected-user-list").empty();
+        //        if (matchedMembers.length > 0) {
+        //            for (var i = 0; i < matchedMembers.length; i++) {
+        //                //$(".selected-users").append("<li><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span></li>");
+        //                if (matchedMembers[i].Photo !== null) {
+        //                    $(".selected-users").append("<li class=\" col-xs-6 user-widget\"><div class=\"image\"><img class=\"photo" + i + "\"/></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"glyphicon glyphicon-remove removeMember\"></span></li>");
+        //                    var id = ".photo" + i;
+        //                    $(id).attr("src", "data:image/png;base64," + matchedMembers[i].Photo);
 
-                    }
-                }
+        //                } else {
+        //                    $(".selected-users").append("<li class=\" col-xs-6 user-widget\"><div class=\"image\"><img src=\"/Images/user.png\"/></div><span hidden class=\"id\">" + matchedMembers[i].Id + "</span><span class=\"name\">" + matchedMembers[i].Name + "</span><span class=\"glyphicon glyphicon-remove removeMember\"></span></li>"); 
+        //                }
+                        
+                        
+        //            }
+        //        }
               
-            }
-        });
+        //    }
+        //});
     });
 
 
@@ -1096,6 +1125,8 @@
         if ($(".selected-users li").each(function() {
             if (!$(this).hasClass("selected")) {
                 $(this).addClass("selected");
+            } else {
+                $(this).removeClass("selected");
             }
         }));
     });
@@ -1126,48 +1157,79 @@
     });
 
 
+    $(document).on('click', ".fc-prev-button", function () {
+            var moment = $('#calendar').fullCalendar('getDate');
+            updateCalendar(moment.format());
+    });
+
+    $(document).on('click', ".fc-next-button",function () {
+
+        var moment = $('#calendar').fullCalendar('getDate');
+        updateCalendar(moment.format());
+    });
+
+
+
     $(".datetimepicker").flatpickr({ enableTime: true, altInput: true });
 
-
+   
 
     $(".teamsButton").click(function() {
         $("#mainBody").load("Teams/Index");
     });
 
     $('#calendar').fullCalendar({
-    
+        dayClick: function (date) {
+            getDateEvents(date.format());
+
+        }
     });
 
-    $(".calendarButton").trigger('click');
+    var month = moment().startOf('month').format();
+    updateCalendar(month);
 
+
+    var monthsVisited = [];
+    var eventList;
+    
     $(".calendarButton").click(function() {
         $("#mainBody").load("Partials/UserCalendar", function() {
-            $("#mainBody").load("Partials/UserCalendar", function() {
+            $("#mainBody").load("Partials/UserCalendar", function () {
+                monthsVisited = [];
+                $('#calendar').fullCalendar({
+                    dayClick: function (date) {
+                        getDateEvents(date.format());
 
-                var eventList;
-                $.ajax({
-                    url: "/Partials/UserCalendarEvents",
-                    dataType: "json",
-                    type: "POST",
-                    success: function(data) {
-                        eventList = data;
-                        $('#calendar').fullCalendar({
-                            events: eventList,
-                            dayClick: function(date) {
-                                getDateEvents(date.format());
-
-                            }
-                        });
                     }
                 });
-
+                updateCalendar(month);
             });
 
         });
-
-  
-
     });
 
-    $(".calendarButton a").trigger('click');
+
+    function updateCalendar(month) {
+        
+        if (monthsVisited == null) {
+            monthsVisited = [];
+        }
+        if (!monthsVisited.includes(month.substring(0, 10))) {
+            $.ajax({
+                url: "/Partials/UserCalendarEvents",
+                dataType: "json",
+                type: "POST",
+                data: { month: month },
+                success: function(data) {
+                    eventList = data;
+                    
+                    monthsVisited.push(month.substring(0, 10));
+                    $('#calendar').fullCalendar('addEventSource', eventList);
+                }
+            });
+        }
+
+    }
+
+  
 });

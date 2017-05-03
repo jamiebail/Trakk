@@ -72,7 +72,7 @@
                         <h4>Opponents</h4>
                         @Html.DropDownListFor(model => model.UserTeams, new SelectList(Model.AllTeams, "Value", "Text"), new {id = "awayTeam"})
                     </div>
-
+                  
 
                     @*<div class="form-group">
                     @Html.LabelFor(model => model.Fixture.Easting, htmlAttributes: new {@class = "control-label col-md-2"})
@@ -97,7 +97,7 @@
                         @Html.ValidationMessageFor(model => model.Fixture.State, "", new {@class = "text-danger"})
                     </div>
                 </div>*@
-
+                    <hr class="clear"/>
                     <div class="form-group">
 
                         <div class="col-md-6">

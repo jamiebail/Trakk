@@ -36,9 +36,9 @@ namespace Trakk.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UserCalendarEvents()
+        public async Task<ActionResult> UserCalendarEvents(DateTime month)
         {
-            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), DateTime.Now,false);
+            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), month, false);
             Fixture fixture;
             foreach(var e in events)
                 if (e.Type != TrakkEnums.EventType.Social && e.Type != TrakkEnums.EventType.Training)
@@ -196,10 +196,10 @@ namespace Trakk.Controllers
             return PartialView("~/Views/Partials/TeamListPartial.cshtml", member);
         }
 
-        public async Task<PartialViewResult> UserDayEvents(string date)
+        public async Task<PartialViewResult> UserDayEvents(DateTime date)
         {
             DateTime selectedDate = Convert.ToDateTime(date).Date;
-            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), DateTime.Now,false);
+            List<Event> events = await _getter.GetUserEvents(_userLogic.GetPlayerId(User.Identity), date,false);
             events = events.Where(x => x.Start.Value.Date == selectedDate).ToList();
             return PartialView("EventPartial", events);
         }
@@ -207,6 +207,10 @@ namespace Trakk.Controllers
         public async Task<PartialViewResult> TeamDetailsPartial(int id)
         {
             Team team = await _getter.GetTeam(id);
+            foreach (var member in team.Members)
+            {
+                member.Photo = _userLogic.GetUserImage(member.Id);
+            }
             return PartialView("TeamDetailsPartial", team);
         }
 
@@ -215,7 +219,10 @@ namespace Trakk.Controllers
         public async Task<JsonResult> GetTeamMembers(int id)
         {
             Team team = await _getter.GetTeam(id);
-
+            foreach (var member in team.Members)
+            {
+                member.Photo = _userLogic.GetUserImage(member.Id);
+            }
             return Json(team.Members, JsonRequestBehavior.AllowGet);
         }
 

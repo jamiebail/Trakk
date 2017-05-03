@@ -10,5 +10,6 @@ namespace Trakk.Viewmodels
     {
         public TeamMember Player { get; set; }
         public List<Event> Events { get; set; } 
+
     }
 }

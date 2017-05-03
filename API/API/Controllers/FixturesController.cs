@@ -16,6 +16,7 @@ using Trakk.Viewmodels;
 
 namespace API.Controllers
 {
+
     public class FixturesController : Controller
     {
         private readonly IFixtureLogic _fixtureLogic = new FixtureLogic();

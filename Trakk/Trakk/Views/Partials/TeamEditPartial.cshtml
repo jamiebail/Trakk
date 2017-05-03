@@ -48,7 +48,9 @@
                 <ul class="selected-users col-lg-8">
                     @foreach (var member in Model.Users)
                     {
-                        <li class="col-lg-6 user-widget"><div class="image"></div><span hidden class="id">@member.Id</span><span class="name">@member.Name</span></li>
+                        <li class="col-lg-6 user-widget">
+                            <div class="image"></div><span hidden class="id">@member.Id</span><span class="name">@member.Name</span></li>
+
                     }
                 </ul>
                 <input type="submit" value="Create" id="createTeam" class="btn btn-default col-lg-12 createteam" />

@@ -88,6 +88,10 @@ namespace Trakk.Controllers
                     EntityResponse reponse = await _setter.CreateEvent(newEvent);
                     return Json(reponse);
                 }
+                else
+                {
+                    return Json(new {success = false, message="Event submitted is invalid, check inputs."});
+                }
             }
             return View("BadRequestView", new EntityResponse() { Message = "You are not an admin for this team.", Success = false });
         }
