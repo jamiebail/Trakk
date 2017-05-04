@@ -103,7 +103,8 @@
     }
 
 
-    $(document).on('click', ".playing-status-button", function() {
+    $(document).on('click', ".playing-status-button", function (e) {
+        e.stopPropagation();
         if ($(this).hasClass("open")) {
             $(this).siblings(".availability-update").fadeOut();
             $(this).parent().parent().find(".playing-status-button").animate({ opacity: 1 }, 200);
@@ -313,7 +314,8 @@
     });
     
 
-    $(document).on('click', ".event-container .availability-update .playing-status", function () {
+    $(document).on('click', ".event-container .availability-update .playing-status", function (e) {
+        e.stopPropagation();
         var containertype = $(this).closest(".event-container");
         var button = $(this);
         var id = containertype.attr("id");
@@ -479,6 +481,7 @@
     });
 
     $("#createTeam").click(function () {
+
         var players = [];
         $(".selected-users li").each(function () {
             var userid = $(this).children(".id").html();
@@ -502,14 +505,17 @@
             $("#teamName").addClass("validation-error");
         else {
             var team = { TeamName: teamName, SportId: $("#teamSport").val(), Roles: players }
-
+            swal({
+                title: "Submitting..",
+                imageUrl: "/Images/infinity.gif"
+            });
             $.ajax({
                 url: "/Teams/Create",
                 dataType: "json",
                 type: "POST",
                 data: team,
                 success: function(data) {
-
+                    { swal("Success!", "Your Team has been created.", "success"); document.location.href = "/"; }
                 }
 
             });

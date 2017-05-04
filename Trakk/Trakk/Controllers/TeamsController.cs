@@ -76,13 +76,13 @@ namespace Trakk.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create(TeamReturnCreateViewModel team)
+        public async Task<ActionResult> Create(TeamReturnCreateViewModel team)
         {
             team.Roles = team.Roles.Distinct().ToList();
             if (ModelState.IsValid)
             {
-                _setter.CreateTeam(team);
-                return RedirectToAction("Index", "Home");
+                EntityResponse reponse = await _setter.CreateTeam(team);
+                return Json(reponse, JsonRequestBehavior.AllowGet);
             }
 
             return View();

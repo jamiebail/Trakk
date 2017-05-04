@@ -151,7 +151,12 @@ img {
 
 .form-horizontal {
     text-align: center;
-    background-color: white;
+
+}
+
+.pitchFrame-static .edit-team{
+    top: 10px !important;
+    right: 10px !important;
 }
 
 #homeTeam, #awayTeam{
@@ -190,11 +195,56 @@ img {
     border-radius: 3px;
 }
 
+.registration-widget input {
+    margin: 0 auto;
+
+}
+
+.registration-widget {
+    height: auto;
+}
+
+.registration-widget form {
+       border: 1px solid #cbcbcb;
+    box-shadow: 0 1px 5px rgba(187, 187, 187, 0.46);
+    border-radius: 3px;
+    float: none;
+    margin:20px auto
+}
+
+.registration-widget input[type="file"] {
+    width: 100%;
+}
+
+
+
+#loginForm {
+  
+    text-align: center;
+    border-radius: 3px;
+}
+
+#loginForm form {
+     border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+       box-shadow: 0 1px 5px rgba(187, 187, 187, 0.46);
+    border: 1px solid rgba(168, 168, 168, 0.46);
+    background-color: white;
+}
+
+#loginForm input {
+    margin: 0 auto;
+    max-width: 250px;
+}
+
+
+
 .playing-status-button {
     padding-top: 7px;
     height: 35px;    
-    margin-bottom:-10px;
-    border-top: 1px solid rgba(194, 194, 194, 0.75);
+
+        border: 1px solid rgba(194, 194, 194, 0.75);
 }
 
 .team-member-widget-static .playing-status-button {
@@ -577,6 +627,12 @@ max-height:100%;
     top: 25%;
 }
 
+.team-widget .username {
+    width: auto;
+    margin-top: 0 !important;
+    position: relative !important
+
+}
 .user-list .user-widget {
     margin-left: 10px;
     margin-right: 10px;
@@ -661,7 +717,7 @@ max-height:100%;
 }
 
 .event-widget {
-
+    position: relative;
     border: 1px solid rgb(213, 213, 213);
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
     border-radius: 2px;
@@ -672,9 +728,9 @@ max-height:100%;
 
 .lower .event-container {
 
-    width: 31.5%;
+        position: relative;
     margin-bottom: 30px;
-    height: auto;
+    min-height: 400px;
     max-height: 100%;
     background-color: white;
 }
@@ -913,7 +969,7 @@ margin: 0px -15px 0 -15px;
 
 .attendance {
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
     width: 100%;
 }
 
@@ -935,7 +991,7 @@ margin: 0px -15px 0 -15px;
     height: auto;
     border-radius: 3px;
     float: left;
-    border: 1px solid #d7d7d7;
+    border: 2px solid #d7d7d7;
     box-shadow: 0px 0px 7px 0px rgba(142, 142, 142, 0.75);
     padding: 0;
     border-top-left-radius: 5px;
@@ -943,9 +999,22 @@ margin: 0px -15px 0 -15px;
     cursor: pointer;
 }
 
+.row {
+     overflow: hidden
+}
+
+.fixture-details-widget .row {
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    border-radius: 2px;
+    border-right:1px solid rgba(225, 225, 225, 0.75);
+    border-left:1px solid rgba(225, 225, 225, 0.75);
+   
+}
+
 .homeTeam h4, .awayTeam h4 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     margin-top: 20px;
     text-align: center;
     margin-bottom: 20px;
@@ -1008,6 +1077,8 @@ margin: 0px -15px 0 -15px;
 .homeGoals {
     border-right: 1px solid rgb(213, 213, 213);
 }
+
+
 
 .collapsed-navbar {
     
@@ -1168,6 +1239,7 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
     float: right;
     height: 30px;
     width: auto;
+    top: -80px !important;
 }
 
 .team-widget > a {
@@ -1235,10 +1307,18 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
         }
             .attendance {
         display: block !important;
-                position: relative;
+          
                 line-height: 30px;
                 padding-top: 10px;
+                height: 55px;
     }
+
+     .playing-status-button {
+         height: 100%;
+     }
+     .availability-box {
+         height: 100%;
+     }
     #event-carousel > div { width: 100%;}
     /*#event-carousel > div:last-child { display: none !important;}
     #event-carousel > div:first-child { display: none !important;}*/
@@ -1251,7 +1331,7 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
         padding-top: 0;
     }
     .body-content {
-            background: rgba(255, 255, 255, 0.55);
+            /*background: rgba(255, 255, 255, 0.55);*/
     }
 }
 
@@ -1329,8 +1409,15 @@ box-shadow: inset 0px 0px 5px 0px rgb(130, 130, 130);
       #event-carousel {
           display: none;
       }
+      .availability-update {
+          bottom: 83px;
+    position: absolute;
+          width: 100%;
+      }
 
-
+      .fixture-details-widget h3 {
+          font-size: 18px;
+      }
       .pitch-image {
       /*transform: rotate(90deg);*/
 }

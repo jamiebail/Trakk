@@ -2,13 +2,16 @@
 @model List<Trakk.Viewmodels.FixtureViewModel>
 
 <p>
-    @Html.ActionLink("Create New", "Create", "Fixtures")
-
+    
+    <a href="@Url.Action("Create", "Fixtures")"><span style="cursor: pointer" class="glyphicon glyphicon-plus"></span></a>
 </p>
 
 @foreach (var item in Model)
 {
-    <div class="currentUser" id="@item.UserId"></div>
+
+    @Html.Partial("/Views/Partials/FixtureEventPartial.cshtml", item.Fixture)
+
+    @*<div class="currentUser" id="@item.UserId"></div>
     <div class="fixture-widget" id="@item.Fixture.Id">
         <a href="@Url.Action("Edit", "Fixtures", new {id = item.Fixture.Id})"><span class="glyphicon glyphicon-pencil edit-team"></span></a>
         <div class="col-xs-12">
@@ -59,7 +62,7 @@
                 <img src="~/Images/infinity.gif" />
             </div>
         </div>
-    </div>
+    </div>*@
 }
 @section Scripts {
     <script>

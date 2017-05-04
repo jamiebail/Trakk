@@ -9,7 +9,8 @@ namespace Trakk.Viewmodels
     public class HomeViewModel
     {
         public TeamMember Player { get; set; }
-        public List<Event> Events { get; set; } 
-
+        public List<Event> Events { get; set; }
+        public LoginViewModel LoginVm { get; set; }
+        
     }
 }

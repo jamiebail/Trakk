@@ -89,7 +89,7 @@
 </div>
 
 <div class="fixture-details-widget">
-    <div class="currentUser" id="@Model.UserId"></div>
+    <div hidden class="currentUser" id="@Model.UserId"></div>
 
     <div class="row">
         <div class="homeTeam col-xs-5">
@@ -124,97 +124,107 @@
 
         </div>
     </div>
+    
 
-
-    @if (Model.Fixture.Result != null)
+    @if (Model.Fixture.End < DateTime.Now)
     {
 
-
-        <div class="row">
-            <div class=" col-xs-5">
-                @foreach (var goal in Model.Fixture.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Home))
-                {
-                    <div class="col-md-3">
-                        <hr/>
-                        <img src="~/Images/soccer-ball.png"/>
-                        <h5>@goal.Scorer.Name</h5>
-                        <h5>@goal.Minute'</h5>
-                    </div>
-                }
-            </div>
-            <div class="col-xs-1"></div>
-            <div class="col-xs-1" style="border-left: 1px solid #acacac"></div>
-            <div class=" col-xs-5">
-                @foreach (var goal in Model.Fixture.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Away))
-                {
-                    <div class="col-md-3">
-                        <hr/>
-                        <img src="~/Images/soccer-ball.png"/>
-                        <h5>@goal.Scorer.Name</h5>
-                        <h5>@goal.Minute'</h5>
-
-                    </div>
-                }
-            </div>
-        </div>
-    <hr/>
-    <div class="row">
-        <div class="col-xs-6">
-            @foreach (var card in Model.Fixture.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Home))
+        if (Model.Fixture.Result == null)
+        {
+            Model.Fixture.Result = new GameReport();
+        }
+       
+            if (Model.Fixture.Result.Goals.Count > 0)
             {
-                switch (card.CardColour)
-                {
-                    case CardColour.Yellow:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/yellow.png" />
-                        break;
-                    case CardColour.Red:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/red.png" />
-                        break;
-                    case CardColour.TwoYellow:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/yellow.png" />
-                        <img src="~/Images/red.png" />
-                        break;
-                    case CardColour.Green:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/green.png" />
-                        break;
-                }
-            }
-        </div>
-        <div class="col-xs-6">
-            @foreach (var card in Model.Fixture.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Away))
-            {
-                switch (card.CardColour)
-                {
-                    case CardColour.Yellow:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/yellow.png"/>
-                        break;
-                    case CardColour.Red:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/red.png"/>
-                        break;
-                    case CardColour.TwoYellow:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/yellow.png"/>
-                        <img src="~/Images/red.png"/>
-                        break;
-                    case CardColour.Green:
-                        <h6>@card.Player.Name</h6>
-                        <img src="~/Images/green.png"/>
-                        break;
-                }
+                <div class="row">
+                    <div class=" col-xs-5">
+                        @foreach (var goal in Model.Fixture.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Home))
+                    {
+                            <div class="col-md-3">
+                                <hr />
+                                <img src="~/Images/soccer-ball.png" />
+                                <h5>@goal.Scorer.Name</h5>
+                                <h5>@goal.Minute'</h5>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-1" style="border-left: 1px solid #acacac"></div>
+                    <div class=" col-xs-5">
+                        @foreach (var goal in Model.Fixture.Result.Goals.OrderBy(x => x.Minute).Where(x => x.Side == TrakkEnums.Side.Away))
+                    {
+                            <div class="col-md-3">
+                                <hr />
+                                <img src="~/Images/soccer-ball.png" />
+                                <h5>@goal.Scorer.Name</h5>
+                                <h5>@goal.Minute'</h5>
 
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                </div>
             }
 
-        </div>
+        if (Model.Fixture.Result.Cards.Count > 0)
+        {
+             <div class="row">
+                 <div class="col-xs-6">
+                     @foreach (var card in Model.Fixture.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Home))
+                     {
+                         switch (card.CardColour)
+                         {
+                             case CardColour.Yellow:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/yellow.png"/>
+                                 break;
+                             case CardColour.Red:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/red.png"/>
+                                 break;
+                             case CardColour.TwoYellow:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/yellow.png"/>
+                                 <img src="~/Images/red.png"/>
+                                 break;
+                             case CardColour.Green:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/green.png"/>
+                                 break;
+                         }
+                     }
+                 </div>
+                 <div class="col-xs-6">
+                     @foreach (var card in Model.Fixture.Result.Cards.Where(x => x.Side == TrakkEnums.Side.Away))
+                     {
+                         switch (card.CardColour)
+                         {
+                             case CardColour.Yellow:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/yellow.png"/>
+                                 break;
+                             case CardColour.Red:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/red.png"/>
+                                 break;
+                             case CardColour.TwoYellow:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/yellow.png"/>
+                                 <img src="~/Images/red.png"/>
+                                 break;
+                             case CardColour.Green:
+                                 <h6>@card.Player.Name</h6>
+                                 <img src="~/Images/green.png"/>
+                                 break;
+                         }
 
-        <hr class="clear"/>
-    </div>
+                     }
 
+                 </div>
+
+                 <hr class="clear"/>
+             </div>
+         }
     }
         <div class="row">
             <div class="col-xs-6">
@@ -229,7 +239,7 @@
                 @Html.ValidationMessageFor(model => Model.Fixture.End, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="clear"></div>
+        
         <div class="row">
             <div class="col-md-6">
                 <span class="glyphicon glyphicon-map-marker map-glyphicon"></span>
@@ -250,6 +260,7 @@
         {
             if (Model.Fixture.Result != null)
             {
+                Model.Fixture.Result.FixtureId = Model.Fixture.Id;
                 <div>@Html.Partial("/Views/Partials/GameREportPartial.cshtml", @Model.Fixture.Result)</div>
             }
             <ul hidden class="available-List">

@@ -48,6 +48,7 @@ namespace Trakk.Controllers
                         hvm.Events = await _getter.GetUserEvents(member.Id, null,true);
                     }
             }
+            hvm.LoginVm = new LoginViewModel();
             return View(hvm);
         }
 

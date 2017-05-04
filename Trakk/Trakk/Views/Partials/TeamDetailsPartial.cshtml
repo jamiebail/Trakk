@@ -3,11 +3,11 @@
 <div class="team-widget" id="@Model.Id">
     <div class="row">
         <a class="col-xs-1 delete-team" href="@Url.Action("Delete", "Teams", new {id = Model.Id})"><span class="glyphicon glyphicon-stop"></span></a>
-        <div class="team-name col-xs-10">
+        <div class="team-name col-xs-12">
             <h3>@Model.Name</h3>
             <h5>@Model.Sport.Name</h5>
         </div>
-        <a class="col-xs-1" href="@Url.Action("Edit", "Teams", new { id = Model.Id })"><span class=" glyphicon glyphicon-pencil edit-team"></span></a>
+        <a  href="@Url.Action("Edit", "Teams", new { id = Model.Id })"><span class=" glyphicon glyphicon-pencil edit-team"></span></a>
     </div>
     <div style="background-color: #a1de48; height: 10px; border: 1px solid #b5b5b5;"></div>
     @if (Model.Statistics != null)
@@ -53,7 +53,7 @@
                 <p>@Model.Statistics.Points</p>
             </div>
             <div>
-                <h5>Goals</h5>
+                <h5>Position</h5>
                 <p>@Model.Position</p>
             </div>
 
